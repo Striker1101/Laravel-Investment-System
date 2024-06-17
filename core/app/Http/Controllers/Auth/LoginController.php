@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\BasicSetting;
+use App\Category;
+use App\GeneralSetting;
 use App\Http\Controllers\Controller;
+use App\Menu;
 use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -41,15 +44,17 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
     protected function credentials(Request $request)
     {
-        
+
         $basic = BasicSetting::first();
         if ($basic->verify_status == 0)
         {
-            return ['email'=>$request->{$this->username()},'password'=>$request->password];
-        }else{
-            return ['email'=>$request->{$this->username()},'password'=>$request->password];
+            return ['email' => $request->{$this->username()}, 'password' => $request->password];
+        } else
+        {
+            return ['email' => $request->{$this->username()}, 'password' => $request->password];
         }
 
     }

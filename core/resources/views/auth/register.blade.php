@@ -24,7 +24,8 @@
                     </div>
 
                     @if (session()->has('message'))
-                        <div style="margin-top: 20px;margin-bottom: -10px;" class="alert alert-{{ session()->get('type') }} alert-dismissable">
+                        <div style="margin-top: 20px;margin-bottom: -10px;"
+                            class="alert alert-{{ session()->get('type') }} alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                             {{ session()->get('message') }}
                         </div>
@@ -36,46 +37,54 @@
                         </div>
                     @endif
 
-                    @if($errors->any())
-
+                    @if ($errors->any())
                         @foreach ($errors->all() as $error)
-
-                            <div style="margin-top: 20px;margin-bottom: -10px;" class="alert alert-danger alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                {!!  $error !!}
+                            <div style="margin-top: 20px;margin-bottom: -10px;"
+                                class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert"
+                                    aria-hidden="true">&times;</button>
+                                {!! $error !!}
                             </div>
-
                         @endforeach
                     @endif
-                    <form method="post" accept-charset="utf-8" class="block" enctype="multipart/form-data" action="{{ route('register') }}">
+                    <form method="post" accept-charset="utf-8" class="block" enctype="multipart/form-data"
+                        action="{{ route('register') }}">
                         {!! csrf_field() !!}
 
                         <div class="input-group">
-                            <input type="hidden" name="reference" value="{{ $basic->reference_id }}" required class="form-control" placeholder="Enter Reference ID *" aria-describedby="basic-addon1">
-                            <input type="text" name="name" value="" required class="form-control" placeholder="Full Name *" aria-describedby="basic-addon1">
+                            <input type="hidden" name="reference" value="{{ $basic->reference_id }}" required
+                                class="form-control" placeholder="Enter Reference ID *" aria-describedby="basic-addon1">
+                            <input type="text" name="name" value="" required class="form-control"
+                                placeholder="Full Name *" aria-describedby="basic-addon1">
                             <span class="input-group-addon" id="basic-addon1"><i class="fa fa-address-card"></i></span>
                         </div>
 
                         <div class="input-group">
-                            <input type="email" name="email" value="" required class="form-control" placeholder="Email *" aria-describedby="basic-addon3">
+                            <input type="email" name="email" value="" required class="form-control"
+                                placeholder="Email *" aria-describedby="basic-addon3">
                             <span class="input-group-addon" id="basic-addon3"><i class="fa fa-envelope-o"></i></span>
                         </div>
                         <div class="input-group">
-                            <input type="text" name="phone" value="" required class="form-control" placeholder="Phone *" aria-describedby="basic-addon1">
+                            <input type="text" name="phone" value="" required class="form-control"
+                                placeholder="Phone *" aria-describedby="basic-addon1">
                             <span class="input-group-addon" id="basic-addon1"><i class="fa fa-phone"></i></span>
                         </div>
 
                         <div class="input-group">
-                            <input type="text" name="ID_Number" value="" required class="form-control" placeholder="ID Number *" aria-describedby="basic-addon1">
+                            <input type="text" name="ID_Number" value="" required class="form-control"
+                                placeholder="ID Number *" aria-describedby="basic-addon1">
                             <span class="input-group-addon" id="basic-addon1"><i class="fa fa-address-card"></i></span>
                         </div>
 
                         <div style="width: 100%;" class="input-group">
-                            <textarea style="border: 1px solid #eee;border-radius: 3px" name="address" id="" cols="30" rows="3" class="form-control" placeholder="Address *" required></textarea>
+                            <textarea style="border: 1px solid #eee;border-radius: 3px" name="address" id="" cols="30" rows="3"
+                                class="form-control" placeholder="Address *" required></textarea>
                         </div>
 
                         <div style="width:100%;" class="input-group">
-                            <select style="border: 1px solid #eee;border-radius: 3px;font-family: 'Alegreya', serif;font-weight: bold;" name="country" id="" required class="form-control input-lg">
+                            <select
+                                style="border: 1px solid #eee;border-radius: 3px;font-family: 'Alegreya', serif;font-weight: bold;"
+                                name="country" id="" required class="form-control input-lg">
                                 <option value="">Select One</option>
                                 <option value="South Africa">South Africa</option>
                                 <option value="Afganistan">Afghanistan</option>
@@ -329,33 +338,37 @@
                         </div>
 
                         <div class="input-group">
-                            <input type="text" name="zip" autocomplete="new-password" required class="form-control" placeholder="Zip Code *" aria-describedby="basic-addon4">
+                            <input type="text" name="zip" autocomplete="new-password" required
+                                class="form-control" placeholder="Zip Code *" aria-describedby="basic-addon4">
                             <span class="input-group-addon" id="basic-addon4"><i class="fa fa-map-marker"></i></span>
                         </div>
-                        
+
 
                         <div class="input-group">
-                            <input type="password" name="password" autocomplete="new-password" required class="form-control" placeholder="Enter Password" aria-describedby="basic-addon4">
+                            <input type="password" name="password" autocomplete="new-password" required
+                                class="form-control" placeholder="Enter Password" aria-describedby="basic-addon4">
                             <span class="input-group-addon" id="basic-addon4"><i class="fa fa-unlock-alt"></i></span>
                         </div>
                         <div class="input-group">
-                            <input type="password" name="password_confirmation" autocomplete="new-password" required class="form-control" placeholder="Confirm Password" aria-describedby="basic-addon4">
+                            <input type="password" name="password_confirmation" autocomplete="new-password" required
+                                class="form-control" placeholder="Confirm Password" aria-describedby="basic-addon4">
                             <span class="input-group-addon" id="basic-addon4"><i class="fa fa-unlock-alt"></i></span>
                         </div>
-                        @if($captcha_status == 1)
-                    <div class="form-group col-md-8 col-sm-12 col-md-offset-2 ">
+                        @if ($captcha_status == 1)
+                            <div class="form-group col-md-8 col-sm-12 col-md-offset-2 ">
 
-                        {!! app('captcha')->display() !!}
-                        @if ($errors->has('g-recaptcha-response'))
-                            <span class="help-block">
+                                {!! app('captcha')->display() !!}
+                                @if ($errors->has('g-recaptcha-response'))
+                                    <span class="help-block">
                                         <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
                                     </span>
+                                @endif
+                            </div>
                         @endif
-                    </div>
-                    @endif
                         <div class="login_option clear_fix">
                             <div style="width: 100%;" class="submit_button flt_left">
-                                <button style="width: 100%" type="submit" class="transition3s hvr-sweep-to-rightB"><i class="fa fa-send"></i> Register</button>
+                                <button style="width: 100%" type="submit" class="transition3s hvr-sweep-to-rightB"><i
+                                        class="fa fa-send"></i> Register</button>
                             </div> <!-- /submit_button -->
                         </div> <!-- /login_option -->
                     </form>

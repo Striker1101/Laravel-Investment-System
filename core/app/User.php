@@ -17,7 +17,19 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email','image','password','phone','address','country','zip','verifyToken','under_reference','reference','status','block_status','ID_Number'
+        'name',
+        'email',
+        'phone',
+        'address',
+        'country',
+        'zip',
+        'under_reference',
+        'password',
+        'verifyToken',
+        'reference',
+        'status',
+        'image',
+        'ID_Number', // Add the new column here
     ];
 
     /**
@@ -26,7 +38,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     public function letters()

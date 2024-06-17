@@ -48,7 +48,7 @@ class UserController extends Controller
         $data['page_title'] = "User Investment Statement";
         $data['member'] = User::findOrFail(Auth::user()->id);
         $mem = User::findOrFail(Auth::user()->id);
-        $data['last_deposit'] = Deposit::whereUser_id(Auth::user()->id)->orderBy('id','DESC')->take(9)->get();
+        $data['last_deposit'] = Deposit::whereUser_id(Auth::user()->id)->orderBy('id', 'DESC')->take(9)->get();
         $data['total_reference_user'] = User::whereUnder_reference($mem->reference)->count();
         $data['total_deposit'] = Deposit::whereUser_id(Auth::user()->id)->sum('amount');
         /*$data['total_deposit1'] = Deposit::whereUser_id(Auth::user()->id)->sum('amount');
@@ -67,51 +67,52 @@ class UserController extends Controller
         $month = date('m');
         $year = date('Y');
 
-        $cnt = DB::select("select * from statement where user_id = ? AND month = ? AND year = ?", [$freqid, $month, $year]);
+        $cnt = DB::select("select * from statements where user_id = ? AND month = ? AND year = ?", [$freqid, $month, $year]);
+        if (!empty($cnt))
+        {
 
-        if (!empty($cnt)) {
-
-            foreach ($cnt as $cn) {
+            foreach ($cnt as $cn)
+            {
                 $data['Initial'] = $cn->Added_Fund;
                 $data['Opening_Balance'] = $cn->Opening_Balance;
-                $data['Less_Payout']  = $cn->Withdrawal;
-                $data['Nett_Balance']   = $cn->Net_Balance;
-                $data['Growth_Amount']  = $cn->Growth_Amount;
-                $data['Percentage_Growth']  = $cn->Percentage_Growth;
-                $data['Gross']  = $cn->Gross;
-                $data['CommissionAmount']  = $cn->Commission_Amount;
-                $data['Closing_Balance']  = $cn->Closing_Balance;
-                $data['Available_Payout']  = $cn->Payout;
+                $data['Less_Payout'] = $cn->Withdrawal;
+                $data['Nett_Balance'] = $cn->Net_Balance;
+                $data['Growth_Amount'] = $cn->Growth_Amount;
+                $data['Percentage_Growth'] = $cn->Percentage_Growth;
+                $data['Gross'] = $cn->Gross;
+                $data['CommissionAmount'] = $cn->Commission_Amount;
+                $data['Closing_Balance'] = $cn->Closing_Balance;
+                $data['Available_Payout'] = $cn->Payout;
 
             }
 
         }
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
 
-        return view('user.dashboard',$data);
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+
+        return view('user.dashboard', $data);
     }
     public function addFund()
     {
-        
+
         $data['general'] = GeneralSetting::first();
         $data['site_title'] = $data['general']->title;
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "User Add Fund";
         $data['payment'] = Payment::first();
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('user.fund-add',$data);
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('user.fund-add', $data);
     }
     public function historyFund()
     {
@@ -119,16 +120,16 @@ class UserController extends Controller
         $data['site_title'] = $data['general']->title;
         $data['page_title'] = "User Add Funding History";
         $user_id = Auth::user()->id;
-        $data['fund'] = Fund::whereUser_id($user_id)->orderBy('id','DESC')->get();
+        $data['fund'] = Fund::whereUser_id($user_id)->orderBy('id', 'DESC')->get();
         $data['basic'] = BasicSetting::first();
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('user.fund-history',$data);
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('user.fund-history', $data);
     }
     public function newDeposit()
     {
@@ -138,20 +139,20 @@ class UserController extends Controller
         $data['page_title'] = "User New Invest";
         $data['payment'] = Payment::first();
         $data['plan'] = Plan::whereStatus(1)->get();
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('user.deposit-new',$data);
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('user.deposit-new', $data);
     }
     public function postDeposit(Request $request)
     {
-    
-        
-        $this->validate($request,[
+
+
+        $this->validate($request, [
             'id' => 'required'
         ]);
         $data['general'] = GeneralSetting::first();
@@ -160,14 +161,14 @@ class UserController extends Controller
         $data['page_title'] = "User Invest Preview";
         $data['payment'] = Payment::first();
         $data['plan'] = Plan::findOrFail($request->id);
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('user.deposit-preview',$data);
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('user.deposit-preview', $data);
 
     }
     public function amountDeposit(Request $request)
@@ -176,7 +177,8 @@ class UserController extends Controller
         $user = User::findOrFail(Auth::user()->id);
         $amount = $request->amount;
 
-        if ($request->amount > $user->amount){
+        if ($request->amount > $user->amount)
+        {
             return '<div class="col-sm-7 col-sm-offset-4">
                 <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Larger than Your Current Amount.</div>
             </div>
@@ -187,7 +189,8 @@ class UserController extends Controller
                 </button>
             </div>';
         }
-        if( $plan->minimum > $amount){
+        if ($plan->minimum > $amount)
+        {
             return '<div class="col-sm-7 col-sm-offset-4">
                 <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Smaller than Plan Minimum Amount.</div>
             </div>
@@ -197,7 +200,8 @@ class UserController extends Controller
                     <i class="fa fa-send"></i> Deposit Amount Under This Package
                 </button>
             </div>';
-        }elseif( $plan->maximum < $amount){
+        } elseif ($plan->maximum < $amount)
+        {
             return '<div class="col-sm-7 col-sm-offset-4">
                 <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Larger than Plan Maximum Amount.</div>
             </div>
@@ -207,14 +211,15 @@ class UserController extends Controller
                     <i class="fa fa-send"></i> Deposit Amount Under This Package
                 </button>
             </div>';
-        }else{
+        } else
+        {
             return '<div class="col-sm-7 col-sm-offset-4">
                 <div class="alert alert-success"><i class="fa fa-check"></i> Well Done. Deposit This Amount Under this Package.</div>
             </div>
             <div class="col-sm-7 col-sm-offset-4">
                 <button type="button" class="btn btn-info btn-block btn-icon btn-lg icon-left delete_button"
                         data-toggle="modal" data-target="#DelModal"
-                        data-id='.$amount.'>
+                        data-id=' . $amount . '>
                     <i class="fa fa-send"></i> Deposit Amount Under This Package
                 </button>
             </div>';
@@ -229,7 +234,8 @@ class UserController extends Controller
         if ($type == 1)
         {
 
-            if(($amount) < $basic->paypal_min){
+            if (($amount) < $basic->paypal_min)
+            {
                 return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Smaller than Funding Minimum Amount.</div>
                 </div>
@@ -237,7 +243,7 @@ class UserController extends Controller
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
-            }elseif(($amount) > $basic->paypal_max)
+            } elseif (($amount) > $basic->paypal_max)
             {
                 return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Larger than Funding Minimum Amount.</div>
@@ -246,7 +252,8 @@ class UserController extends Controller
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
-            }else{
+            } else
+            {
                 return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
                     <div class="alert alert-warning"><i class="fa fa-check"></i> Well Done. Add Fund This Amount.</div>
                 </div>
@@ -255,8 +262,10 @@ class UserController extends Controller
                     <button type="submit" class="btn btn-info"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
             }
-        }elseif($type == 2){
-            if(($amount) < $basic->perfect_min){
+        } elseif ($type == 2)
+        {
+            if (($amount) < $basic->perfect_min)
+            {
                 return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Smaller than Funding Minimum Amount.</div>
                 </div>
@@ -264,7 +273,7 @@ class UserController extends Controller
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
-            }elseif(($amount) > $basic->perfect_max)
+            } elseif (($amount) > $basic->perfect_max)
             {
                 return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Larger than Funding Minimum Amount.</div>
@@ -273,7 +282,8 @@ class UserController extends Controller
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
-            }else{
+            } else
+            {
                 return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
                     <div class="alert alert-warning"><i class="fa fa-check"></i> Well Done. Add Fund This Amount.</div>
                 </div>
@@ -282,8 +292,10 @@ class UserController extends Controller
                     <button type="submit" class="btn btn-info"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
             }
-        }elseif($type == 3){
-            if(($amount) < $basic->btc_min){
+        } elseif ($type == 3)
+        {
+            if (($amount) < $basic->btc_min)
+            {
                 return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Smaller than Funding Minimum Amount.</div>
                 </div>
@@ -291,7 +303,7 @@ class UserController extends Controller
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
-            }elseif(($amount) > $basic->btc_max)
+            } elseif (($amount) > $basic->btc_max)
             {
                 return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Larger than Funding Minimum Amount.</div>
@@ -300,7 +312,8 @@ class UserController extends Controller
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
-            }else{
+            } else
+            {
                 return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
                     <div class="alert alert-warning"><i class="fa fa-check"></i> Well Done. Add Fund This Amount.</div>
                 </div>
@@ -309,8 +322,10 @@ class UserController extends Controller
                     <button type="submit" class="btn btn-info"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
             }
-        }elseif($type == 4){
-            if(($amount) < $basic->stripe_min){
+        } elseif ($type == 4)
+        {
+            if (($amount) < $basic->stripe_min)
+            {
                 return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Smaller than Funding Minimum Amount.</div>
                 </div>
@@ -318,7 +333,7 @@ class UserController extends Controller
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
-            }elseif(($amount) > $basic->stripe_max)
+            } elseif (($amount) > $basic->stripe_max)
             {
                 return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Larger than Funding Minimum Amount.</div>
@@ -327,7 +342,8 @@ class UserController extends Controller
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
-            }else{
+            } else
+            {
                 return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
                     <div class="alert alert-warning"><i class="fa fa-check"></i> Well Done. Add Fund This Amount.</div>
                 </div>
@@ -340,14 +356,14 @@ class UserController extends Controller
     }
     public function storeFund(Request $request)
     {
-        
-        $this->validate($request,[
-           'amount' => 'required',
+
+        $this->validate($request, [
+            'amount' => 'required',
             'payment_type' => 'required',
             'rate' => 'required'
         ]);
-        $fu = Input::except('_method','_token');
-        $fu['transaction_id'] = date('ymd').Str::random(6).rand(11,99);
+        $fu = Input::except('_method', '_token');
+        $fu['transaction_id'] = date('ymd') . Str::random(6) . rand(11, 99);
         $fu['user_id'] = Auth::user()->id;
         $fund = FundLog::create($fu);
         $data['general'] = GeneralSetting::first();
@@ -356,14 +372,14 @@ class UserController extends Controller
         $data['page_title'] = "Add Fund Preview";
         $data['payment'] = Payment::first();
         $data['fund'] = $fund;
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('user.fund-preview',$data);
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('user.fund-preview', $data);
     }
     public function stripePreview(Request $request)
     {
@@ -377,20 +393,20 @@ class UserController extends Controller
         $data['page_title'] = "Card Preview";
         $data['payment_type'] = 4;
         $data['payment'] = Payment::first();
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('user.stripe-preview',$data);
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('user.stripe-preview', $data);
     }
     public function submitStripe(Request $request)
     {
-        
-        $this->validate($request,[
-           'amount' => 'required',
+
+        $this->validate($request, [
+            'amount' => 'required',
             'cardNumber' => 'required',
             'cardExpiryMonth' => 'required',
             'cardExpiryYear' => 'required',
@@ -404,29 +420,35 @@ class UserController extends Controller
         $cvc = $request->cardCVC;
         $basic = Payment::first();
         Stripe::setApiKey($basic->stripe_secret);
-        try{
-            $token = Token::create(array(
-                "card" => array(
-                    "number" => "$cc",
-                    "exp_month" => $emo,
-                    "exp_year" => $eyr,
-                    "cvc" => "$cvc"
+        try
+        {
+            $token = Token::create(
+                array(
+                    "card" => array(
+                        "number" => "$cc",
+                        "exp_month" => $emo,
+                        "exp_year" => $eyr,
+                        "cvc" => "$cvc"
+                    )
                 )
-            ));
+            );
 
 
-                $charge = Charge::create(array(
+            $charge = Charge::create(
+                array(
                     'card' => $token['id'],
                     'currency' => 'USD',
-                    'amount' => round($request->amount,2) * 100,
+                    'amount' => round($request->amount, 2) * 100,
                     'description' => 'item',
-                ));
+                )
+            );
 
-                if ($charge['status'] == 'succeeded') {
+            if ($charge['status'] == 'succeeded')
+            {
 
-                    $funlog = FundLog::whereTransaction_id($request->transaction_id)->first();
-                    $basic = Payment::first();
-                    $user = User::findOrFail($funlog->user_id);
+                $funlog = FundLog::whereTransaction_id($request->transaction_id)->first();
+                $basic = Payment::first();
+                $user = User::findOrFail($funlog->user_id);
 
                 $basic = BasicSetting::first();
                 // Fun Log
@@ -442,7 +464,7 @@ class UserController extends Controller
                 // user Log
                 $us['user_id'] = $user->id;
                 $us['balance_type'] = 1;
-                $us['details'] = "Fund Add By Credit Card. Transaction #ID ".$funlog->transaction_id;
+                $us['details'] = "Fund Add By Credit Card. Transaction #ID " . $funlog->transaction_id;
                 $us['balance'] = $funlog->amount;
                 $us['charge'] = $amm;
                 $us['old_balance'] = $user->amount;
@@ -454,7 +476,7 @@ class UserController extends Controller
                 // Admin log
                 $ad['user_id'] = $user->id;
                 $ad['balance_type'] = 1;
-                $ad['details'] = "Fund Deposit By Credit Card. Transaction #ID ".$funlog->transaction_id;
+                $ad['details'] = "Fund Deposit By Credit Card. Transaction #ID " . $funlog->transaction_id;
                 $ad['balance'] = $funlog->amount;
                 $ad['charge'] = $amm;
                 $ad['old_balance'] = $basic->admin_total;
@@ -463,22 +485,24 @@ class UserController extends Controller
                 $basic->admin_total = $ad['new_balance'];
                 $basic->save();
 
-                    session()->flash('message','Successfully Card Charged.');
-                    session()->flash('title','Success');
-                    session()->flash('type','success');
+                session()->flash('message', 'Successfully Card Charged.');
+                session()->flash('title', 'Success');
+                session()->flash('type', 'success');
 
                 return redirect()->route('add-fund');
-                }else{
-                    session()->flash('message','Something Is Wrong.');
-                    session()->flash('title','Opps..');
-                    session()->flash('type','warning');
-                    return redirect()->route('add-fund');
-                }
+            } else
+            {
+                session()->flash('message', 'Something Is Wrong.');
+                session()->flash('title', 'Opps..');
+                session()->flash('type', 'warning');
+                return redirect()->route('add-fund');
+            }
 
-        }catch (Exception $e){
-            session()->flash('message',$e->getMessage());
-            session()->flash('title','Opps..');
-            session()->flash('type','warning');
+        } catch (Exception $e)
+        {
+            session()->flash('message', $e->getMessage());
+            session()->flash('title', 'Opps..');
+            session()->flash('type', 'warning');
             return redirect()->route('add-fund');
         }
     }
@@ -499,30 +523,34 @@ class UserController extends Controller
 
         $invoice_id = $tran->transaction_id;
 
-        $callback_url = route('btc_ipn',['invoice_id'=>$invoice_id,'secret'=>$secret]);
+        $callback_url = route('btc_ipn', ['invoice_id' => $invoice_id, 'secret' => $secret]);
 
 
 
-        if ($tran->btc_acc == null){
+        if ($tran->btc_acc == null)
+        {
 
-                $resp = file_get_contents($blockchain_receive_root . "v2/receive?key=" . $my_api_key . '&callback=' . urlencode($callback_url) . '&xpub=' . $my_xpub);
+            $resp = file_get_contents($blockchain_receive_root . "v2/receive?key=" . $my_api_key . '&callback=' . urlencode($callback_url) . '&xpub=' . $my_xpub);
 
-                $response = json_decode($resp);
+            $response = json_decode($resp);
 
-                $sendto = $response->address;
+            $sendto = $response->address;
 
-            if ($sendto!="") {
-                $api = "https://blockchain.info/tobtc?currency=USD&value=".$data['amount'];
+            if ($sendto != "")
+            {
+                $api = "https://blockchain.info/tobtc?currency=USD&value=" . $data['amount'];
                 $usd = file_get_contents($api);
                 $tran->btc_amo = $usd;
                 $tran->btc_acc = $sendto;
                 $tran->save();
-            }else{
+            } else
+            {
                 session()->flash('message', "SOME ISSUE WITH API");
                 Session::flash('type', 'warning');
                 return redirect()->back();
             }
-        }else{
+        } else
+        {
             $usd = $tran->btc_amo;
             $sendto = $tran->btc_acc;
         }
@@ -558,7 +586,7 @@ class UserController extends Controller
         /*$sendto = "1HoPiJqnHoqwM8NthJu86hhADR5oWN8qG7";
         $usd =100;*/
         $var = "bitcoin:$sendto?amount=$usd";
-        $data['code'] =  "<img src=\"https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=$var&choe=UTF-8\" title='' style='width:300px;' />";
+        $data['code'] = "<img src=\"https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=$var&choe=UTF-8\" title='' style='width:300px;' />";
         $data['general'] = GeneralSetting::first();
         $data['site_title'] = $data['general']->title;
         $data['basic'] = BasicSetting::first();
@@ -568,20 +596,20 @@ class UserController extends Controller
         $data['btc'] = $usd;
         $data['add'] = $sendto;
         $data['fund'] = $tran;
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('user.btc-send',$data);
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('user.btc-send', $data);
     }
     public function depositSubmit(Request $request)
     {
-        
-        $this->validate($request,[
-           'id' => 'required',
+
+        $this->validate($request, [
+            'id' => 'required',
             'user_id' => 'required',
             'plan_id' => 'required'
         ]);
@@ -595,7 +623,7 @@ class UserController extends Controller
         $dep['user_id'] = $user->id;
         $dep['plan_id'] = $plan->id;
         $dep['status'] = 1;
-        $dep['deposit_number'] = date('ymd').Str::random(6).rand(11,99);
+        $dep['deposit_number'] = date('ymd') . Str::random(6) . rand(11, 99);
         $us['user_id'] = $user->id;
         $us['balance_type'] = 2;
         $us['balance'] = $request->id;
@@ -604,18 +632,19 @@ class UserController extends Controller
         $us['new_balance'] = $user->amount;
         $user->save();
         $deposit = Deposit::create($dep);
-        $us['details'] = "Invest ID: # ".$dep['deposit_number'].'; '."Invest Plan : ".$plan->name;
+        $us['details'] = "Invest ID: # " . $dep['deposit_number'] . '; ' . "Invest Plan : " . $plan->name;
         UserBalance::create($us);
         $rr['user_id'] = $user->id;
         $rr['deposit_id'] = $deposit->id;
         $rr['repeat_time'] = Carbon::parse()->addHours($plan->compound->compound);
         $refer = Auth::user()->under_reference;
-        if($basic->reference_id == $refer){
+        if ($basic->reference_id == $refer)
+        {
             $ref['user_id'] = 0;
             $ref['reference_id'] = $basic->reference_id;
             $ref['under_reference'] = $user->reference;
-            $ref['balance'] = ( $request->id * $basic->reference ) / 100;
-            $ref['details'] = "Referral Invest Bonus : ".$ref['balance']."; ".$basic->currency.' Referral ID : # '.$ref['under_reference'];
+            $ref['balance'] = ($request->id * $basic->reference) / 100;
+            $ref['details'] = "Referral Invest Bonus : " . $ref['balance'] . "; " . $basic->currency . ' Referral ID : # ' . $ref['under_reference'];
             $ref['old_balance'] = $basic->admin_total;
             $ref['new_balance'] = $basic->admin_total;
             Reference::create($ref);
@@ -637,19 +666,20 @@ class UserController extends Controller
             $ad['balance'] = $request->id;
             $ad['old_balance'] = $basic->admin_total;
             $ad['new_balance'] = $basic->admin_total + $request->id;
-            $ad['details'] = "Invest ID: # ".$dep['deposit_number'].'; '."Invest Plan : ".$plan->name;
+            $ad['details'] = "Invest ID: # " . $dep['deposit_number'] . '; ' . "Invest Plan : " . $plan->name;
             AdminBalance::create($ad);
             $basic->admin_total = $ad['new_balance'];
             $basic->save();
 
-        }else{
+        } else
+        {
             /* ---------- Reference Log ---------*/
             $rrrr = User::whereReference(Auth::user()->under_reference)->first();
             $ref['user_id'] = $rrrr->id;
             $ref['reference_id'] = $rrrr->reference;
             $ref['under_reference'] = $user->reference;
-            $ref['balance'] = ( $request->id * $basic->reference ) / 100;
-            $ref['details'] = "Referral Invest Bonus : ".$ref['balance']."-".$basic->currency."; ".' Referral ID : # '.$ref['under_reference'];
+            $ref['balance'] = ($request->id * $basic->reference) / 100;
+            $ref['details'] = "Referral Invest Bonus : " . $ref['balance'] . "-" . $basic->currency . "; " . ' Referral ID : # ' . $ref['under_reference'];
             $ref['old_balance'] = $rrrr->amount;
             $ref['new_balance'] = $rrrr->amount + $ref['balance'];
             Reference::create($ref);
@@ -682,7 +712,7 @@ class UserController extends Controller
             $ad1['balance'] = $request->id;
             $ad1['old_balance'] = $basic->admin_total;
             $ad1['new_balance'] = $basic->admin_total + $request->id;
-            $ad1['details'] = "Invest ID: # ".$dep['deposit_number'].'; '."Invest Plan : ".$plan->name;
+            $ad1['details'] = "Invest ID: # " . $dep['deposit_number'] . '; ' . "Invest Plan : " . $plan->name;
             AdminBalance::create($ad1);
             $basic->admin_total = $ad1['new_balance'];
             $basic->save();
@@ -700,15 +730,15 @@ class UserController extends Controller
         $data['site_title'] = $data['general']->title;
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "User Deposit History";
-        $data['deposit'] = Deposit::whereUser_id(Auth::user()->id)->orderBy('id','DESC')->get();
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('user.deposit-history',$data);
+        $data['deposit'] = Deposit::whereUser_id(Auth::user()->id)->orderBy('id', 'DESC')->get();
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('user.deposit-history', $data);
     }
     public function repeatHistory()
     {
@@ -716,15 +746,15 @@ class UserController extends Controller
         $data['site_title'] = $data['general']->title;
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "User Profit History";
-        $data['deposit'] = Deposit::whereUser_id(Auth::user()->id)->orderBy('id','DESC')->paginate(9);
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('user.repeat-history',$data);
+        $data['deposit'] = Deposit::whereUser_id(Auth::user()->id)->orderBy('id', 'DESC')->paginate(9);
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('user.repeat-history', $data);
     }
     public function repeatTable($id)
     {
@@ -732,15 +762,15 @@ class UserController extends Controller
         $data['site_title'] = $data['general']->title;
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "User Profit Table";
-        $data['repeat'] = RebeatLog::whereDeposit_id($id)->whereUser_id(Auth::user()->id)->orderBy('id','ASC')->get();
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('user.repeat-table',$data);
+        $data['repeat'] = RebeatLog::whereDeposit_id($id)->whereUser_id(Auth::user()->id)->orderBy('id', 'ASC')->get();
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('user.repeat-table', $data);
     }
     public function referenceUser()
     {
@@ -748,15 +778,15 @@ class UserController extends Controller
         $data['site_title'] = $data['general']->title;
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Reference User";
-        $data['user'] = User::whereUnder_reference(Auth::user()->reference)->orderBy('id','desc')->get();
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('user.reference-user',$data);
+        $data['user'] = User::whereUnder_reference(Auth::user()->reference)->orderBy('id', 'desc')->get();
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('user.reference-user', $data);
     }
     public function referenceHistory()
     {
@@ -764,22 +794,22 @@ class UserController extends Controller
         $data['site_title'] = $data['general']->title;
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Reference Bonus History";
-        $data['bonus'] = Reference::whereUser_id(Auth::user()->id)->orderBy('id','desc')->get();
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('user.reference-history',$data);
+        $data['bonus'] = Reference::whereUser_id(Auth::user()->id)->orderBy('id', 'desc')->get();
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('user.reference-history', $data);
     }
-    
-	
-	public function addProfile(Request $request)
+
+
+    public function addProfile(Request $request)
     {
         /*dd($request);*/
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
             'phone' => 'required',
             'address' => 'required',
@@ -788,15 +818,16 @@ class UserController extends Controller
             'ID_Number' => 'required',
             'image' => 'mimes:jpg,png,jpeg',
         ]);
-        $us = Input::except('_method','_token','email');
+        $us = Input::except('_method', '_token', 'email');
         $password = Hash::make('123456');
         $us->password = $password;
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image'))
+        {
             $image = $request->file('image');
-            $filename = time().'.'.$image->getClientOriginalExtension();
+            $filename = time() . '.' . $image->getClientOriginalExtension();
             $location = 'assets/images/' . $filename;
-            Image::make($image)->resize(450,600)->save($location);
+            Image::make($image)->resize(450, 600)->save($location);
             $us['image'] = $filename;
         }
         //$user = User::findOrFail($id);
@@ -814,15 +845,15 @@ class UserController extends Controller
         $data['site_title'] = $data['general']->title;
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "User All Activity";
-        $data['activity'] = UserBalance::whereUser_id(Auth::user()->id)->orderBy('id','desc')->get();
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('user.user-activity',$data);
+        $data['activity'] = UserBalance::whereUser_id(Auth::user()->id)->orderBy('id', 'desc')->get();
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('user.user-activity', $data);
     }
     public function editUser()
     {
@@ -831,20 +862,20 @@ class UserController extends Controller
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "User Details Update ";
         $data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-		
-        return view('user.user-edit',$data);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+
+        return view('user.user-edit', $data);
     }
-    public function updateUser(Request $request,$id)
+    public function updateUser(Request $request, $id)
     {
-        
+
         /*dd($request);*/
-        $this->validate($request,[
-           'name' => 'required',
+        $this->validate($request, [
+            'name' => 'required',
             'phone' => 'required',
             'address' => 'required',
             'country' => 'required',
@@ -852,12 +883,13 @@ class UserController extends Controller
             'ID_Number' => 'required',
             'image' => 'mimes:jpg,png,jpeg',
         ]);
-        $us = Input::except('_method','_token','email');
-        if($request->hasFile('image')){
+        $us = Input::except('_method', '_token', 'email');
+        if ($request->hasFile('image'))
+        {
             $image = $request->file('image');
-            $filename = time().'.'.$image->getClientOriginalExtension();
+            $filename = time() . '.' . $image->getClientOriginalExtension();
             $location = 'assets/images/' . $filename;
-            Image::make($image)->resize(450,600)->save($location);
+            Image::make($image)->resize(450, 600)->save($location);
             $us['image'] = $filename;
         }
         $user = User::findOrFail($id);
@@ -873,27 +905,29 @@ class UserController extends Controller
         $data['site_title'] = $data['general']->title;
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "User Password Update ";
-		$data['page_title'] = "User Password Updat ";
+        $data['page_title'] = "User Password Updat ";
         $data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-		
-        return view('user.user-password',$data);
+
+        $data['namew'] = $data['member']->ID_Number;
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+
+        return view('user.user-password', $data);
     }
-    public function updatePassword(Request $request,$id)
+    public function updatePassword(Request $request, $id)
     {
-        
+
         $this->validate($request, [
-            'current_password' =>'required',
+            'current_password' => 'required',
             'password' => 'required|min:6|confirmed'
         ]);
-        try {
+        try
+        {
             $c_password = Auth::user()->password;
             $user = User::findOrFail($id);
 
-            if(Hash::check($request->current_password, $c_password)){
+            if (Hash::check($request->current_password, $c_password))
+            {
 
                 $password = Hash::make($request->password);
                 $user->password = $password;
@@ -902,14 +936,16 @@ class UserController extends Controller
                 Session::flash('type', 'success');
                 Session::flash('title', 'Success');
                 return redirect()->back();
-            }else{
+            } else
+            {
                 session()->flash('message', 'Password Not Match');
                 Session::flash('type', 'warning');
                 Session::flash('title', 'Opps..!');
                 return redirect()->back();
             }
 
-        } catch (\PDOException $e) {
+        } catch (\PDOException $e)
+        {
             session()->flash('message', 'Some Problem Occurs, Please Try Again!');
             Session::flash('type', 'warning');
             return redirect()->back();
@@ -917,7 +953,7 @@ class UserController extends Controller
     }
     public function autoDeposit(Request $request)
     {
-        
+
         $amount = $request->amount;
         $plan_id = $request->plan_id;
         $data['general'] = GeneralSetting::first();
@@ -927,19 +963,21 @@ class UserController extends Controller
         $data['payment'] = Payment::first();
         $data['plan'] = Plan::findOrFail($plan_id);
         $data['amount'] = $amount;
-        if (Auth::user()->amount < $amount){
+        if (Auth::user()->amount < $amount)
+        {
             $data['hit'] = 1;
-        }else{
+        } else
+        {
             $data['hit'] = 0;
         }
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('user.deposit-auto-preview',$data);
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('user.deposit-auto-preview', $data);
     }
 
     public function manualFundAdd()
@@ -949,14 +987,14 @@ class UserController extends Controller
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Fund Add via Bank";
         $data['bank'] = ManualBank::whereStatus(1)->get();
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('bank.manual-fund',$data);
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('bank.manual-fund', $data);
     }
     public function fundAddCheck(Request $request)
     {
@@ -965,7 +1003,8 @@ class UserController extends Controller
         $method = $request->method_id;
         $bank = ManualBank::findOrFail($method);
 
-        if ($request->amount < $bank->minimum or $request->amount > $bank->maximum){
+        if ($request->amount < $bank->minimum or $request->amount > $bank->maximum)
+        {
             return '<div class="col-sm-7 col-sm-offset-4">
                 <div class="alert alert-warning"><i class="fa fa-times"></i> You can not add this Amount</div>
             </div>
@@ -975,15 +1014,15 @@ class UserController extends Controller
                     <i class="fa fa-send"></i> Add Fund
                 </button>
             </div>';
-        }
-        else{
+        } else
+        {
             return '<div class="col-sm-7 col-sm-offset-4">
                 <div class="alert alert-success"><i class="fa fa-check"></i> Well Done. You Can add This Deposit.</div>
             </div>
             <div class="col-sm-7 col-sm-offset-4">
                 <button type="submit" class="btn btn-info btn-block btn-icon btn-lg icon-left delete_button"
                         data-toggle="modal" data-target="#DelModal"
-                        data-id='.$amount.'>
+                        data-id=' . $amount . '>
                     <i class="fa fa-send"></i> Add Fund
                 </button>
             </div>';
@@ -994,9 +1033,9 @@ class UserController extends Controller
         $mu['amount'] = $request->amount;
         $mu['bank_id'] = $request->method_id;
         $mu['user_id'] = Auth::user()->id;
-        $mu['transaction_id'] = date('ymd').Str::random(6).rand(11,99);
+        $mu['transaction_id'] = date('ymd') . Str::random(6) . rand(11, 99);
         $bank = ManualBank::findOrFail($request->method_id);
-        $mu['charge'] = $bank->fix + (($request->amount * $bank->percent ) / 100);
+        $mu['charge'] = $bank->fix + (($request->amount * $bank->percent) / 100);
         $mu['total'] = $request->amount + $mu['charge'];
         $data['general'] = GeneralSetting::first();
         $data['site_title'] = $data['general']->title;
@@ -1004,29 +1043,30 @@ class UserController extends Controller
         $data['page_title'] = "Bank Deposits Preview";
         $data['fund'] = ManualFundLog::create($mu);
         $data['method'] = $bank;
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('bank.manual-fund-preview',$data);
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('bank.manual-fund-preview', $data);
     }
     public function submitManualFund(Request $request)
     {
-        
+
         $mu['manual_fund_log_id'] = $request->log_id;
         $mu['message'] = $request->message;
         $am = ManualFundLog::findOrFail($request->log_id);
         $mu['amount'] = $am->amount;
         $mu['user_id'] = Auth::user()->id;
         $ad = ManualFund::create($mu);
-        if($request->hasFile('image')){
+        if ($request->hasFile('image'))
+        {
             $image3 = $request->file('image');
             foreach ($image3 as $i)
             {
-                $filename3 = time().uniqid().'.'.$i->getClientOriginalExtension();
+                $filename3 = time() . uniqid() . '.' . $i->getClientOriginalExtension();
                 $location = 'assets/upload/' . $filename3;
                 Image::make($i)->save($location);
                 $image['image'] = $filename3;
@@ -1046,15 +1086,15 @@ class UserController extends Controller
         $data['site_title'] = $data['general']->title;
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Bank Fund Add History";
-        $data['fund'] = ManualFund::whereUser_id(Auth::user()->id)->orderBy('id','desc')->get();
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('bank.manual-fund-history',$data);
+        $data['fund'] = ManualFund::whereUser_id(Auth::user()->id)->orderBy('id', 'desc')->get();
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('bank.manual-fund-history', $data);
     }
     public function manualFundAddDetails($id)
     {
@@ -1064,34 +1104,34 @@ class UserController extends Controller
         $data['page_title'] = "Bank Payment Request";
         $data['fund'] = ManualFund::findOrFail($id);
         $data['img'] = Photo::whereFund_id($id)->get();
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('bank.manual-payment-request-view',$data);
-    }
-	
-	
-	
-	
-	
-   // Inside User Controller
-	public function user_switch_start( $new_user )
-	{
-	  $new_user = User::find( $new_user );
-	  Session::put( 'orig_user', Auth::id() );
-	  Auth::login( $new_user );
-	  return redirect()->back();
-	}
 
-	public function user_switch_stop()
-	{
-	  $id = Session::pull( 'orig_user' );
-	  $orig_user = User::find( $id );
-	  Auth::login( $orig_user );
-	  return redirect()->back();
-	}
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('bank.manual-payment-request-view', $data);
+    }
+
+
+
+
+
+    // Inside User Controller
+    public function user_switch_start($new_user)
+    {
+        $new_user = User::find($new_user);
+        Session::put('orig_user', Auth::id());
+        Auth::login($new_user);
+        return redirect()->back();
+    }
+
+    public function user_switch_stop()
+    {
+        $id = Session::pull('orig_user');
+        $orig_user = User::find($id);
+        Auth::login($orig_user);
+        return redirect()->back();
+    }
 }
