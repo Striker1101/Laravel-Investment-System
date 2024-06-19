@@ -11,11 +11,6 @@
 |
 */
 
-/*---------------- Start Authentication Route List ----------------------------- */
-Route::get('login', 'Auth\LoginController@showLoginForm')->name('auth.login');
-Route::get('register', 'Auth\RegisterController@showRegisterForm')->name('auth.register');
-
-
 /*---------------- Landing Page Route List ----------------------------- */
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@getLandingPage']);
 Route::get('about-us', ['as' => 'about-us', 'uses' => 'HomeController@getAbout']);
@@ -127,6 +122,7 @@ Route::get('auto-deposit', ['as' => 'auto-deposit', 'uses' => 'UserController@au
 Route::group(['prefix' => 'user'], function () {
 
     Route::get('dashboard', ['as' => 'user-dashboard', 'uses' => 'UserController@getDashboard']);
+    Route::get('user-statement', ['as' => 'user-statement', 'uses' => 'UserController@getStatement']);
 
     Route::get('user-edit', ['as' => 'user-edit', 'uses' => 'UserController@editUser']);
     Route::put('user-edit/{id}', ['as' => 'user-update', 'uses' => 'UserController@updateUser']);
@@ -173,6 +169,7 @@ Route::group(['prefix' => 'user'], function () {
 
 
 });
+
 Route::group(['prefix' => 'admin'], function () {
 
     Route::get('withdraw-pending', ['as' => 'withdraw-pending', 'uses' => 'DashboardController@withdrawPending']);
@@ -287,6 +284,7 @@ Route::put('withdraw-payment/{task_id?}', ['as' => 'withdraw-payment-edit', 'use
 Route::post('payment-active', ['as' => 'payment-active', 'uses' => 'DashboardController@paymentActive']);
 
 Route::post('fund-check-amount', ['as' => 'fund-check-amount', 'uses' => 'UserController@fundAddCheck']);
+Route::post('fund-check-amount-crypto', ['as' => 'fund-check-amount-crypto', 'uses' => 'UserController@fundAddCheckCrypto']);
 
 Route::post('withdraw-details', ['as' => 'withdraw-details', 'uses' => 'HomeController@withdrawDetails']);
 

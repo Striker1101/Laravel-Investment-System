@@ -68,6 +68,7 @@ class DashboardController extends Controller
     }
 
 
+
     public function getDashboard()
     {
         $data['site_title'] = $this->site_title;
@@ -102,8 +103,8 @@ class DashboardController extends Controller
         $data['site_title'] = $data['general']->title;
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Admin All Activity";
-        $data['activity'] = AdminBalance::orderBy('id','desc')->get();
-        return view('dashboard.admin-activity',$data);
+        $data['activity'] = AdminBalance::orderBy('id', 'desc')->get();
+        return view('dashboard.admin-activity', $data);
     }
     public function editProfile()
     {
@@ -113,21 +114,22 @@ class DashboardController extends Controller
         $data['site_title'] = $general_all->title;
         $data['general'] = $general_all;
         $data['admin'] = Admin::findOrFail(Auth::guard('admin')->user()->id);
-        return view('dashboard.edit-profile',$data);
+        return view('dashboard.edit-profile', $data);
     }
     public function updateProfile(Request $request)
     {
 
         $ad = Admin::first();
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|unique:admins,email,'.$ad->id,
+            'email' => 'required|unique:admins,email,' . $ad->id,
             'image' => 'mimes:jpg,png,gif,jpeg'
         ]);
-        $add = Input::except('_token','_method');
-        if($request->hasFile('image')){
+        $add = Input::except('_token', '_method');
+        if ($request->hasFile('image'))
+        {
             $image = $request->file('image');
-            $filename = time().'.'.$image->getClientOriginalExtension();
+            $filename = time() . '.' . $image->getClientOriginalExtension();
             $location = 'assets/images/' . $filename;
             Image::make($image)->save($location);
             $add['image'] = $filename;
@@ -146,23 +148,25 @@ class DashboardController extends Controller
         $data['basic'] = BasicSetting::first();
         $data['general'] = $general_all;
         $data['site_title'] = $general_all->title;
-        return view('dashboard.change-pass',$data);
+        return view('dashboard.change-pass', $data);
     }
     public function postChangePass(Request $request)
     {
 
         $this->validate($request, [
-            'current_password' =>'required',
+            'current_password' => 'required',
             'password' => 'required|min:6|confirmed'
         ]);
 
-        try {
+        try
+        {
             $c_password = Auth::guard('admin')->user()->password;
             $c_id = Auth::guard('admin')->user()->id;
 
             $user = Admin::findOrFail($c_id);
 
-            if(Hash::check($request->current_password, $c_password)){
+            if (Hash::check($request->current_password, $c_password))
+            {
 
                 $password = Hash::make($request->password);
                 $user->password = $password;
@@ -171,14 +175,16 @@ class DashboardController extends Controller
                 Session::flash('type', 'success');
                 Session::flash('title', 'Success');
                 return redirect()->back();
-            }else{
+            } else
+            {
                 session()->flash('message', 'Password Not Match');
                 Session::flash('type', 'warning');
                 Session::flash('title', 'Opps..!');
                 return redirect()->back();
             }
 
-        } catch (\PDOException $e) {
+        } catch (\PDOException $e)
+        {
             session()->flash('message', 'Some Problem Occurs, Please Try Again!');
             Session::flash('type', 'warning');
             return redirect()->back();
@@ -206,10 +212,12 @@ class DashboardController extends Controller
             'method_min' => 'required',
             'method_max' => 'required',
         );
-        $validator = Validator::make ( Input::all (), $rules );
-        if ($validator->fails()){
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails())
+        {
             return redirect()->back();
-        }else{
+        } else
+        {
             $category = ManualPayment::create($request->all());
             return Response::json($category);
         }
@@ -219,23 +227,25 @@ class DashboardController extends Controller
         $category = ManualPayment::find($task_id);
         return Response::json($category);
     }
-    public function updateManualPayment(Request $request,$task_id)
+    public function updateManualPayment(Request $request, $task_id)
     {
 
 
         $cat = ManualPayment::find($task_id);
         $rules = array(
-            'title' => 'required|unique:manual_payments,title,'.$cat->id,
+            'title' => 'required|unique:manual_payments,title,' . $cat->id,
             'method_time' => 'required',
             'method_fix' => 'required',
             'method_percent' => 'required',
             'method_min' => 'required',
             'method_max' => 'required',
         );
-        $validator = Validator::make ( Input::all (), $rules );
-        if ($validator->fails()){
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails())
+        {
             return redirect()->back();
-        }else{
+        } else
+        {
             $cat->title = $request->title;
             $cat->method_time = $request->method_time;
             $cat->method_fix = $request->method_fix;
@@ -250,18 +260,20 @@ class DashboardController extends Controller
     {
 
 
-        $this->validate($request,[
+        $this->validate($request, [
             'id' => 'required'
         ]);
         $p = ManualPayment::findOrFail($request->id);
-        if ($p->status == 0) {
+        if ($p->status == 0)
+        {
             $p->status = 1;
             $p->save();
             session()->flash('message', 'Payment Method Activate Successfully.');
             Session::flash('type', 'success');
             Session::flash('title', 'Success');
             return redirect()->back();
-        }else{
+        } else
+        {
             $p->status = 0;
             $p->save();
             session()->flash('message', 'Payment Method DeActivate Successfully.');
@@ -287,10 +299,12 @@ class DashboardController extends Controller
         $rules = array(
             'name' => 'required|unique:categories,name',
         );
-        $validator = Validator::make ( Input::all (), $rules );
-        if ($validator->fails()){
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails())
+        {
             return redirect()->back();
-        }else{
+        } else
+        {
             $category = Category::create($request->all());
             return Response::json($category);
         }
@@ -300,18 +314,20 @@ class DashboardController extends Controller
         $category = Category::findOrFail($task_id);
         return Response::json($category);
     }
-    public function updateCategory(Request $request,$task_id)
+    public function updateCategory(Request $request, $task_id)
     {
 
 
         $cat = Category::find($task_id);
         $rules = array(
-            'name' => 'required|unique:categories,name,'.$cat->id,
+            'name' => 'required|unique:categories,name,' . $cat->id,
         );
-        $validator = Validator::make ( Input::all (), $rules );
-        if ($validator->fails()){
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails())
+        {
             return redirect()->back();
-        }else{
+        } else
+        {
             $cat->name = $request->name;
             $cat->save();
             return Response::json($cat);
@@ -330,7 +346,7 @@ class DashboardController extends Controller
     {
 
 
-        $this->validate($request,[
+        $this->validate($request, [
             'title' => 'required|unique:news,title',
             'category_id' => 'required',
             'description' => 'required'
@@ -347,7 +363,7 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Manage All News";
-        $data['news'] = News::orderBy('id','desc')->get();
+        $data['news'] = News::orderBy('id', 'desc')->get();
         return view('news.news-show', $data);
     }
     public function editNews($id)
@@ -360,13 +376,13 @@ class DashboardController extends Controller
         $data['category'] = Category::all();
         return view('news.news-edit', $data);
     }
-    public function updateNews(Request $request,$id)
+    public function updateNews(Request $request, $id)
     {
 
 
         $new = News::findOrFail($id);
-        $this->validate($request,[
-            'title' => 'required|unique:news,title,'.$new->id,
+        $this->validate($request, [
+            'title' => 'required|unique:news,title,' . $new->id,
             'category_id' => 'required',
             'description' => 'required',
         ]);
@@ -389,7 +405,7 @@ class DashboardController extends Controller
     {
 
 
-        $this->validate($request,[
+        $this->validate($request, [
             'id' => 'required'
         ]);
         News::destroy($request->id);
@@ -407,12 +423,12 @@ class DashboardController extends Controller
         $data['payment'] = Payment::first();
         return view('payment.payment-show', $data);
     }
-    public function updateManagePayment(Request $request,$id)
+    public function updateManagePayment(Request $request, $id)
     {
 
 
 
-        $this->validate($request,[
+        $this->validate($request, [
             'paypal_name' => 'required',
             'paypal_image' => 'mimes:png',
             'paypal_rate' => 'required',
@@ -451,39 +467,43 @@ class DashboardController extends Controller
         ]);
 
         $payment = Payment::findOrFail($id);
-        $pay = Input::except('_method','_token');
+        $pay = Input::except('_method', '_token');
 
         $pay['paypal_status'] = $request->onoffswitch2 == 'on' ? '1' : '0';
         $pay['perfect_status'] = $request->onoffswitch3 == 'on' ? '1' : '0';
         $pay['btc_status'] = $request->onoffswitch4 == 'on' ? '1' : '0';
         $pay['stripe_status'] = $request->onoffswitch5 == 'on' ? '1' : '0';
 
-        if($request->hasFile('paypal_image')){
+        if ($request->hasFile('paypal_image'))
+        {
             $image3 = $request->file('paypal_image');
-            $filename3 = time().'h3'.'.'.$image3->getClientOriginalExtension();
+            $filename3 = time() . 'h3' . '.' . $image3->getClientOriginalExtension();
             $location = 'assets/images/' . $filename3;
-            Image::make($image3)->resize(400,400)->save($location);
+            Image::make($image3)->resize(400, 400)->save($location);
             $pay['paypal_image'] = $filename3;
         }
-        if($request->hasFile('perfect_image')){
+        if ($request->hasFile('perfect_image'))
+        {
             $image3 = $request->file('perfect_image');
-            $filename3 = time().'h2'.'.'.$image3->getClientOriginalExtension();
+            $filename3 = time() . 'h2' . '.' . $image3->getClientOriginalExtension();
             $location = 'assets/images/' . $filename3;
-            Image::make($image3)->resize(400,400)->save($location);
+            Image::make($image3)->resize(400, 400)->save($location);
             $pay['perfect_image'] = $filename3;
         }
-        if($request->hasFile('btc_image')){
+        if ($request->hasFile('btc_image'))
+        {
             $image3 = $request->file('btc_image');
-            $filename3 = time().'h1'.'.'.$image3->getClientOriginalExtension();
+            $filename3 = time() . 'h1' . '.' . $image3->getClientOriginalExtension();
             $location = 'assets/images/' . $filename3;
-            Image::make($image3)->resize(400,400)->save($location);
+            Image::make($image3)->resize(400, 400)->save($location);
             $pay['btc_image'] = $filename3;
         }
-        if($request->hasFile('stripe_image')){
+        if ($request->hasFile('stripe_image'))
+        {
             $image3 = $request->file('stripe_image');
-            $filename3 = time().'h4'.'.'.$image3->getClientOriginalExtension();
+            $filename3 = time() . 'h4' . '.' . $image3->getClientOriginalExtension();
             $location = 'assets/images/' . $filename3;
-            Image::make($image3)->resize(400,400)->save($location);
+            Image::make($image3)->resize(400, 400)->save($location);
             $pay['stripe_image'] = $filename3;
         }
 
@@ -507,7 +527,7 @@ class DashboardController extends Controller
     {
 
 
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required|unique:plans,name',
             'minimum' => 'required|integer',
             'maximum' => 'required|integer',
@@ -516,12 +536,13 @@ class DashboardController extends Controller
             'percent' => 'required',
             'image' => 'required|mimes:jpg,png'
         ]);
-        $plan = Input::except('_method','_token');
-        if($request->hasFile('image')){
+        $plan = Input::except('_method', '_token');
+        if ($request->hasFile('image'))
+        {
             $image = $request->file('image');
-            $filename = time().'.'.$image->getClientOriginalExtension();
+            $filename = time() . '.' . $image->getClientOriginalExtension();
             $location = 'assets/images/' . $filename;
-            Image::make($image)->resize(445,350)->save($location);
+            Image::make($image)->resize(445, 350)->save($location);
             $plan['image'] = $filename;
         }
         $plan['status'] = $request->status == 'on' ? '1' : '0';
@@ -550,13 +571,13 @@ class DashboardController extends Controller
         $data['compound'] = Compound::all();
         return view('plan.plan-edit', $data);
     }
-    public function updatePlan(Request $request,$id)
+    public function updatePlan(Request $request, $id)
     {
 
 
         $p = Plan::findOrFail($id);
-        $this->validate($request,[
-            'name' => 'required|unique:plans,name,'.$p->id,
+        $this->validate($request, [
+            'name' => 'required|unique:plans,name,' . $p->id,
             'minimum' => 'required|integer',
             'maximum' => 'required|integer',
             'time' => 'required|integer',
@@ -564,12 +585,13 @@ class DashboardController extends Controller
             'percent' => 'required',
             'image' => 'mimes:jpg,png'
         ]);
-        $plan = Input::except('_method','_token');
-        if($request->hasFile('image')){
+        $plan = Input::except('_method', '_token');
+        if ($request->hasFile('image'))
+        {
             $image = $request->file('image');
-            $filename = time().'.'.$image->getClientOriginalExtension();
+            $filename = time() . '.' . $image->getClientOriginalExtension();
             $location = 'assets/images/' . $filename;
-            Image::make($image)->resize(445,350)->save($location);
+            Image::make($image)->resize(445, 350)->save($location);
             $plan['image'] = $filename;
         }
         $plan['status'] = $request->status == 'on' ? '1' : '0';
@@ -604,10 +626,12 @@ class DashboardController extends Controller
             'name' => 'required|unique:categories,name',
             'compound' => 'required'
         );
-        $validator = Validator::make ( Input::all (), $rules );
-        if ($validator->fails()){
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails())
+        {
             return redirect()->back();
-        }else{
+        } else
+        {
             $category = Compound::create($request->all());
             return Response::json($category);
         }
@@ -617,19 +641,21 @@ class DashboardController extends Controller
         $category = Compound::findOrFail($task_id);
         return Response::json($category);
     }
-    public function updateCompound(Request $request,$task_id)
+    public function updateCompound(Request $request, $task_id)
     {
 
 
         $cat = Compound::find($task_id);
         $rules = array(
-            'name' => 'required|unique:compounds,name,'.$cat->id,
+            'name' => 'required|unique:compounds,name,' . $cat->id,
             'compound' => 'required'
         );
-        $validator = Validator::make ( Input::all (), $rules );
-        if ($validator->fails()){
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails())
+        {
             return redirect()->back();
-        }else{
+        } else
+        {
             $cat->name = $request->name;
             $cat->compound = $request->compound;
             $cat->save();
@@ -642,7 +668,7 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Deposit History";
-        $data['deposit'] = Deposit::orderBy('id','desc')->get();
+        $data['deposit'] = Deposit::orderBy('id', 'desc')->get();
         return view('dashboard.admin-deposit', $data);
     }
     public function adminRebeat()
@@ -651,7 +677,7 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Profit History";
-        $data['repeat'] = RebeatLog::orderBy('id','ASC')->get();
+        $data['repeat'] = RebeatLog::orderBy('id', 'ASC')->get();
         return view('dashboard.admin-rebeat', $data);
     }
     public function withdrawPending()
@@ -660,13 +686,13 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "User Withdraw Pending";
-        $data['withdraw'] = Withdraw::orderBy('id','desc')->whereStatus(0)->get();
+        $data['withdraw'] = Withdraw::orderBy('id', 'desc')->whereStatus(0)->get();
         return view('dashboard.withdraw-pending', $data);
     }
     public function withdrawSuccessSubmit(Request $request)
     {
 
-        $this->validate($request,[
+        $this->validate($request, [
             'id' => 'required'
         ]);
         $basic = BasicSetting::first();
@@ -674,7 +700,7 @@ class DashboardController extends Controller
         $widUser = User::findOrFail($withdraw->user_id);
         $ad['user_id'] = $widUser->id;
         $ad['balance_type'] = 6;
-        $ad['details'] = "Withdraw ID : # ".$withdraw->withdraw_number." . "." Payment With : ".$withdraw->withdrawMethod->title;
+        $ad['details'] = "Withdraw ID : # " . $withdraw->withdraw_number . " . " . " Payment With : " . $withdraw->withdrawMethod->title;
         $ad['balance'] = $withdraw->amount;
         $ad['old_balance'] = $basic->admin_total;
         $ad['new_balance'] = $basic->admin_total - ($withdraw->amount);
@@ -686,7 +712,8 @@ class DashboardController extends Controller
 
         $withdrawalcnt = "";
 
-        switch ($day) {
+        switch ($day)
+        {
             case 25:
             case 26:
             case 27:
@@ -694,7 +721,7 @@ class DashboardController extends Controller
             case 29:
             case 30:
             case 31:
-                $withdrawalcnt = DB::select("select Withdrawal from statement where user_id = ? AND month = ? AND year = ?", [$ad['user_id'], $nextmonth, $year]);
+                $withdrawalcnt = DB::select("select Withdrawal from statements where user_id = ? AND month = ? AND year = ?", [$ad['user_id'], $nextmonth, $year]);
                 break;
             case 1:
             case 2:
@@ -720,20 +747,22 @@ class DashboardController extends Controller
             case 22:
             case 23:
             case 24:
-                $withdrawalcnt = DB::select("select Withdrawal from statement where user_id = ? AND month = ? AND year = ?", [$ad['user_id'], $month, $year]);
+                $withdrawalcnt = DB::select("select Withdrawal from statements where user_id = ? AND month = ? AND year = ?", [$ad['user_id'], $month, $year]);
                 break;
         }
 
-        if (!empty($withdrawalcnt)) {
+        if (!empty($withdrawalcnt))
+        {
 
-            foreach ($withdrawalcnt as $wcn) {
-                $Withdra =  $ad['balance'] + $wcn->Withdrawal;
-                DB::update("update statement set Withdrawal=? WHERE user_id=?", [$Withdra,$ad['user_id']]);
+            foreach ($withdrawalcnt as $wcn)
+            {
+                $Withdra = $ad['balance'] + $wcn->Withdrawal;
+                DB::update("update statements set Withdrawal=? WHERE user_id=?", [$Withdra, $ad['user_id']]);
             }
 
-        }
-        else {
-            DB::update("update statement set Withdrawal=? WHERE user_id=?", [$ad['balance'],$ad['user_id']]);
+        } else
+        {
+            DB::update("update statements set Withdrawal=? WHERE user_id=?", [$ad['balance'], $ad['user_id']]);
         }
 
 
@@ -741,7 +770,7 @@ class DashboardController extends Controller
         $basic->admin_total = $ad['new_balance'];
         AdminBalance::create($ad);
         $basic->save();
-        $withdraw->status = 1 ;
+        $withdraw->status = 1;
         $withdraw->made_date = date('Y-m-d H:i:s');
         $withdraw->save();
         session()->flash('message', 'Withdraw Payment Complete Success.');
@@ -752,7 +781,7 @@ class DashboardController extends Controller
     public function withdrawRefundSubmit(Request $request)
     {
 
-        $this->validate($request,[
+        $this->validate($request, [
             'id' => 'required'
         ]);
 
@@ -761,7 +790,7 @@ class DashboardController extends Controller
         $widUser = User::findOrFail($withdraw->user_id);
         $ad['user_id'] = $widUser->id;
         $ad['balance_type'] = 7;
-        $ad['details'] = "Withdraw ID : # ".$withdraw->withdraw_number." . "." Refunded By Admin.";
+        $ad['details'] = "Withdraw ID : # " . $withdraw->withdraw_number . " . " . " Refunded By Admin.";
         $ad['balance'] = $withdraw->amount;
         $ad['charge'] = $withdraw->charge;
         $ad['old_balance'] = $basic->admin_total;
@@ -769,12 +798,12 @@ class DashboardController extends Controller
         $basic->admin_total = $ad['new_balance'];
         AdminBalance::create($ad);
         $basic->save();
-        $withdraw->status = 2 ;
+        $withdraw->status = 2;
         $withdraw->made_date = date('Y-m-d H:i:s');
 
         $us['user_id'] = $widUser->id;
         $us['balance_type'] = 7;
-        $us['details'] = "Withdraw ID : # ".$withdraw->withdraw_number." . "." Refunded By Admin.";
+        $us['details'] = "Withdraw ID : # " . $withdraw->withdraw_number . " . " . " Refunded By Admin.";
         $us['balance'] = $withdraw->amount;
         $us['charge'] = $withdraw->charge;
         $us['old_balance'] = $widUser->amount;
@@ -794,7 +823,7 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "User Withdraw Success";
-        $data['withdraw'] = Withdraw::orderBy('id','desc')->whereStatus(1)->get();
+        $data['withdraw'] = Withdraw::orderBy('id', 'desc')->whereStatus(1)->get();
         return view('dashboard.withdraw-success', $data);
     }
     public function withdrawRefund()
@@ -803,7 +832,7 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "User Withdraw Refund";
-        $data['withdraw'] = Withdraw::orderBy('id','desc')->whereStatus(2)->get();
+        $data['withdraw'] = Withdraw::orderBy('id', 'desc')->whereStatus(2)->get();
         return view('dashboard.withdraw-refund', $data);
     }
     public function manageUser()
@@ -812,7 +841,7 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Manage User";
-        $data['user'] = User::orderBy('id','DESC')->get();
+        $data['user'] = User::orderBy('id', 'DESC')->get();
         return view('dashboard.user-manage', $data);
     }
     public function userDetails(Request $request)
@@ -820,7 +849,7 @@ class DashboardController extends Controller
 
         $member = User::findOrFail($request->id);
         $basic = BasicSetting::first();
-        $image = url('/assets/images').'/'.$member->image;
+        $image = url('/assets/images') . '/' . $member->image;
         $total_ref = User::whereUnder_reference($member->reference)->count();
         $total_deposit = Deposit::whereUser_id($member->id)->sum('amount');
         $total_rebeat = RebeatLog::whereUser_id($member->id)->sum('balance');
@@ -829,24 +858,24 @@ class DashboardController extends Controller
         return '<div style="padding-bottom: 0;" class="well well-lg">
             <div class="profile-header-container">
                 <div class="profile-header-img">
-                    <img class="img-circle" src="'.$image.'" />
+                    <img class="img-circle" src="' . $image . '" />
                     <!-- badge -->
                     <div class="rank-label-container">
-                        <span class="label label-default rank-label">'. $member->amount .' - '.$basic->currency .'</span>
+                        <span class="label label-default rank-label">' . $member->amount . ' - ' . $basic->currency . '</span>
                     </div>
                 </div>
             </div>
             <div class="profile-body text-center">
-                <h3>'.$member->name.' </h3>
-                <h4> E-Mail : '. $member->email .'</h4>
-                <h4> Phone : '. $member->phone .'</h4>
-                <h4> Address : '. $member->address .'</h4>
-                <h4> Reference ID : <span style="color: #fff;font-size: 13px;" class="label label-danger">'. $member->reference .'</span></h4>
-                <h4> Reference Account : '. $total_ref .' - Account</h4>
-                <h4> Bank Name : '. $member->bank_name .'</h4>
-                <h4> Account Name : '. $member->acc_name .'</h4>
-                <h4> Account Number : '. $member->acc_number .'</h4>
-                <h4> Branch Code : '. $member->acc_code .'</h4>
+                <h3>' . $member->name . ' </h3>
+                <h4> E-Mail : ' . $member->email . '</h4>
+                <h4> Phone : ' . $member->phone . '</h4>
+                <h4> Address : ' . $member->address . '</h4>
+                <h4> Reference ID : <span style="color: #fff;font-size: 13px;" class="label label-danger">' . $member->reference . '</span></h4>
+                <h4> Reference Account : ' . $total_ref . ' - Account</h4>
+                <h4> Bank Name : ' . $member->bank_name . '</h4>
+                <h4> Account Name : ' . $member->acc_name . '</h4>
+                <h4> Account Number : ' . $member->acc_number . '</h4>
+                <h4> Branch Code : ' . $member->acc_code . '</h4>
                 <hr>
                 <table class="table table-bordered table-striped bold">
                     <thead>
@@ -859,10 +888,10 @@ class DashboardController extends Controller
                     </thead>
                     <tbody>
                     <tr>
-                        <td>'.$total_deposit.' - '.$basic->currency.'</td>
-                        <td>'.$total_rebeat.' - '.$basic->currency.'</td>
-                        <td>'.$total_reference.' - '.$basic->currency.'</td>
-                        <td>'.$total_withdraw.' - '.$basic->currency.'</td>
+                        <td>' . $total_deposit . ' - ' . $basic->currency . '</td>
+                        <td>' . $total_rebeat . ' - ' . $basic->currency . '</td>
+                        <td>' . $total_reference . ' - ' . $basic->currency . '</td>
+                        <td>' . $total_withdraw . ' - ' . $basic->currency . '</td>
                        
                     </tr>
                     </tbody>
@@ -878,7 +907,7 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "$user->name Transaction Log.";
-        $data['fund'] = Fund::whereUser_id($id)->orderBy('id','DESC')->get();
+        $data['fund'] = Fund::whereUser_id($id)->orderBy('id', 'DESC')->get();
         return view('dashboard.user-transaction', $data);
     }
     public function userDeposit($id)
@@ -888,7 +917,7 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "$user->name Deposit Log.";
-        $data['deposit'] = Deposit::whereUser_id($id)->orderBy('id','DESC')->get();
+        $data['deposit'] = Deposit::whereUser_id($id)->orderBy('id', 'DESC')->get();
         return view('dashboard.user-deposit', $data);
     }
     public function userWithdraw($id)
@@ -898,13 +927,13 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "$user->name Withdraw Log.";
-        $data['withdraw'] = Withdraw::whereUser_id($id)->orderBy('id','DESC')->get();
+        $data['withdraw'] = Withdraw::whereUser_id($id)->orderBy('id', 'DESC')->get();
         return view('dashboard.user-withdraw', $data);
     }
     public function blockUser(Request $request)
     {
 
-        $this->validate($request,[
+        $this->validate($request, [
             'id' => 'required'
         ]);
         $user = User::findOrFail($request->id);
@@ -920,7 +949,7 @@ class DashboardController extends Controller
     {
 
 
-        $this->validate($request,[
+        $this->validate($request, [
             'id' => 'required'
         ]);
         $user = User::findOrFail($request->id);
@@ -937,7 +966,7 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "All Block User";
-        $data['user'] = User::where('block_status',1)->orderBy('id','DESC')->get();
+        $data['user'] = User::where('block_status', 1)->orderBy('id', 'DESC')->get();
         return view('dashboard.user-block', $data);
     }
     public function latterCreate()
@@ -946,7 +975,7 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Create New Latter";
-        $data['user'] = User::orderBy('id','DESC')->get();
+        $data['user'] = User::orderBy('id', 'DESC')->get();
         return view('dashboard.latter-create', $data);
     }
     public function latterStore(Request $request)
@@ -955,7 +984,7 @@ class DashboardController extends Controller
 
         $basic = BasicSetting::first();
 
-        $this->validate($request,[
+        $this->validate($request, [
             'subject' => 'required',
             'description' => 'required'
         ]);
@@ -972,10 +1001,10 @@ class DashboardController extends Controller
                 'g_title' => $general->title,
                 'subject' => $request->subject,
             ];
-            Config::set('mail.driver','mail');
-            Config::set('mail.from',$general->email);
-            Config::set('mail.name',$general->title);
-            Mail::send('emails.news.letter', ['title' => $request->subject,'description'=>$request->description], function ($m) use ($mail_val) {
+            Config::set('mail.driver', 'mail');
+            Config::set('mail.from', $general->email);
+            Config::set('mail.name', $general->title);
+            Mail::send('emails.news.letter', ['title' => $request->subject, 'description' => $request->description], function ($m) use ($mail_val) {
                 $m->from($mail_val['g_email'], $mail_val['g_title']);
                 $m->to($mail_val['email'], $mail_val['name'])->subject($mail_val['subject']);
             });
@@ -1006,16 +1035,19 @@ class DashboardController extends Controller
             'image' => 'required|mimes:png',
             'description' => 'required'
         );
-        $validator = Validator::make ( Input::all (), $rules );
-        if ($validator->fails()){
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails())
+        {
             return redirect()->back();
-        }else{
+        } else
+        {
             $ids = Input::except('_token');
-            if($request->hasFile('image')){
+            if ($request->hasFile('image'))
+            {
                 $image = $request->file('image');
-                $filename11 = time().'.'.$image->getClientOriginalExtension();
+                $filename11 = time() . '.' . $image->getClientOriginalExtension();
                 $location = 'assets/images/' . $filename11;
-                Image::make($image)->resize(112,104)->save($location);
+                Image::make($image)->resize(112, 104)->save($location);
                 $ids['image'] = $filename11;
             }
             Strategy::create($ids);
@@ -1034,22 +1066,23 @@ class DashboardController extends Controller
         $data['strategy'] = Strategy::findOrFail($id);
         return view('strategy.strategy-edit', $data);
     }
-    public function updateStrategy(Request $request,$id)
+    public function updateStrategy(Request $request, $id)
     {
 
 
         $st = Strategy::findOrFail($id);
-        $this->validate($request,[
-            'title' => 'required|unique:strategies,title,'.$st->id,
+        $this->validate($request, [
+            'title' => 'required|unique:strategies,title,' . $st->id,
             'description' => 'required',
             'image' => 'mimes:png'
         ]);
         $ids = Input::except('_token');
-        if($request->hasFile('image')){
+        if ($request->hasFile('image'))
+        {
             $image = $request->file('image');
-            $filename11 = time().'.'.$image->getClientOriginalExtension();
+            $filename11 = time() . '.' . $image->getClientOriginalExtension();
             $location = 'assets/images/' . $filename11;
-            Image::make($image)->resize(105,105)->save($location);
+            Image::make($image)->resize(105, 105)->save($location);
             $ids['image'] = $filename11;
         }
         $st->fill($ids)->save();
@@ -1064,22 +1097,23 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Manual Payment Request";
-        $data['fund'] = ManualFund::orderBy('id','desc')->get();
-        return view('dashboard.manual-payment-request',$data);
+        $data['fund'] = ManualFund::orderBy('id', 'desc')->get();
+        return view('dashboard.manual-payment-request', $data);
     }
     public function viewManualPayment($id)
     {
+
         $data['site_title'] = $this->site_title;
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Manual Payment Request";
         $data['fund'] = ManualFund::findOrFail($id);
         $data['img'] = Photo::whereFund_id($id)->get();
-        return view('dashboard.manual-payment-request-view',$data);
+        return view('dashboard.manual-payment-request-view', $data);
     }
     public function manualPaymentConfirm(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'id' => 'required'
         ]);
         $fund = ManualFund::findOrFail($request->id);
@@ -1087,101 +1121,105 @@ class DashboardController extends Controller
 
 
 
-            $amount = $fund->log->amount;
-            $freqid = $fund->user_id;
-            $freq = $request->freq;
-            $deposit_number = date('ymd').Str::random(6).rand(11,99);
-            $plan_id = 1;
-            $percent = 0;
-            $time = 1;
-            $compound_id = 1;
-            $status = 1;
-            date_default_timezone_set('Africa/Johannesburg');
-            $created_at = date('Y-m-d H:i:s');
-            $updated_at = date('Y-m-d H:i:s');
-            $month = date('m');
-            $year = date('Y');
-            $day = date('d');
+        $amount = $fund->log->amount;
+        $freqid = $fund->user_id;
+        $freq = $request->freq;
+        $deposit_number = date('ymd') . Str::random(6) . rand(11, 99);
+        $plan_id = 1;
+        $percent = 0;
+        $time = 1;
+        $compound_id = 1;
+        $status = 1;
+        date_default_timezone_set('Africa/Johannesburg');
+        $created_at = date('Y-m-d H:i:s');
+        $updated_at = date('Y-m-d H:i:s');
+        $month = date('m');
+        $year = date('Y');
+        $day = date('d');
 
-            $Opening_Balance = 0;
-            $Percentage_Growth = 1;
-            $Closing_Balance = 0;
-            $Commission = 0.2;
-            $Gross = 0;
-            $Withdrawal = 0;
-            $Payout = 0;
-            $Growth_Added_Fund = 0;
-            $Net_Balance = 0;
-            $Growth_Amount = 0;
-            $Commission_Amount = 0;
-            $Next_Month_Opening_Balance = 0;
+        $Opening_Balance = 0;
+        $Percentage_Growth = 1;
+        $Closing_Balance = 0;
+        $Commission = 0.2;
+        $Gross = 0;
+        $Withdrawal = 0;
+        $Payout = 0;
+        $Growth_Added_Fund = 0;
+        $Net_Balance = 0;
+        $Growth_Amount = 0;
+        $Commission_Amount = 0;
+        $Next_Month_Opening_Balance = 0;
 
 
-            switch ($day) {
-                case 26:
-                    $Growth_Added_Fund = $amount;
-                    break;
-                case 27:
-                case 28:
-                case 29:
-                case 30:
-                case 31:
-                case 1:
-                    //$Growth_Added_Fund = $amount * 0.75;
-		    $Growth_Added_Fund = $amount;
-                    break;
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                    //$Growth_Added_Fund = $amount * 0.5;
-		    $Growth_Added_Fund = $amount;
-                    break;
-                case 10:
-                case 11:
-                case 12:
-                case 13:
-                case 14:
-                case 15:
-                case 16:
-                case 17:
-                    //$Growth_Added_Fund = $amount * 0.25;
-		    $Growth_Added_Fund = $amount;
-                    break;
-                case 18:
-                case 19:
-                case 20:
-                case 21:
-                case 22:
-                case 23:
-                case 24:
-                case 25:
-                    //$Growth_Added_Fund = $amount * 0.05;
-		    $Growth_Added_Fund = $amount;
-                    break;
-            }
+        switch ($day)
+        {
+            case 26:
+                $Growth_Added_Fund = $amount;
+                break;
+            case 27:
+            case 28:
+            case 29:
+            case 30:
+            case 31:
+            case 1:
+                //$Growth_Added_Fund = $amount * 0.75;
+                $Growth_Added_Fund = $amount;
+                break;
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+                //$Growth_Added_Fund = $amount * 0.5;
+                $Growth_Added_Fund = $amount;
+                break;
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 17:
+                //$Growth_Added_Fund = $amount * 0.25;
+                $Growth_Added_Fund = $amount;
+                break;
+            case 18:
+            case 19:
+            case 20:
+            case 21:
+            case 22:
+            case 23:
+            case 24:
+            case 25:
+                //$Growth_Added_Fund = $amount * 0.05;
+                $Growth_Added_Fund = $amount;
+                break;
+        }
 
-            if(($amount - $Growth_Added_Fund)== 0){
-                $Closing_Added_Fund = 0;
-            }else{
-                $Closing_Added_Fund = $amount - $Growth_Added_Fund;
-            }
-		$Growth_Added_Fund = 0;
+        if (($amount - $Growth_Added_Fund) == 0)
+        {
+            $Closing_Added_Fund = 0;
+        } else
+        {
+            $Closing_Added_Fund = $amount - $Growth_Added_Fund;
+        }
+        $Growth_Added_Fund = 0;
 
-            DB::insert("insert into deposits (id,deposit_number,user_id,plan_id,percent,time,compound_id,amount,status,created_at,updated_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [NULL, $deposit_number, $freqid, $plan_id, $percent, $time, $compound_id, $amount, $status, $created_at, $updated_at]);
+        DB::insert("insert into deposits (id,deposit_number,user_id,plan_id,percent,time,compound_id,amount,status,created_at,updated_at) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [NULL, $deposit_number, $freqid, $plan_id, $percent, $time, $compound_id, $amount, $status, $created_at, $updated_at]);
 
-            DB::update("update manual_funds set made_time = now(), status = 1, created_at = ?, updated_at = ? WHERE id= ?", [$created_at, $updated_at, $freq ]);
+        DB::update("update manual_funds set made_time = now(), status = 1, created_at = ?, updated_at = ? WHERE id= ?", [$created_at, $updated_at, $freq]);
 
 
 
         $nextmonth = date('m', strtotime("first day of +1 month"));
         $cnt = "";
 
-        switch ($day) {
+        switch ($day)
+        {
             case 25:
             case 26:
             case 27:
@@ -1189,7 +1227,7 @@ class DashboardController extends Controller
             case 29:
             case 30:
             case 31:
-                $cnt = DB::select("select Opening_Balance,Added_Fund,Growth_Added_Fund,Closing_Added_Fund from statement where user_id = ? AND month = ? AND year = ?", [$freqid, $nextmonth, $year]);
+                $cnt = DB::select("select Opening_Balance,Added_Fund,Growth_Added_Fund,Closing_Added_Fund from statements where user_id = ? AND month = ? AND year = ?", [$freqid, $nextmonth, $year]);
                 break;
             case 1:
             case 2:
@@ -1215,67 +1253,70 @@ class DashboardController extends Controller
             case 22:
             case 23:
             case 24:
-                $cnt = DB::select("select Opening_Balance,Added_Fund,Growth_Added_Fund,Closing_Added_Fund from statement where user_id = ? AND month = ? AND year = ?", [$freqid, $month, $year]);
+                $cnt = DB::select("select Opening_Balance,Added_Fund,Growth_Added_Fund,Closing_Added_Fund from statements where user_id = ? AND month = ? AND year = ?", [$freqid, $month, $year]);
                 break;
         }
 
-            if (!empty($cnt)) {
+        if (!empty($cnt))
+        {
 
-                foreach ($cnt as $cn) {
-                    $Opening_Balanc = $Growth_Added_Fund + $cn->Opening_Balance;
-                    $Added_Fund = $amount + $cn->Added_Fund;
-                    $Growth_Added_Fund = $Growth_Added_Fund + $cn->Growth_Added_Fund;
-                    $Closing_Added_Fund = $Closing_Added_Fund + $cn->Closing_Added_Fund;
+            foreach ($cnt as $cn)
+            {
+                $Opening_Balanc = $Growth_Added_Fund + $cn->Opening_Balance;
+                $Added_Fund = $amount + $cn->Added_Fund;
+                $Growth_Added_Fund = $Growth_Added_Fund + $cn->Growth_Added_Fund;
+                $Closing_Added_Fund = $Closing_Added_Fund + $cn->Closing_Added_Fund;
 
-                    DB::update("update statement set Opening_Balance=?,Added_Fund=?,Growth_Added_Fund=?,Closing_Added_Fund=?,Commission=? WHERE user_id=?", [$Opening_Balanc,$Added_Fund,$Growth_Added_Fund,$Closing_Added_Fund,$Commission,$freqid]);
-                }
-
+                DB::update("update statements set Opening_Balance=?,Added_Fund=?,Growth_Added_Fund=?,Closing_Added_Fund=?,Commission=? WHERE user_id=?", [$Opening_Balanc, $Added_Fund, $Growth_Added_Fund, $Closing_Added_Fund, $Commission, $freqid]);
             }
-            else {
-                switch ($day) {
-                    case 25:
-                    case 26:
-                    case 27:
-                    case 28:
-                    case 29:
-                    case 30:
-                    case 31:
-                        DB::insert("insert into statement (id,user_id,month,year,Opening_Balance,Added_Fund,Growth_Added_Fund,Closing_Added_Fund,Percentage_Growth,Closing_Balance,Commission,Gross,Withdrawal,Payout, Net_Balance, Growth_Amount, Commission_Amount, Next_Month_Opening_Balance) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [NULL, $freqid, $nextmonth, $year, $amount, $amount, $Growth_Added_Fund, $Closing_Added_Fund, $Percentage_Growth, $Closing_Balance, $Commission, $Gross, $Withdrawal, $Payout,$Net_Balance,$Growth_Amount,$Commission_Amount,$Next_Month_Opening_Balance]);
-                        break;
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                    case 6:
-                    case 7:
-                    case 8:
-                    case 9:
-                    case 10:
-                    case 11:
-                    case 12:
-                    case 13:
-                    case 14:
-                    case 15:
-                    case 16:
-                    case 17:
-                    case 18:
-                    case 19:
-                    case 20:
-                    case 21:
-                    case 22:
-                    case 23:
-                    case 24:
-                        DB::insert("insert into statement (id,user_id,month,year,Opening_Balance,Added_Fund,Growth_Added_Fund,Closing_Added_Fund,Percentage_Growth,Closing_Balance,Commission,Gross,Withdrawal,Payout, Net_Balance, Growth_Amount, Commission_Amount, Next_Month_Opening_Balance) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [NULL, $freqid, $month, $year, $amount, $amount, $Growth_Added_Fund, $Closing_Added_Fund, $Percentage_Growth, $Closing_Balance, $Commission, $Gross, $Withdrawal, $Payout,$Net_Balance,$Growth_Amount,$Commission_Amount,$Next_Month_Opening_Balance]);
-                        break;
-                }
+
+        } else
+        {
+            switch ($day)
+            {
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
+                    DB::insert("insert into statements (id,user_id,month,year,Opening_Balance,Added_Fund,Growth_Added_Fund,Closing_Added_Fund,Percentage_Growth,Closing_Balance,Commission,Gross,Withdrawal,Payout, Net_Balance, Growth_Amount, Commission_Amount, Next_Month_Opening_Balance) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [NULL, $freqid, $nextmonth, $year, $amount, $amount, $Growth_Added_Fund, $Closing_Added_Fund, $Percentage_Growth, $Closing_Balance, $Commission, $Gross, $Withdrawal, $Payout, $Net_Balance, $Growth_Amount, $Commission_Amount, $Next_Month_Opening_Balance]);
+                    break;
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                case 10:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
+                case 24:
+                    DB::insert("insert into statements (id,user_id,month,year,Opening_Balance,Added_Fund,Growth_Added_Fund,Closing_Added_Fund,Percentage_Growth,Closing_Balance,Commission,Gross,Withdrawal,Payout, Net_Balance, Growth_Amount, Commission_Amount, Next_Month_Opening_Balance) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [NULL, $freqid, $month, $year, $amount, $amount, $Growth_Added_Fund, $Closing_Added_Fund, $Percentage_Growth, $Closing_Balance, $Commission, $Gross, $Withdrawal, $Payout, $Net_Balance, $Growth_Amount, $Commission_Amount, $Next_Month_Opening_Balance]);
+                    break;
             }
+        }
 
 
         // User Log
         $ur['user_id'] = $fund->user_id;
         $ur['balance_type'] = 8;
-        $ur['details'] = "Add Fund via ".$fund->log->method->name.' '."Transaction ID : # ".$fund->log->transaction_id;
+        $ur['details'] = "Add Fund via " . $fund->log->method->name . ' ' . "Transaction ID : # " . $fund->log->transaction_id;
         $ur['balance'] = $fund->log->amount;
         $ur['charge'] = $fund->log->charge;
         $ur['new_balance'] = $user->amount + $fund->log->amount;
@@ -1288,7 +1329,7 @@ class DashboardController extends Controller
         // Admin Log
         $ad['user_id'] = $fund->user_id;
         $ad['balance_type'] = 8;
-        $ad['details'] = "Add Fund via ".$fund->log->method->name.' '."Transaction ID : # ".$fund->log->transaction_id;
+        $ad['details'] = "Add Fund via " . $fund->log->method->name . ' ' . "Transaction ID : # " . $fund->log->transaction_id;
         $ad['balance'] = $fund->log->amount;
         $ad['charge'] = $fund->log->charge;
         $ad['new_balance'] = $basic->admin_total + $fund->log->total;
@@ -1297,11 +1338,11 @@ class DashboardController extends Controller
         $basic->admin_total = $ad['new_balance'];
         $basic->save();
         $fund->status = 1;
-        $fund->made_time =  date('Y-m-d H:i:s');
+        $fund->made_time = date('Y-m-d H:i:s');
         $fund->save();
-         session()->flash('message', 'Manual Payment Successfully Completed.');
-         Session::flash('type', 'success');
-         Session::flash('title', 'success');
+        session()->flash('message', 'Manual Payment Successfully Completed.');
+        Session::flash('type', 'success');
+        Session::flash('title', 'success');
         return redirect()->back();
     }
     public function createPartner()
@@ -1310,20 +1351,21 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Create Partner";
-        return view('partner.partner-create',$data);
+        return view('partner.partner-create', $data);
     }
     public function storePartner(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
             'image' => 'required|mimes:png'
         ]);
-        $nu = Input::except('_method','_token');
-        if($request->hasFile('image')){
+        $nu = Input::except('_method', '_token');
+        if ($request->hasFile('image'))
+        {
             $image = $request->file('image');
-            $filename = time().'.'.$image->getClientOriginalExtension();
+            $filename = time() . '.' . $image->getClientOriginalExtension();
             $location = 'assets/images/' . $filename;
-            Image::make($image)->resize(170,75)->save($location);
+            Image::make($image)->resize(170, 75)->save($location);
             $nu['image'] = $filename;
         }
         Partner::create($nu);
@@ -1339,7 +1381,7 @@ class DashboardController extends Controller
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "All Partner";
         $data['partner'] = Partner::all();
-        return view('partner.partner-show',$data);
+        return view('partner.partner-show', $data);
     }
     public function editPartner($id)
     {
@@ -1348,21 +1390,22 @@ class DashboardController extends Controller
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Edit Partner";
         $data['partner'] = Partner::findOrFail($id);
-        return view('partner.partner-edit',$data);
+        return view('partner.partner-edit', $data);
     }
-    public function updatePartner(Request $request,$id)
+    public function updatePartner(Request $request, $id)
     {
         $pt = Partner::findOrFail($id);
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
             'image' => 'mimes:png'
         ]);
-        $part = Input::except('_method','_token');
-        if($request->hasFile('image')){
+        $part = Input::except('_method', '_token');
+        if ($request->hasFile('image'))
+        {
             $image = $request->file('image');
-            $filename = time().'.'.$image->getClientOriginalExtension();
+            $filename = time() . '.' . $image->getClientOriginalExtension();
             $location = 'assets/images/' . $filename;
-            Image::make($image)->resize(170,75)->save($location);
+            Image::make($image)->resize(170, 75)->save($location);
             $part['image'] = $filename;
         }
         $pt->fill($part)->save();
@@ -1373,7 +1416,7 @@ class DashboardController extends Controller
     }
     public function deletePartner(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'id' => 'required'
         ]);
         Partner::destroy($request->id);
@@ -1388,8 +1431,8 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Manage Chose US";
-        $data['chose'] = Chose::orderBy('id','DESC')->paginate(10);
-        return view('dashboard.chose-manage',$data);
+        $data['chose'] = Chose::orderBy('id', 'DESC')->paginate(10);
+        return view('dashboard.chose-manage', $data);
     }
     public function storeChose(Request $request)
     {
@@ -1398,10 +1441,12 @@ class DashboardController extends Controller
             's_text' => 'required',
             'icon' => 'required',
         );
-        $validator = Validator::make ( Input::all (), $rules );
-        if ($validator->fails()){
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails())
+        {
             return redirect()->back();
-        }else{
+        } else
+        {
             $category = Chose::create($request->all());
             return Response::json($category);
         }
@@ -1411,7 +1456,7 @@ class DashboardController extends Controller
         $category = Chose::findOrFail($task_id);
         return Response::json($category);
     }
-    public function updateChose(Request $request,$task_id)
+    public function updateChose(Request $request, $task_id)
     {
         $cat = Chose::find($task_id);
         $rules = array(
@@ -1419,10 +1464,12 @@ class DashboardController extends Controller
             's_text' => 'required',
             'icon' => 'required',
         );
-        $validator = Validator::make ( Input::all (), $rules );
-        if ($validator->fails()){
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails())
+        {
             return redirect()->back();
-        }else{
+        } else
+        {
             $cat->title = $request->title;
             $cat->s_text = $request->s_text;
             $cat->icon = $request->icon;
@@ -1436,8 +1483,8 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Manage Promo";
-        $data['promo'] = Promo::orderBy('id','DESC')->paginate(10);
-        return view('dashboard.promo-manage',$data);
+        $data['promo'] = Promo::orderBy('id', 'DESC')->paginate(10);
+        return view('dashboard.promo-manage', $data);
     }
     public function storePromo(Request $request)
     {
@@ -1447,10 +1494,12 @@ class DashboardController extends Controller
             's_text' => 'required',
             'number' => 'required',
         );
-        $validator = Validator::make ( Input::all (), $rules );
-        if ($validator->fails()){
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails())
+        {
             return redirect()->back();
-        }else{
+        } else
+        {
             $category = Promo::create($request->all());
             return Response::json($category);
         }
@@ -1460,19 +1509,21 @@ class DashboardController extends Controller
         $category = Promo::findOrFail($task_id);
         return Response::json($category);
     }
-    public function updatePromo(Request $request,$task_id)
+    public function updatePromo(Request $request, $task_id)
     {
         $cat = Promo::find($task_id);
         $rules = array(
-            'title' => 'required|unique:promos,title,'.$cat->id,
+            'title' => 'required|unique:promos,title,' . $cat->id,
             'icon' => 'required',
             's_text' => 'required',
             'number' => 'required',
         );
-        $validator = Validator::make ( Input::all (), $rules );
-        if ($validator->fails()){
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails())
+        {
             return redirect()->back();
-        }else{
+        } else
+        {
             $cat->title = $request->title;
             $cat->icon = $request->icon;
             $cat->number = $request->number;
@@ -1487,8 +1538,8 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Manage Testimonial";
-        $data['testimonial'] = Testimonial::orderBy('id','DESC')->paginate(10);
-        return view('dashboard.testimonial-manage',$data);
+        $data['testimonial'] = Testimonial::orderBy('id', 'DESC')->paginate(10);
+        return view('dashboard.testimonial-manage', $data);
     }
     public function storeTestimonial(Request $request)
     {
@@ -1497,10 +1548,12 @@ class DashboardController extends Controller
             'position' => 'required',
             'description' => 'required',
         );
-        $validator = Validator::make ( Input::all (), $rules );
-        if ($validator->fails()){
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails())
+        {
             return redirect()->back();
-        }else{
+        } else
+        {
             $category = Testimonial::create($request->all());
             return Response::json($category);
         }
@@ -1510,7 +1563,7 @@ class DashboardController extends Controller
         $category = Testimonial::findOrFail($task_id);
         return Response::json($category);
     }
-    public function updateTestimonial(Request $request,$task_id)
+    public function updateTestimonial(Request $request, $task_id)
     {
         $cat = Testimonial::find($task_id);
         $rules = array(
@@ -1518,10 +1571,12 @@ class DashboardController extends Controller
             'position' => 'required',
             'description' => 'required',
         );
-        $validator = Validator::make ( Input::all (), $rules );
-        if ($validator->fails()){
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails())
+        {
             return redirect()->back();
-        }else{
+        } else
+        {
             $cat->name = $request->name;
             $cat->position = $request->position;
             $cat->description = $request->description;
@@ -1535,21 +1590,22 @@ class DashboardController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Create New Slider";
-        return view('dashboard.slider-create',$data);
+        return view('dashboard.slider-create', $data);
     }
     public function sliderStore(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'title' => 'required',
             'description' => 'required',
             'image' => 'required|mimes:png,jpg,jpeg'
         ]);
-        $sl = Input::except('_method','_token');
-        if($request->hasFile('image')){
+        $sl = Input::except('_method', '_token');
+        if ($request->hasFile('image'))
+        {
             $image3 = $request->file('image');
-            $filename3 = time().'h3'.'.'.$image3->getClientOriginalExtension();
+            $filename3 = time() . 'h3' . '.' . $image3->getClientOriginalExtension();
             $location = 'assets/images/' . $filename3;
-            Image::make($image3)->resize(1920,650)->save($location);
+            Image::make($image3)->resize(1920, 650)->save($location);
             $sl['image'] = $filename3;
         }
         Slider::create($sl);
@@ -1565,7 +1621,7 @@ class DashboardController extends Controller
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Show Slider";
         $data['slider'] = Slider::all();
-        return view('dashboard.slider-show',$data);
+        return view('dashboard.slider-show', $data);
     }
     public function sliderEdit($id)
     {
@@ -1574,22 +1630,23 @@ class DashboardController extends Controller
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Edit Slider";
         $data['slider'] = Slider::findOrFail($id);
-        return view('dashboard.slider-edit',$data);
+        return view('dashboard.slider-edit', $data);
     }
-    public function sliderUpdate(Request $request,$id)
+    public function sliderUpdate(Request $request, $id)
     {
         $sll = Slider::findOrFail($id);
-        $this->validate($request,[
+        $this->validate($request, [
             'title' => 'required',
             'description' => 'required',
             'image' => 'mimes:png,jpg,jpeg'
         ]);
-        $sl = Input::except('_method','_token');
-        if($request->hasFile('image')){
+        $sl = Input::except('_method', '_token');
+        if ($request->hasFile('image'))
+        {
             $image3 = $request->file('image');
-            $filename3 = time().'h3'.'.'.$image3->getClientOriginalExtension();
+            $filename3 = time() . 'h3' . '.' . $image3->getClientOriginalExtension();
             $location = 'assets/images/' . $filename3;
-            Image::make($image3)->resize(1920,650)->save($location);
+            Image::make($image3)->resize(1920, 650)->save($location);
             $sl['image'] = $filename3;
         }
         $sll->fill($sl)->save();
@@ -1600,7 +1657,7 @@ class DashboardController extends Controller
     }
     public function sliderDelete(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'id' => 'required'
         ]);
         $sl = Slider::findOrFail($request->id);

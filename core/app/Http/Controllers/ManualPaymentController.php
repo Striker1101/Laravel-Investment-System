@@ -27,7 +27,7 @@ class ManualPaymentController extends Controller
         $data['site_title'] = $data['general']->title;
         $data['page_title'] = "Manage Bank";
         $data['bank'] = ManualBank::all();
-        return view('bank.manage-bank',$data);
+        return view('bank.manage-bank', $data);
     }
     public function storeMethod(Request $request)
     {
@@ -42,10 +42,12 @@ class ManualPaymentController extends Controller
             'minimum' => 'required',
             'maximum' => 'required',
         );
-        $validator = Validator::make ( Input::all (), $rules );
-        if ($validator->fails()){
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails())
+        {
             return redirect()->back();
-        }else{
+        } else
+        {
             $category = ManualBank::create($request->all());
             return Response::json($category);
         }
@@ -55,13 +57,13 @@ class ManualPaymentController extends Controller
         $category = ManualBank::find($task_id);
         return Response::json($category);
     }
-    public function updateMethod(Request $request,$task_id)
+    public function updateMethod(Request $request, $task_id)
     {
 
 
         $cat = ManualBank::find($task_id);
         $rules = array(
-            'name' => 'required|unique:manual_banks,name,'.$cat->id,
+            'name' => 'required|unique:manual_banks,name,' . $cat->id,
             'acc_name' => 'required',
             'acc_number' => 'required',
             'acc_code' => 'required',
@@ -70,10 +72,12 @@ class ManualPaymentController extends Controller
             'minimum' => 'required',
             'maximum' => 'required',
         );
-        $validator = Validator::make ( Input::all (), $rules );
-        if ($validator->fails()){
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails())
+        {
             return redirect()->back();
-        }else{
+        } else
+        {
             $cat->name = $request->name;
             $cat->acc_name = $request->acc_name;
             $cat->acc_number = $request->acc_number;
@@ -86,9 +90,9 @@ class ManualPaymentController extends Controller
     }
     public function manualActive(Request $request)
     {
-        
-        $this->validate($request,[
-           'id' => 'required',
+
+        $this->validate($request, [
+            'id' => 'required',
         ]);
         $pp = ManualBank::findOrFail($request->id);
         $pp->status = 1;
@@ -100,8 +104,8 @@ class ManualPaymentController extends Controller
     }
     public function manualDeActive(Request $request)
     {
-        
-        $this->validate($request,[
+
+        $this->validate($request, [
             'id' => 'required',
         ]);
         $pp = ManualBank::findOrFail($request->id);
@@ -115,7 +119,7 @@ class ManualPaymentController extends Controller
 
     public function submitGrowth(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'growth' => 'required',
         ]);
 
@@ -123,15 +127,17 @@ class ManualPaymentController extends Controller
         $month = date('m');
         $nextmonth = date('m', strtotime("first day of +1 month"));
         $year = date('Y');
-        $Percentage_Growth = $growth/100;
+        $Percentage_Growth = $growth / 100;
 
-        $cnt = DB::select("select * from statement where month = ? AND year = ?", [ $month, $year]);
+        $cnt = DB::select("select * from statements where month = ? AND year = ?", [$month, $year]);
 
 
+        // dd($cnt);
+        if (!empty($cnt))
+        {
 
-        if (!empty($cnt)) {
-
-            foreach ($cnt as $cn) {
+            foreach ($cnt as $cn)
+            {
                 $NetBalance = $cn->Opening_Balance - $cn->Withdrawal;
                 $GrowthAmount = $NetBalance * $Percentage_Growth;
                 $Gross = $GrowthAmount + $NetBalance;
@@ -142,23 +148,31 @@ class ManualPaymentController extends Controller
                 $NextMonthOpening_Balance = $Closing_Balance + $cn->Closing_Added_Fund;
 
 
-                DB::update("update statement set Percentage_Growth=?,Closing_Balance=?,Gross=?,Payout=?,Net_Balance=?,Growth_Amount=?,Commission_Amount=?,Next_Month_Opening_Balance=? WHERE 
-                          user_id=?", [$growth,$Closing_Balance,$Gross,$PayoutAmount,$NetBalance,$GrowthAmount,$CommissionAmount,$NextMonthOpening_Balance,$freqid]);
+                DB::update("update statements set Percentage_Growth=?,Closing_Balance=?,Gross=?,Payout=?,Net_Balance=?,Growth_Amount=?,Commission_Amount=?,Next_Month_Opening_Balance=? WHERE 
+                          user_id=?", [$growth, $Closing_Balance, $Gross, $PayoutAmount, $NetBalance, $GrowthAmount, $CommissionAmount, $NextMonthOpening_Balance, $freqid]);
 
                 $defaultt = 1;
                 $defaultt_Balance = 0;
                 $Commission = 0.2;
 
 
-                DB::insert("insert into statement (id, user_id, month, year, Opening_Balance, Added_Fund, Growth_Added_Fund, Closing_Added_Fund, Percentage_Growth, Closing_Balance, Commission, Gross, Withdrawal, Payout, Net_Balance, Growth_Amount, Commission_Amount, Next_Month_Opening_Balance) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    [NULL, $freqid, $nextmonth, $year, $NextMonthOpening_Balance, $defaultt_Balance, $defaultt_Balance, $defaultt_Balance, $defaultt, $defaultt_Balance, $Commission, $defaultt_Balance, $defaultt_Balance, $PayoutAmount, $defaultt_Balance, $defaultt_Balance, $defaultt_Balance, $defaultt_Balance]);
+                DB::insert(
+                    "insert into statements (id, user_id, month, year, Opening_Balance, Added_Fund, Growth_Added_Fund, Closing_Added_Fund, Percentage_Growth, Closing_Balance, Commission, Gross, Withdrawal, Payout, Net_Balance, Growth_Amount, Commission_Amount, Next_Month_Opening_Balance) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    [NULL, $freqid, $nextmonth, $year, $NextMonthOpening_Balance, $defaultt_Balance, $defaultt_Balance, $defaultt_Balance, $defaultt, $defaultt_Balance, $Commission, $defaultt_Balance, $defaultt_Balance, $PayoutAmount, $defaultt_Balance, $defaultt_Balance, $defaultt_Balance, $defaultt_Balance]
+                );
 
-                session()->flash('message', 'Growth Successfully Added to User Accounts.'.$freqid.' month '.$month.' year '.$year);
+                session()->flash('message', 'Growth Successfully Added to User Accounts.' . $freqid . ' month ' . $month . ' year ' . $year);
                 Session::flash('type', 'success');
                 Session::flash('title', 'Success');
                 return redirect()->back();
             }
 
+        } else
+        {
+            session()->flash('message', 'Empthy');
+            Session::flash('type', 'error');
+            Session::flash('title', 'Error');
+            return redirect()->back();
         }
 
     }

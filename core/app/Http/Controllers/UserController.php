@@ -9,6 +9,7 @@ use App\Fund;
 use App\FundLog;
 use App\GeneralSetting;
 use App\ManualBank;
+use App\ManualCrypto;
 use App\ManualFund;
 use App\ManualFundLog;
 use App\Payment;
@@ -40,7 +41,21 @@ class UserController extends Controller
     {
         $this->middleware('auth');
     }
+
     public function getDashboard()
+    {
+        $data['general'] = GeneralSetting::first();
+        $data['site_title'] = $data['general']->title;
+        $data['page_title'] = "User Dashboard";
+        $data['member'] = User::findOrFail(Auth::user()->id);
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+
+        return view('user.dashboard', $data);
+    }
+    public function getStatement()
     {
         $data['general'] = GeneralSetting::first();
         $data['site_title'] = $data['general']->title;
@@ -95,7 +110,7 @@ class UserController extends Controller
 
         $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
 
-        return view('user.dashboard', $data);
+        return view('user.statement', $data);
     }
     public function addFund()
     {
@@ -987,6 +1002,7 @@ class UserController extends Controller
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Fund Add via Bank";
         $data['bank'] = ManualBank::whereStatus(1)->get();
+        $data['crypto'] = ManualCrypto::whereStatus(1)->get();
 
         $data['member'] = User::findOrFail(Auth::user()->id);
 
@@ -996,6 +1012,7 @@ class UserController extends Controller
         $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
         return view('bank.manual-fund', $data);
     }
+
     public function fundAddCheck(Request $request)
     {
 
@@ -1028,37 +1045,97 @@ class UserController extends Controller
             </div>';
         }
     }
+
+    public function fundAddCheckCrypto(Request $request)
+    {
+
+        $amount = $request->amount - 5000;
+        $method = $request->method_id - 5000;
+        $bank = ManualCrypto::findOrFail($method);
+
+        if ($request->amount < $bank->minimum or $request->amount > $bank->maximum)
+        {
+            return '<div class="col-sm-7 col-sm-offset-4">
+                <div class="alert alert-warning"><i class="fa fa-times"></i> You can not add this Amount</div>
+            </div>
+            <div class="col-sm-7 col-sm-offset-4">
+                <button type="button" class="btn btn-info btn-block btn-icon btn-lg icon-left delete_button disabled"
+                        >
+                    <i class="fa fa-send"></i> Add Fund
+                </button>
+            </div>';
+        } else
+        {
+            return '<div class="col-sm-7 col-sm-offset-4">
+                <div class="alert alert-success"><i class="fa fa-check"></i> Well Done. You Can add This Deposit.</div>
+            </div>
+            <div class="col-sm-7 col-sm-offset-4">
+                <button type="submit" class="btn btn-info btn-block btn-icon btn-lg icon-left delete_button"
+                        data-toggle="modal" data-target="#DelModal"
+                        data-id=' . $amount . '>
+                    <i class="fa fa-send"></i> Add Fund
+                </button>
+            </div>';
+        }
+    }
     public function StoreManualFundAdd(Request $request)
     {
         $mu['amount'] = $request->amount;
-        $mu['bank_id'] = $request->method_id;
+        $mu['trans_id'] = $request->method_id;
+        $mu['type'] = "bank";
         $mu['user_id'] = Auth::user()->id;
         $mu['transaction_id'] = date('ymd') . Str::random(6) . rand(11, 99);
-        $bank = ManualBank::findOrFail($request->method_id);
-        $mu['charge'] = $bank->fix + (($request->amount * $bank->percent) / 100);
-        $mu['total'] = $request->amount + $mu['charge'];
+
+
+        // Fetch the manual bank or crypto based on the method_id
+        if ($request->method_id >= 5000)
+        {
+            $crypto = ManualCrypto::findOrFail($request->method_id - 5000);
+            $mu['trans_id'] = $request->method_id - 5000;
+            $mu['type'] = "crypto";
+            $mu['charge'] = $crypto->fix + (($request->amount * $crypto->percent) / 100);
+            $mu['total'] = $request->amount + $mu['charge'];
+
+        } else
+        {
+            $bank = ManualBank::findOrFail($request->method_id);
+            $mu['charge'] = $bank->fix + (($request->amount * $bank->percent) / 100);
+            $mu['total'] = $request->amount + $mu['charge'];
+        }
+
+        // Create ManualFundLog record
+        $data['fund'] = ManualFundLog::create($mu);
+
+        // Prepare data for the view
         $data['general'] = GeneralSetting::first();
         $data['site_title'] = $data['general']->title;
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Bank Deposits Preview";
-        $data['fund'] = ManualFundLog::create($mu);
-        $data['method'] = $bank;
-
         $data['member'] = User::findOrFail(Auth::user()->id);
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['member']->ID_Number]);
 
-        $data['namew'] = $data['member']->ID_Number;
-        $data['withdrawalcnt'] = '';
+        // Determine type and method based on bank_id
+        if ($request->method_id >= 5000)
+        {
+            $data['type'] = 'crypto';
+            $data['method'] = $crypto;
+            $data['hold'] = $request->holder;
+        } else
+        {
+            $data['type'] = 'bank';
+            $data['method'] = $bank;
+            $data['hold'] = null;
+        }
 
-        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
         return view('bank.manual-fund-preview', $data);
     }
+
     public function submitManualFund(Request $request)
     {
-
         $mu['manual_fund_log_id'] = $request->log_id;
         $mu['message'] = $request->message;
         $am = ManualFundLog::findOrFail($request->log_id);
-        $mu['amount'] = $am->amount;
+        $mu['amount'] = $am->total;
         $mu['user_id'] = Auth::user()->id;
         $ad = ManualFund::create($mu);
         if ($request->hasFile('image'))
@@ -1085,7 +1162,7 @@ class UserController extends Controller
         $data['general'] = GeneralSetting::first();
         $data['site_title'] = $data['general']->title;
         $data['basic'] = BasicSetting::first();
-        $data['page_title'] = "Bank Fund Add History";
+        $data['page_title'] = " Fund Add History";
         $data['fund'] = ManualFund::whereUser_id(Auth::user()->id)->orderBy('id', 'desc')->get();
 
         $data['member'] = User::findOrFail(Auth::user()->id);
