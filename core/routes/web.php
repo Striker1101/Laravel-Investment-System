@@ -159,6 +159,8 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('add-profile', ['as' => 'add-profile', 'uses' => 'UserController@addProfilel']);
 
     Route::get('user-activity', ['as' => 'user-activity', 'uses' => 'UserController@userActivity']);
+    Route::get('user-buy-and-trade', ['as' => 'user-buy-and-trade', 'uses' => 'UserController@userActivity']);
+    Route::get('user-notification', ['as' => 'user-notification', 'uses' => 'UserController@userActivity']);
 
     route::get('manual-fund-add', ['as' => 'manual-fund-add', 'uses' => 'UserController@manualFundAdd']);
     route::post('manual-fund-add', ['as' => 'manual-fund-add', 'uses' => 'UserController@StoreManualFundAdd']);

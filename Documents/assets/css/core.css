@@ -8203,7 +8203,7 @@ img.full-width {
   -moz-opacity: 0.6;
   opacity: 0.6;
 }
-.page-body.gray .page-container .main-content,
+.page-body.gray .page-container ,
 .page-body.gray .page-container {
   background: #f1f1f1;
 }

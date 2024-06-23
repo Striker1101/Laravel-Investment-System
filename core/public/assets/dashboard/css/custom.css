@@ -1,9 +1,30 @@
-/**
- *
- * Apply Here your Custom CSS
- *
-*/
+/* Define the initial state of the element */
+.slow-hover-effect {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    /* Ensure it's only as wide as its content */
+}
 
-body {
-	
+/* Create a pseudo-element for the hover effect */
+.slow-hover-effect::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background-color: rgba(143, 138, 138, 0.5);
+    transition: width 1s ease, height 1s ease, top 1s ease, left 1s ease;
+    z-index: -1;
+    /* Ensure it stays behind the content */
+}
+
+/* Define the hover state */
+.slow-hover-effect:hover::before {
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
 }
