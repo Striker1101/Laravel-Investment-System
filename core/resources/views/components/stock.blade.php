@@ -1,3 +1,5 @@
+{{-- stock.blade.php --}}
+
 <div class="tradingview-widget-container">
     <div class="tradingview-widget-container__widget"></div>
     <script type="text/javascript">
@@ -20,7 +22,4 @@
             document.querySelector('.tradingview-widget-container__widget').appendChild(script);
         });
     </script>
-</div>
-<div>
-    {{ $slot }}
 </div>

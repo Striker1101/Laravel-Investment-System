@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -32,38 +33,39 @@
 
 
 </head>
+
 <body class="page-body login-page login-form-fall">
 
 
-<!-- This is needed when you send requests via Ajax -->
-<script type="text/javascript">
-    var baseurl = '';
-</script>
+    <!-- This is needed when you send requests via Ajax -->
+    <script type="text/javascript">
+        var baseurl = '';
+    </script>
 
-<div class="login-container">
+    <div class="login-container">
 
-    <div class="login-header login-caret">
+        <div class="login-header login-caret">
 
-        <div class="login-content">
+            <div class="login-content">
 
-            <a href="" class="logo">
-                <img src="{{ asset('assets/images/logo.png') }}" width="120" alt="" />
-            </a>
+                <a href="" class="logo">
+                    <img src="{{ asset('assets/images/logo.png') }}" width="120" alt="" />
+                </a>
 
-            <p class="description">Dear user, log in to access the admin area!</p>
+                <p class="description">Dear user, log in to access the admin area!</p>
 
+
+            </div>
 
         </div>
 
-    </div>
+        <div class="login-progressbar">
+            <div></div>
+        </div>
 
-    <div class="login-progressbar">
-        <div></div>
-    </div>
+        <div class="login-form">
 
-    <div class="login-form">
-
-        <div class="login-content">
+            <div class="login-content">
 
 
                 @if (session()->has('message'))
@@ -72,92 +74,96 @@
                         {{ session()->get('message') }}
                     </div>
                 @endif
-                @if($errors->any())
+                @if ($errors->any())
                     @foreach ($errors->all() as $error)
-
                         <div class="alert alert-danger alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            {!!  $error !!}
+                            <button type="button" class="close" data-dismiss="alert"
+                                aria-hidden="true">&times;</button>
+                            {!! $error !!}
                         </div>
                     @endforeach
                 @endif
 
-            <form class="form-horizontal" method="POST" role="form" action="{{ route('admin.login.post') }}" >
+                <form class="form-horizontal" method="POST" role="form" action="{{ route('admin.login.post') }}">
 
-            {{ csrf_field() }}
-                <div class="form-group {{ $errors->has('username') ? ' has-error' : '' }}">
+                    {{ csrf_field() }}
+                    <div class="form-group {{ $errors->has('username') ? ' has-error' : '' }}">
 
-                    <div class="input-group">
-                        <div class="input-group-addon">
-                            <i class="entypo-user"></i>
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="entypo-user"></i>
+                            </div>
+
+                            <input id="username" type="text" class="form-control" name="username"
+                                value="{{ old('username') }}" placeholder="Enter User Name" required autofocus>
+
                         </div>
-
-                        <input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" placeholder="Enter User Name" required autofocus >
-
-                    </div>
-                </div>
-
-                <div class="form-group {{ $errors->has('password') ? ' has-error' : '' }}">
-
-                    <div class="input-group">
-                        <div class="input-group-addon">
-                            <i class="entypo-key"></i>
-                        </div>
-                        <input id="password" type="password" class="form-control" name="password" placeholder="Enter Password" required>
-                        {{--<input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off" />--}}
                     </div>
 
-                </div>
+                    <div class="form-group {{ $errors->has('password') ? ' has-error' : '' }}">
+
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="entypo-key"></i>
+                            </div>
+                            <input id="password" type="password" class="form-control" name="password"
+                                placeholder="Enter Password" required>
+                            {{-- <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off" /> --}}
+                        </div>
+
+                    </div>
 
 
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block btn-login">
-                        <i class="entypo-login"></i>
-                        Log In
-                    </button>
-                </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block btn-login">
+                            <i class="entypo-login"></i>
+                            Log In
+                        </button>
+                    </div>
 
-                <!-- Implemented in v1.1.4 -->
-                <div class="form-group">
-                    <em>- or -</em>
-                </div>
+                    <!-- Implemented in v1.1.4 -->
+                    <div class="form-group">
+                        <em>- or -</em>
+                    </div>
 
-                <div class="form-group">
+                    <div class="form-group">
 
-                    <a style="color: #f0f0f0" href="{{ route('admin.password.request') }}" class="link btn btn-danger btn-lg btn-block btn-icon icon-left">
-                        Forgot your password?
-                        <i class="entypo-lock-open"></i>
-                    </a>
+                        <a style="color: #f0f0f0" href="{{ route('admin.password.request') }}"
+                            class="link btn btn-danger btn-lg btn-block btn-icon icon-left">
+                            Forgot your password?
+                            <i class="entypo-lock-open"></i>
+                        </a>
 
-                </div>
+                    </div>
 
-            </form>
+                </form>
 
+
+            </div>
 
         </div>
 
     </div>
 
-</div>
+
+    <!-- Bottom scripts (common) -->
+    <script src="{{ asset('assets/dashboard/js/TweenMax.min.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/jquery-ui-1.10.3.minimal.min.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/joinable.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/resizeable.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/neon-api.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/neon-login.js') }}"></script>
 
 
-<!-- Bottom scripts (common) -->
-<script src="{{ asset('assets/dashboard/js/TweenMax.min.js') }}"></script>
-<script src="{{ asset('assets/dashboard/js/jquery-ui-1.10.3.minimal.min.js') }}"></script>
-<script src="{{ asset('assets/dashboard/js/bootstrap.js') }}"></script>
-<script src="{{ asset('assets/dashboard/js/joinable.js') }}"></script>
-<script src="{{ asset('assets/dashboard/js/resizeable.js') }}"></script>
-<script src="{{ asset('assets/dashboard/js/neon-api.js') }}"></script>
-<script src="{{ asset('assets/dashboard/js/jquery.validate.min.js') }}"></script>
-<script src="{{ asset('assets/dashboard/js/neon-login.js') }}"></script>
+    <!-- JavaScripts initializations and stuff -->
+    <script src="{{ asset('assets/dashboard/js/neon-custom.js') }}"></script>
 
 
-<!-- JavaScripts initializations and stuff -->
-<script src="{{ asset('assets/dashboard/js/neon-custom.js') }}"></script>
-
-
-<!-- Demo Settings -->
-<script src="{{ asset('assets/dashboard/js/neon-demo.js') }}"></script>
+    <!-- Demo Settings -->
+    <script src="{{ asset('assets/dashboard/js/neon-demo.js') }}"></script>
 
 </body>
+
 </html>

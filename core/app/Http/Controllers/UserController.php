@@ -18,6 +18,7 @@ use App\Plan;
 use App\RebeatLog;
 use App\Reference;
 use App\Repeat;
+use App\Stock;
 use App\User;
 use App\UserBalance;
 use App\Withdraw;
@@ -45,16 +46,55 @@ class UserController extends Controller
     public function getDashboard()
     {
         $data['general'] = GeneralSetting::first();
+        $data['basic'] = BasicSetting::first();
         $data['site_title'] = $data['general']->title;
         $data['page_title'] = "User Dashboard";
         $data['member'] = User::findOrFail(Auth::user()->id);
         $data['namew'] = $data['member']->ID_Number;
-        $data['withdrawalcnt'] = '';
 
-        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        // Get all stocks for the authenticated user
+        $userStocks = Stock::where('user_id', Auth::user()->id)->get();
+        $defaultStocks = [
+            (object) ["id" => 0, 'name' => 'EURUSD', 'amount' => 0, 'symbol' => 'FX:EURUSD', 'status' => false, 'wallet' => $this->generateRandomWallet()],
+            (object) ["id" => 1, 'name' => 'BTCUSD', 'amount' => 0, 'symbol' => 'COINBASE:BTCUSD', 'status' => false, 'wallet' => $this->generateRandomWallet()],
+        ];
 
+        // Check through defaultStocks and update status if there's a match
+        foreach ($defaultStocks as &$defaultStock)
+        {
+            foreach ($userStocks as $userStock)
+            {
+                if ($defaultStock->symbol == $userStock->name || $defaultStock->wallet == $userStock->wallet)
+                {
+                    $defaultStock->status = true;
+                    $defaultStock->wallet = $userStock->wallet;
+                    $defaultStock->id = $userStock->id;
+                    $defaultStock->amount = $userStock->amount;
+                }
+            }
+        }
+
+        $data['stocks'] = $defaultStocks;
+        $data['userStocks'] = $userStocks;
+
+        // Get the withdrawal count for the authenticated user
+        $data['withdrawalcnt'] = DB::select("SELECT * FROM users WHERE ID_Number = ?", [$data['namew']]);
         return view('user.dashboard', $data);
     }
+
+    public function userBuyAndSell()
+    {
+        $user = auth()->user();
+        $userBuy = User::find($user->id);
+        $userSell = User::find($user->id);
+        return view('buy-and-sell', []);
+    }
+
+    private function generateRandomWallet()
+    {
+        return bin2hex(random_bytes(8));
+    }
+
     public function getStatement()
     {
         $data['general'] = GeneralSetting::first();

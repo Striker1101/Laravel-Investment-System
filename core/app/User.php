@@ -46,6 +46,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Letter');
     }
+    public function profits()
+    {
+        return $this->hasMany(Profit::class);
+    }
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class);
+    }
 }
 
 

@@ -1,6 +1,41 @@
 @extends('layouts.user')
 @section('content')
     <div>
+        <script>
+            // Function to get the year backdated from the current year
+            function getYear(offset) {
+                const currentYear = new Date().getFullYear();
+                return currentYear - offset;
+            }
+
+            // Function to get the current and previous year with months for labels
+            function getYearMonthLabels() {
+                const now = new Date();
+                const currentYear = now.getFullYear();
+                const currentMonth = now.toLocaleString('default', {
+                    month: 'long'
+                });
+                const previousYear = currentYear - 1;
+                const previousMonth = new Date(new Date().setFullYear(previousYear)).toLocaleString('default', {
+                    month: 'long'
+                });
+
+                return [`${currentMonth} ${currentYear}`, `${previousMonth} ${previousYear}`];
+            }
+
+            // Generate data for line chart dynamically
+            function generateLineChartData(years) {
+                const data = [];
+                for (let i = 0; i < years; i++) {
+                    data.push({
+                        y: getYear(i).toString(),
+                        a: 0,
+                        b: 0
+                    });
+                }
+                return data;
+            }
+        </script>
         <script type="text/javascript">
             jQuery(document).ready(function($) {
                 // Sample Toastr Notification
@@ -87,45 +122,10 @@
                 var line_chart_demo = $("#line-chart-demo");
                 var line_chart = Morris.Line({
                     element: 'line-chart-demo',
-                    data: [{
-                            y: '2006',
-                            a: 100,
-                            b: 90
-                        },
-                        {
-                            y: '2007',
-                            a: 75,
-                            b: 65
-                        },
-                        {
-                            y: '2008',
-                            a: 50,
-                            b: 40
-                        },
-                        {
-                            y: '2009',
-                            a: 75,
-                            b: 65
-                        },
-                        {
-                            y: '2010',
-                            a: 50,
-                            b: 40
-                        },
-                        {
-                            y: '2011',
-                            a: 75,
-                            b: 65
-                        },
-                        {
-                            y: '2012',
-                            a: 100,
-                            b: 90
-                        }
-                    ],
+                    data: generateLineChartData(7), // 7 years backdated
                     xkey: 'y',
                     ykeys: ['a', 'b'],
-                    labels: ['October 2013', 'November 2013'],
+                    labels: getYearMonthLabels(),
                     redraw: true
                 });
                 line_chart_demo.parent().attr('style', '');
@@ -136,16 +136,16 @@
                 var donut_chart = Morris.Donut({
                     element: 'donut-chart-demo',
                     data: [{
-                            label: "Download Sales",
-                            value: getRandomInt(10, 50)
+                            label: "Stocks Sales",
+                            value: getRandomInt(0, 0)
                         },
                         {
-                            label: "In-Store Sales",
-                            value: getRandomInt(10, 50)
+                            label: "Forex Sales",
+                            value: getRandomInt(0, 0)
                         },
                         {
-                            label: "Mail-Order Sales",
-                            value: getRandomInt(10, 50)
+                            label: "Crypto Sales",
+                            value: getRandomInt(0, 0)
                         }
                     ],
                     colors: ['#707f9b', '#455064', '#242d3c']
@@ -157,45 +157,10 @@
                 area_chart_demo.parent().show();
                 var area_chart = Morris.Area({
                     element: 'area-chart-demo',
-                    data: [{
-                            y: '2006',
-                            a: 100,
-                            b: 90
-                        },
-                        {
-                            y: '2007',
-                            a: 75,
-                            b: 65
-                        },
-                        {
-                            y: '2008',
-                            a: 50,
-                            b: 40
-                        },
-                        {
-                            y: '2009',
-                            a: 75,
-                            b: 65
-                        },
-                        {
-                            y: '2010',
-                            a: 50,
-                            b: 40
-                        },
-                        {
-                            y: '2011',
-                            a: 75,
-                            b: 65
-                        },
-                        {
-                            y: '2012',
-                            a: 100,
-                            b: 90
-                        }
-                    ],
+                    data: generateLineChartData(7),
                     xkey: 'y',
                     ykeys: ['a', 'b'],
-                    labels: ['Series A', 'Series B'],
+                    labels: getYearMonthLabels(),
                     lineColors: ['#303641', '#576277']
                 });
                 area_chart_demo.parent().attr('style', '');
@@ -252,396 +217,773 @@
                 return Math.floor(Math.random() * (max - min + 1)) + min;
             }
         </script>
+        <style>
+            #defaulHolder {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                align-items: center;
+            }
+
+            .defaultButton {
+                border: transparent;
+                height: 30px;
+                border-radius: 30px;
+                color: white;
+                padding: 10px;
+                display: flex;
+                background-color: #00c0ef;
+                gap: 5px;
+                font-size: large;
+                align-items: center;
+            }
+
+            .defaultButton:hover {
+                background: darkgray;
+            }
+
+            .liq {
+                background-color: lightgray;
+                padding: 15px;
+                border-radius: 20px;
+            }
+
+            .liqBTW {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            #liqContainer {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                color: black;
+                font-size: larger;
+            }
+
+            .liq-number {
+                border: transparent;
+                width: 60px;
+                border-radius: 30px;
+                padding: 5px;
+
+            }
+
+            .liq-number:focus {
+                border: transparent;
+            }
+
+            .selectOption {
+                border: transparent;
+                border-radius: 30px;
+                padding: 5px;
+            }
+        </style>
+        <div class="row">
+            <div id="defaulHolder">
+                <h1 style="font-size: xx-large;
+                color: darkgrey;">
+                    Default
+                </h1>
+                <div class="" style="display: flex; gap:6px;">
+                    <button class="defaultButton btn">
+                        <i class="fa fa-plus-circle" style="font-size: xx-large;"></i>
+                        <a href="javascript:;" onclick="jQuery('#modal-3').modal('show');" class="btn btn-default">
+                            Liquidity
+                        </a>
+                    </button>
+                    <button class="defaultButton btn">
+                        <a href="{{ route('user-buy-and-trade') }}">
+                            Trade
+                        </a>
+                    </button>
+                </div>
+
+
+                <div class="modal fade custom-width " id="modal-3" style="display: none;">
+                    <div class="modal-dialog" style="width: 50%;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">Deposit Liquidity</h4>
+
+                            </div>
+                            <form action="" method="post">
+                                <div class="modal-body" id="liqContainer" style="display: flex; flex-wrap:wrap;">
+                                    <div id="fromLiq" class="liq">
+                                        <div class="liqBTW">
+                                            <span>From</span>
+                                            <span>Balance: <span id="from-balance-amount">
+                                                    10000
+                                                </span> <span id="from-balance-name">name</span></span>
+                                        </div>
+                                        <hr>
+                                        <div class="liqBTW">
+                                            <span>amount: <span>
+                                                    <input min="0" minlength="1" class="liq-number" type="number"
+                                                        name="from-number">
+                                                </span> </span>
+                                            <span>
+                                                <select name="fromOption" id="fromOption" class="selectOption">
+                                                    <option data-name="{{ $member->name }}"
+                                                        data-amount="{{ $member->amount }}" value="{{ $member->name }}">
+                                                        {{ $member->name }} {{ $member->amount }}
+                                                    </option>
+                                                    @foreach ($userStocks as $stock)
+                                                        <option data-name="{{ $stock->name }}"
+                                                            data-amount="{{ $stock->amount }}" value="{{ $stock->name }}">
+                                                            {{ $stock->name }} {{ $stock->amount }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </span>
+                                        </div>
+
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', function() {
+                                                const selectElement = document.getElementById('fromOption');
+                                                const balanceAmountSpan = document.getElementById('from-balance-amount');
+                                                const balanceNameSpan = document.getElementById('from-balance-name');
+
+                                                selectElement.addEventListener('change', function() {
+                                                    const selectedOption = selectElement.options[selectElement.selectedIndex];
+                                                    const name = selectedOption.getAttribute('data-name');
+                                                    const amount = selectedOption.getAttribute('data-amount');
+
+                                                    balanceAmountSpan.textContent = amount;
+                                                    balanceNameSpan.textContent = name;
+                                                });
+
+                                                // Trigger change event to initialize with the first option's values
+                                                selectElement.dispatchEvent(new Event('change'));
+                                            });
+                                        </script>
+                                    </div>
+                                    <div id="midLiq"
+                                        style="height:0px; width: 100%; display:flex; align-items: center; justify-content: center; position:relative;">
+                                        <i class="fa fa-arrows" style="font-size: 20px;"></i>
+                                    </div>
+                                    <div id="toLiq" class="liq">
+                                        <div class="liqBTW">
+                                            <span>To</span>
+                                            <span>Balance: <span id="to-balance-amount">
+
+                                                </span> <span id="to-balance-name"></span></span>
+                                        </div>
+                                        <hr>
+                                        <div class="liqBTW">
+                                            <span>amount: <span>
+                                                    <input min="0" minlength="1" class="liq-number" type="number"
+                                                        name="to-number">
+                                                </span> </span>
+                                            <span>
+                                                <select name="toOption" id="toOption" class="selectOption">
+                                                    <option data-name-to="{{ $member->name }}"
+                                                        data-amount-to="{{ $member->amount }}"
+                                                        value="{{ $member->name }}">
+                                                        {{ $member->name }} {{ $member->amount }}
+                                                    </option>
+                                                    @foreach ($userStocks as $stock)
+                                                        <option data-name-to="{{ $stock->name }}"
+                                                            data-amount-to="{{ $stock->amount }}"
+                                                            value="{{ $stock->name }}">
+                                                            {{ $stock->name }} {{ $stock->amount }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </span>
+                                        </div>
+
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', function() {
+                                                const selectElement = document.getElementById('toOption');
+                                                const balanceAmountSpan = document.getElementById('to-balance-amount');
+                                                const balanceNameSpan = document.getElementById('to-balance-name');
+
+                                                selectElement.addEventListener('change', function() {
+                                                    const selectedOption = selectElement.options[selectElement.selectedIndex];
+                                                    const name = selectedOption.getAttribute('data-name-to');
+                                                    const amount = selectedOption.getAttribute('data-amount-to');
+
+                                                    balanceAmountSpan.textContent = amount;
+                                                    balanceNameSpan.textContent = name;
+                                                });
+
+                                                // Trigger change event to initialize with the first option's values
+                                                selectElement.dispatchEvent(new Event('change'));
+                                            });
+                                        </script>
+                                    </div>
+                                    <hr>
+                                    <div>
+                                        <b style="font-weight: 600;">Slippage Tolerance</b>
+                                        <div
+                                            style="position: relative; margin:5px; display:flex; align-items:center; justify-content: center;">
+                                            <label for="slippage" style="position: relative; top;0; left:0;">
+                                                <i class="fa fa-percent" style="font-size: 15px;"></i>
+                                            </label>
+                                            <input type="text" disabled value="0"
+                                                style="border: transparent; width:100%; padding:4px;">
+                                        </div>
+                                        <div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-default" type="submit">Provide Liquidity</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <hr>
+        </div>
         <div class="row">
             <div class="col-sm-3 col-xs-6">
                 <div class="tile-stats tile-red">
                     <div class="icon"><i class="entypo-users"></i></div>
-                    <div class="num" data-start="0" data-end="83" data-postfix data-duration="1500" data-delay="0">
-                        0</div>
-                    <h3>Registered users</h3>
-                    <p>so far in our blog, and our website.</p>
+                    <div class="d-flex " style="display:flex; align-items: center; gap:4px;">
+                        <span style="font-size: xx-large;">
+                            {{ $member->symbol }}
+                        </span>
+                        <div class="num" data-start="0" data-end={{ $member->amount }} data-postfix
+                            data-duration="1500" data-delay="0">
+                            0</div>
+                    </div>
+                    <h3>Total Amount</h3>
+                    <p>Join in on our investment train</p>
                 </div>
             </div>
             <div class="col-sm-3 col-xs-6">
                 <div class="tile-stats tile-green">
                     <div class="icon"><i class="entypo-chart-bar"></i></div>
-                    <div class="num" data-start="0" data-end="135" data-postfix data-duration="1500" data-delay="600">0
+                    <div class="d-flex " style="display:flex; align-items: center; gap:4px;">
+                        <span style="font-size: xx-large;">
+                            {{ $member->symbol }}
+                        </span>
+                        <div class="num" data-start="0" data-end={{ $member->profit }} data-postfix
+                            data-duration="1500" data-delay="600">0
+                        </div>
                     </div>
-                    <h3>Daily Visitors</h3>
-                    <p>this is the average value.</p>
+                    <h3>Total Profit</h3>
+                    <p>gain more by upgrading your account.</p>
                 </div>
             </div>
             <div class="clear visible-xs"></div>
             <div class="col-sm-3 col-xs-6">
                 <div class="tile-stats tile-aqua">
-                    <div class="icon"><i class="entypo-mail"></i></div>
-                    <div class="num" data-start="0" data-end="23" data-postfix data-duration="1500" data-delay="1200">0
+                    <div class="icon"><i class="entypo-bucket"></i></div>
+                    <div class="d-flex " style="display:flex; align-items: center; gap:4px;">
+                        <span style="font-size: xx-large;">
+                            {{ $member->symbol }}
+                        </span>
+                        <div class="num" data-start="0" data-end={{ $member->bonus }} data-postfix
+                            data-duration="1500" data-delay="1200">0
+                        </div>
                     </div>
-                    <h3>New Messages</h3>
-                    <p>messages per day.</p>
+                    <h3>Total Bonus</h3>
+                    <p>earn coins with every penny you invest</p>
                 </div>
             </div>
             <div class="col-sm-3 col-xs-6">
                 <div class="tile-stats tile-blue">
                     <div class="icon"><i class="entypo-rss"></i></div>
-                    <div class="num" data-start="0" data-end="52" data-postfix data-duration="1500" data-delay="1800">0
+                    <div class="d-flex " style="display:flex; align-items: center; gap:4px;">
+                        <span style="font-size: xx-large;">
+                            {{ $member->symbol }}
+                        </span>
+                        <div class="num" data-start="0" data-end={{ $member->reference_bonus }} data-postfix
+                            data-duration="1500" data-delay="1800">0
+                        </div>
                     </div>
-                    <h3>Subscribers</h3>
-                    <p>on our site right now.</p>
+                    <h3>Referal Bonus</h3>
+                    <p>invite your friends and family, and get payed </p>
                 </div>
             </div>
         </div> <br />
         <div class="row">
-            <div class="col-sm-8">
-                <div class="panel panel-primary" id="charts_env">
-                    <div class="panel-heading">
-                        <div class="panel-title">Site Stats</div>
-                        <div class="panel-options">
-                            <ul class="nav nav-tabs">
-                                <li class><a href="#area-chart" data-toggle="tab">Area Chart</a></li>
-                                <li class="active"><a href="#line-chart" data-toggle="tab">Line Charts</a></li>
-                                <li class><a href="#pie-chart" data-toggle="tab">Pie Chart</a></li>
+            <style>
+                #stock_container {
+                    position: relative;
+                    width: 100%;
+                }
+
+                #add_stock_container {
+                    width: 300px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                #add_stock_container>a {
+
+                    padding: 10px;
+                    width: 100%;
+                    border: 3px dashed gray;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+
+                }
+
+                #stock_item {
+                    max-width: 300px;
+                    position: relative;
+                    margin: 8px;
+                    padding: 3px;
+                }
+
+                #stock_item>span {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    display: flex;
+                    background-color: greenyellow;
+                    border-radius: 4px 0px 4px 4px;
+                    padding: 4px;
+                }
+
+                #stock_holder {
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                }
+            </style>
+            <hr>
+            <div id="stock_container ">
+
+
+
+                <div id="stocks">
+                    <div id="stock_holder">
+                        @foreach ($userStocks as $stock)
+                            <div id="stock_item">
+                                <span style="font-size: xx-large;">
+                                    <span>
+                                        {{ $member->currency }}
+                                    </span>
+                                    <span>
+                                        {{ $stock->amount }}
+                                    </span>
+                                </span>
+                                {{-- Usage of the component --}}
+                                @component('components.stock', ['stock' => $stock->name])
+                                @endcomponent
+
+                            </div>
+                        @endforeach
+
+
+                        <div id="add_stock_container">
+                            <a href="javascript:;" onclick="jQuery('#modal-2').modal('show');" class="btn btn-default">
+                                <i class="fa fa-plus-circle" style="font-size: 60px;">
+
+                                </i>
+                                <p style="color:black;">
+                                    Add any financial coin and enjoy enpowering services
+                                </p>
+                                <h3 style="color: gray; padding:0; margin:0;">
+                                    Add More
+                                </h3>
+                            </a>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                    <div class="modal fade custom-width " id="modal-2" style="display: none;">
+                        <div class="modal-dialog" style="width: 50%;">
+                            <div class="modal-content">
+                                <div class="modal-header"> <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">×</button>
+                                    <h4 class="modal-title">Add Or Remove Your Stocks</h4>
+                                </div>
+                                <div class="modal-body" style="display: flex; flex-wrap:wrap;">
+
+                                    <div style="display: flex; flex-wrap:wrap;">
+
+                                        @foreach ($stocks as $stock)
+                                            <form method="POST" style="display:flex; flex-direction:column;"
+                                                role="form" action="{{ route('stocks.toggle') }}">
+                                                {{ csrf_field() }}
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">
+                                                        {{ $stock->name }}</label>
+                                                    <div class="col-sm-5">
+                                                        <div class="make-switch has-switch"
+                                                            data-on-label="<i class='entypo-check'></i>"
+                                                            data-off-label="<i class='entypo-cancel'></i>">
+                                                            <div
+                                                                class="{{ $stock->status ? 'switch-on' : 'switch-off' }} switch-animate">
+                                                                <input style="z-index:1000; width: 100%; height:100%;"
+                                                                    type="checkbox" name="stock_status"
+                                                                    {{ $stock->status ? 'checked' : '' }}
+                                                                    id="stock_status" class="stock_status"><span
+                                                                    class="switch-left"><i
+                                                                        class="entypo-check"></i></span><label>&nbsp;</label><span
+                                                                    class="switch-right"><i
+                                                                        class="entypo-cancel"></i></span>
+                                                                <input type="hidden" name="stock_id"
+                                                                    value="{{ $stock->id }}">
+                                                                <input type="hidden" name="stock_name"
+                                                                    value="{{ $stock->symbol }}">
+                                                                <input type="hidden" name="stock_amount"
+                                                                    value="{{ $stock->amount }}">
+                                                                <input type="hidden" name="stock_wallet"
+                                                                    value="{{ $stock->wallet }}">
+                                                            </div>
+                                                        </div>
+                                                        <script>
+                                                            $(document).ready(function() {
+                                                                $('input[name="stock_status"]').on('click', function() {
+                                                                    console.log($(this).is(':checked'));
+                                                                });
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" style="width: fit-content;"
+                                                    class="btn btn-primary">Submit</button>
+                                            </form>
+                                        @endforeach
+
+                                    </div>
+                                </div>
+
+                                <script>
+                                    $(document).ready(function() {
+                                        $('.form-group').on('click', function() {
+                                            var switchElement = $(this).find('.make-switch .switch-animate');
+
+                                            var stock_status = $(this).find('.stock_status');
+
+
+
+
+                                            if (stock_status.prop('checked')) {
+                                                stock_status.prop('checked', false);
+                                            } else {
+                                                stock_status.prop('checked', true);
+                                            }
+
+                                            console.log(stock_status.prop('checked'));
+
+                                            if (switchElement.hasClass('switch-off')) {
+                                                switchElement.removeClass('switch-off').addClass('switch-on');
+                                            } else if (switchElement.hasClass('switch-on')) {
+                                                switchElement.removeClass('switch-on').addClass('switch-off');
+                                            }
+                                        });
+                                    });
+                                </script>
+
+                                <div class="modal-footer"> <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="panel panel-primary" id="charts_env">
+                        <div class="panel-heading">
+                            <div class="panel-title">{{ $member->name }} Stats</div>
+                            <div class="panel-options">
+                                <ul class="nav nav-tabs">
+                                    <li class><a href="#area-chart" data-toggle="tab">Area Chart</a></li>
+                                    <li class="active"><a href="#line-chart" data-toggle="tab">Line Charts</a></li>
+                                    <li class><a href="#pie-chart" data-toggle="tab">Pie Chart</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="tab-content">
+                                <div class="tab-pane" id="area-chart">
+                                    <div id="area-chart-demo" class="morrischart" style="height: 300px"></div>
+                                </div>
+                                <div class="tab-pane active" id="line-chart">
+                                    <div id="line-chart-demo" class="morrischart" style="height: 300px"></div>
+                                </div>
+                                <div class="tab-pane" id="pie-chart">
+                                    <div id="donut-chart-demo" class="morrischart" style="height: 300px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-bordered table-responsive">
+                            <thead>
+                                <tr>
+                                    <th width="50%" class="col-padding-1">
+                                        <div class="pull-left">
+                                            <div class="h4 no-margin">Stocks Sold</div> <small>54,127</small>
+                                        </div> <span class="pull-right pageviews">4,3,5,4,5,6,5</span>
+                                    </th>
+                                    <th width="50%" class="col-padding-1">
+                                        <div class="pull-left">
+                                            <div class="h4 no-margin">Unique Visitors</div> <small>25,127</small>
+                                        </div> <span class="pull-right uniquevisitors">2,3,5,4,3,4,5</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4>
+                                    Real Time Stats
+                                    <br /> <small>current server uptime</small>
+                                </h4>
+                            </div>
+                            <div class="panel-options"> <a href="#sample-modal" data-toggle="modal"
+                                    data-target="#sample-modal-dialog-1" class="bg"><i class="entypo-cog"></i></a> <a
+                                    href="#" data-rel="collapse"><i class="entypo-down-open"></i></a> <a
+                                    href="#" data-rel="reload"><i class="entypo-arrows-ccw"></i></a> <a
+                                    href="#" data-rel="close"><i class="entypo-cancel"></i></a> </div>
+                        </div>
+                        <div class="panel-body no-padding">
+                            <div id="rickshaw-chart-demo">
+                                <div id="rickshaw-legend"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr><br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="panel panel-primary">
+                        <table class="table table-bordered table-responsive">
+                            <thead>
+                                <tr>
+                                    <th class="padding-bottom-none text-center"> <br /> <br /> <span
+                                            class="monthly-sales"></span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="panel-heading">
+                                        <h4>Monthly General Sales</h4>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="panel-title">Latest Updated Profiles</div>
+                            <div class="panel-options"> <a href="#sample-modal" data-toggle="modal"
+                                    data-target="#sample-modal-dialog-1" class="bg"><i class="entypo-cog"></i></a> <a
+                                    href="#" data-rel="collapse"><i class="entypo-down-open"></i></a> <a
+                                    href="#" data-rel="reload"><i class="entypo-arrows-ccw"></i></a> <a
+                                    href="#" data-rel="close"><i class="entypo-cancel"></i></a> </div>
+                        </div>
+                        <table class="table table-bordered table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Stock</th>
+                                    <th>Balance</th>
+                                    <th>Activity</th>
+                                </tr>
+                            </thead>
+                            <tbody id="profile-tbody">
+
+                            </tbody>
+
+                            <script>
+                                $(document).ready(function() {
+                                    // Function to generate a random balance between 4000 and 1 million
+                                    function getRandomBalance() {
+                                        return Math.floor(Math.random() * (1000000 - 4000 + 1)) + 4000;
+                                    }
+
+                                    // Function to generate random data
+                                    function getRandomData() {
+                                        const names = [
+                                            "John Doe", "Jane Smith", "Emily Johnson", "Michael Brown", "Chris Davis",
+                                            "Daniel Wilson", "Olivia Garcia", "Liam Martinez", "Emma Robinson", "Noah Lee",
+                                            "Sophia Walker", "James Hall", "Isabella Young", "Benjamin Allen", "Ava Hernandez",
+                                            "Mason King", "Mia Wright", "Elijah Scott", "Charlotte Green", "William Adams",
+                                            "Amelia Baker", "Lucas Perez", "Harper Harris", "Ethan Campbell", "Abigail Mitchell",
+                                            "Alexander Carter", "Evelyn Torres", "Sebastian Parker", "Avery Evans", "Jack Edwards"
+                                        ];
+
+                                        const stocks = [
+                                            "BTC", "USDT", "TRON", "ETH", "LTC", "XRP", "DOGE", "ADA", "DOT", "UNI",
+                                            "BNB", "SOL", "AVAX", "SHIB", "MATIC", "ATOM", "LINK", "FIL", "VET", "ICP",
+                                            "Trader", "Investor", "Manager", "Analyst", "Consultant", "Forex", "Stocks",
+                                            "Commodities", "Real Estate", "Bonds"
+                                        ];
+
+                                        const activities = [
+                                            "4,3,5,4,5,6",
+                                            "1,3,4,5,3,5",
+                                            "5,3,2,5,4,5",
+                                            "3,4,5,3,2,4",
+                                            "2,4,5,3,1,5"
+                                        ];
+
+                                        return {
+                                            name: names[Math.floor(Math.random() * names.length)],
+                                            stock: stocks[Math.floor(Math.random() * stocks.length)],
+                                            balance: getRandomBalance(),
+                                            activity: activities[Math.floor(Math.random() * activities.length)]
+                                        };
+                                    }
+
+                                    // Function to populate the table body with random data
+                                    function populateTable() {
+                                        const tbody = $('#profile-tbody');
+                                        tbody.empty(); // Clear existing content
+
+                                        for (let i = 1; i <= 3; i++) {
+                                            const data = getRandomData();
+                                            const row = `
+                    <tr>
+                        <td>${i}</td>
+                        <td>${data.name}</td>
+                        <td>${data.stock}</td>
+                        <td class="text-center">${data.balance}</td>
+                        <td class="text-center"><span class="inlinebar-${i}">${data.activity}</span></td>
+                    </tr>       
+                `;
+                                            tbody.append(row);
+                                        }
+                                    }
+
+                                    // Initial population of the table
+                                    populateTable();
+
+                                    // Reload button functionality
+                                    $('a[data-rel="reload"]').on('click', function(e) {
+                                        e.preventDefault();
+                                        populateTable();
+                                    });
+                                });
+                            </script>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr><br />
+            <script type="text/javascript">
+                // Code used to add Todo Tasks
+                jQuery(document).ready(function($) {
+                    function escapeHtml(text) {
+                        var map = {
+                            '&': '&amp;',
+                            '<': '&lt;',
+                            '>': '&gt;',
+                            '"': '&quot;',
+                            "'": '&#039;'
+                        };
+                        return text.replace(/[&<>"']/g, function(m) {
+                            return map[m];
+                        });
+                    }
+                    var $todo_tasks = $("#todo_tasks");
+                    $todo_tasks.find('input[type="text"]').on('keydown', function(ev) {
+                        if (ev.keyCode == 13) {
+                            ev.preventDefault();
+                            if ($.trim($(this).val()).length) {
+                                var $todo_entry = $(
+                                    '<li><div class="checkbox checkbox-replace color-white"><input type="checkbox" /><label>' +
+                                    escapeHtml($(this).val()) + '</label></div></li>');
+                                $(this).val('');
+                                $todo_entry.appendTo($todo_tasks.find('.todo-list'));
+                                $todo_entry.hide().slideDown('fast');
+                                replaceCheckboxes();
+                            }
+                        }
+                    });
+                });
+            </script>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="tile-block" id="todo_tasks">
+                        <div class="tile-header"> <i class="entypo-list"></i> <a href="#">
+                                Tasks
+                                <span>To do list, tick one.</span> </a> </div>
+                        <div class="tile-content"> <input type="text" class="form-control" placeholder="Add Task" />
+                            <ul class="todo-list">
+                                <li>
+                                    <div class="checkbox checkbox-replace color-white"> <input type="checkbox" />
+                                        <label> eg: Renew stocks</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="checkbox checkbox-replace color-white"> <input type="checkbox"
+                                            id="task-2" checked /> <label>Upgrade Account</label> </div>
+                                </li>
+
                             </ul>
                         </div>
-                    </div>
-                    <div class="panel-body">
-                        <div class="tab-content">
-                            <div class="tab-pane" id="area-chart">
-                                <div id="area-chart-demo" class="morrischart" style="height: 300px"></div>
-                            </div>
-                            <div class="tab-pane active" id="line-chart">
-                                <div id="line-chart-demo" class="morrischart" style="height: 300px"></div>
-                            </div>
-                            <div class="tab-pane" id="pie-chart">
-                                <div id="donut-chart-demo" class="morrischart" style="height: 300px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <table class="table table-bordered table-responsive">
-                        <thead>
-                            <tr>
-                                <th width="50%" class="col-padding-1">
-                                    <div class="pull-left">
-                                        <div class="h4 no-margin">Pageviews</div> <small>54,127</small>
-                                    </div> <span class="pull-right pageviews">4,3,5,4,5,6,5</span>
-                                </th>
-                                <th width="50%" class="col-padding-1">
-                                    <div class="pull-left">
-                                        <div class="h4 no-margin">Unique Visitors</div> <small>25,127</small>
-                                    </div> <span class="pull-right uniquevisitors">2,3,5,4,3,4,5</span>
-                                </th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <div class="panel-title">
-                            <h4>
-                                Real Time Stats
-                                <br /> <small>current server uptime</small>
-                            </h4>
-                        </div>
-                        <div class="panel-options"> <a href="#sample-modal" data-toggle="modal"
-                                data-target="#sample-modal-dialog-1" class="bg"><i class="entypo-cog"></i></a> <a
-                                href="#" data-rel="collapse"><i class="entypo-down-open"></i></a> <a href="#"
-                                data-rel="reload"><i class="entypo-arrows-ccw"></i></a> <a href="#"
-                                data-rel="close"><i class="entypo-cancel"></i></a> </div>
-                    </div>
-                    <div class="panel-body no-padding">
-                        <div id="rickshaw-chart-demo">
-                            <div id="rickshaw-legend"></div>
-                        </div>
+                        <div class="tile-footer"> <a href="#">View all tasks</a> </div>
                     </div>
                 </div>
-            </div>
-        </div> <br />
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="panel panel-primary">
-                    <table class="table table-bordered table-responsive">
-                        <thead>
-                            <tr>
-                                <th class="padding-bottom-none text-center"> <br /> <br /> <span
-                                        class="monthly-sales"></span> </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="panel-heading">
-                                    <h4>Monthly Sales</h4>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <div class="panel-title">Latest Updated Profiles</div>
-                        <div class="panel-options"> <a href="#sample-modal" data-toggle="modal"
-                                data-target="#sample-modal-dialog-1" class="bg"><i class="entypo-cog"></i></a> <a
-                                href="#" data-rel="collapse"><i class="entypo-down-open"></i></a> <a
-                                href="#" data-rel="reload"><i class="entypo-arrows-ccw"></i></a> <a href="#"
-                                data-rel="close"><i class="entypo-cancel"></i></a> </div>
-                    </div>
-                    <table class="table table-bordered table-responsive">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Activity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Art Ramadani</td>
-                                <td>CEO</td>
-                                <td class="text-center"><span class="inlinebar">4,3,5,4,5,6</span></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Ylli Pylla</td>
-                                <td>Font-end Developer</td>
-                                <td class="text-center"><span class="inlinebar-2">1,3,4,5,3,5</span></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Arlind Nushi</td>
-                                <td>Co-founder</td>
-                                <td class="text-center"><span class="inlinebar-3">5,3,2,5,4,5</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div> <br />
-        <script type="text/javascript">
-            // Code used to add Todo Tasks
-            jQuery(document).ready(function($) {
-                function escapeHtml(text) {
-                    var map = {
-                        '&': '&amp;',
-                        '<': '&lt;',
-                        '>': '&gt;',
-                        '"': '&quot;',
-                        "'": '&#039;'
-                    };
-                    return text.replace(/[&<>"']/g, function(m) {
-                        return map[m];
-                    });
-                }
-                var $todo_tasks = $("#todo_tasks");
-                $todo_tasks.find('input[type="text"]').on('keydown', function(ev) {
-                    if (ev.keyCode == 13) {
-                        ev.preventDefault();
-                        if ($.trim($(this).val()).length) {
-                            var $todo_entry = $(
-                                '<li><div class="checkbox checkbox-replace color-white"><input type="checkbox" /><label>' +
-                                escapeHtml($(this).val()) + '</label></div></li>');
-                            $(this).val('');
-                            $todo_entry.appendTo($todo_tasks.find('.todo-list'));
-                            $todo_entry.hide().slideDown('fast');
-                            replaceCheckboxes();
-                        }
-                    }
-                });
-            });
-        </script>
-        <div class="row">
-            <div class="col-sm-3">
-                <div class="tile-block" id="todo_tasks">
-                    <div class="tile-header"> <i class="entypo-list"></i> <a href="#">
-                            Tasks
-                            <span>To do list, tick one.</span> </a> </div>
-                    <div class="tile-content"> <input type="text" class="form-control" placeholder="Add Task" />
-                        <ul class="todo-list">
-                            <li>
-                                <div class="checkbox checkbox-replace color-white"> <input type="checkbox" />
-                                    <label>Website Design</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="checkbox checkbox-replace color-white"> <input type="checkbox" id="task-2"
-                                        checked /> <label>Slicing</label> </div>
-                            </li>
-                            <li>
-                                <div class="checkbox checkbox-replace color-white"> <input type="checkbox"
-                                        id="task-3" /> <label>WordPress Integration</label> </div>
-                            </li>
-                            <li>
-                                <div class="checkbox checkbox-replace color-white"> <input type="checkbox"
-                                        id="task-4" /> <label>SEO Optimize</label> </div>
-                            </li>
-                            <li>
-                                <div class="checkbox checkbox-replace color-white"> <input type="checkbox" id="task-5"
-                                        checked /> <label>Minify &amp; Compress</label> </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="tile-footer"> <a href="#">View all tasks</a> </div>
-                </div>
-            </div>
-            <div class="col-sm-9">
-                <script type="text/javascript">
-                    jQuery(document).ready(function($) {
-                        var map = $("#map-2");
-                        map.vectorMap({
-                            map: 'europe_merc_en',
-                            zoomMin: '3',
-                            backgroundColor: '#383f47',
-                            focusOn: {
-                                x: 0.5,
-                                y: 0.8,
-                                scale: 3
-                            }
+                <div class="col-sm-9">
+                    <script type="text/javascript">
+                        jQuery(document).ready(function($) {
+                            var map = $("#map-2");
+                            map.vectorMap({
+                                map: 'europe_merc_en',
+                                zoomMin: '3',
+                                backgroundColor: '#383f47',
+                                focusOn: {
+                                    x: 0.5,
+                                    y: 0.8,
+                                    scale: 3
+                                }
+                            });
                         });
-                    });
-                </script>
-                <div class="tile-group">
-                    <div class="tile-left">
-                        <div class="tile-entry">
-                            <h3>Map</h3> <span>top visitors location</span>
+                    </script>
+                    <div class="tile-group">
+                        <div class="tile-left">
+                            <div class="tile-entry">
+                                <h3>Map</h3> <span>top visitors location</span>
+                            </div>
+                            <div class="tile-entry"> <img src="https://demo.neontheme.com/assets/images/sample-al.png" alt
+                                    class="pull-right op" />
+                                <h4>Albania</h4> <span>25%</span>
+                            </div>
+                            <div class="tile-entry"> <img src="https://demo.neontheme.com/assets/images/sample-it.png" alt
+                                    class="pull-right op" />
+                                <h4>Italy</h4> <span>18%</span>
+                            </div>
+                            <div class="tile-entry"> <img src="https://demo.neontheme.com/assets/images/sample-au.png" alt
+                                    class="pull-right op" />
+                                <h4>Austria</h4> <span>15%</span>
+                            </div>
                         </div>
-                        <div class="tile-entry"> <img src="https://demo.neontheme.com/assets/images/sample-al.png" alt
-                                class="pull-right op" />
-                            <h4>Albania</h4> <span>25%</span>
-                        </div>
-                        <div class="tile-entry"> <img src="https://demo.neontheme.com/assets/images/sample-it.png" alt
-                                class="pull-right op" />
-                            <h4>Italy</h4> <span>18%</span>
-                        </div>
-                        <div class="tile-entry"> <img src="https://demo.neontheme.com/assets/images/sample-au.png" alt
-                                class="pull-right op" />
-                            <h4>Austria</h4> <span>15%</span>
+                        <div class="tile-right">
+                            <div id="map-2" class="map"></div>
                         </div>
                     </div>
-                    <div class="tile-right">
-                        <div id="map-2" class="map"></div>
-                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div id="chat" class="fixed" data-current-user="Art Ramadani" data-order-by-status="1"
-        data-max-chat-history="25">
-        <div class="chat-inner">
-            <h2 class="chat-header"> <a href="#" class="chat-close"><i class="entypo-cancel"></i></a> <i
-                    class="entypo-users"></i>
-                Chat
-                <span class="badge badge-success is-hidden">0</span>
-            </h2>
-            <div class="chat-group" id="group-1"> <strong>Favorites</strong> <a href="#" id="sample-user-123"
-                    data-conversation-history="#sample_history"><span class="user-status is-online"></span> <em>Catherine
-                        J. Watkins</em></a> <a href="#"><span class="user-status is-online"></span> <em>Nicholas R.
-                        Walker</em></a> <a href="#"><span class="user-status is-busy"></span> <em>Susan J.
-                        Best</em></a> <a href="#"><span class="user-status is-offline"></span> <em>Brandon S.
-                        Young</em></a> <a href="#"><span class="user-status is-idle"></span> <em>Fernando G.
-                        Olson</em></a> </div>
-            <div class="chat-group" id="group-2"> <strong>Work</strong> <a href="#"><span
-                        class="user-status is-offline"></span> <em>Robert J. Garcia</em></a> <a href="#"
-                    data-conversation-history="#sample_history_2"><span class="user-status is-offline"></span>
-                    <em>Daniel A. Pena</em></a> <a href="#"><span class="user-status is-busy"></span>
-                    <em>Rodrigo E. Lozano</em></a> </div>
-            <div class="chat-group" id="group-3"> <strong>Social</strong> <a href="#"><span
-                        class="user-status is-busy"></span> <em>Velma G. Pearson</em></a> <a href="#"><span
-                        class="user-status is-offline"></span> <em>Margaret R. Dedmon</em></a> <a href="#"><span
-                        class="user-status is-online"></span> <em>Kathleen M. Canales</em></a> <a href="#"><span
-                        class="user-status is-offline"></span> <em>Tracy J. Rodriguez</em></a>
-            </div>
-        </div>
-        <div class="chat-conversation">
-            <div class="conversation-header"> <a href="#" class="conversation-close"><i
-                        class="entypo-cancel"></i></a> <span class="user-status"></span> <span
-                    class="display-name"></span> <small></small> </div>
-            <ul class="conversation-body"> </ul>
-            <div class="chat-textarea">
-                <textarea class="form-control autogrow" placeholder="Type your message"></textarea>
-            </div>
-        </div>
-    </div>
-    <ul class="chat-history" id="sample_history">
-        <li> <span class="user">Art Ramadani</span>
-            <p>Are you here?</p> <span class="time">09:00</span>
-        </li>
-        <li class="opponent"> <span class="user">Catherine J. Watkins</span>
-            <p>This message is pre-queued.</p> <span class="time">09:25</span>
-        </li>
-        <li class="opponent"> <span class="user">Catherine J. Watkins</span>
-            <p>Whohoo!</p> <span class="time">09:26</span>
-        </li>
-        <li class="opponent unread"> <span class="user">Catherine J. Watkins</span>
-            <p>Do you like it?</p> <span class="time">09:27</span>
-        </li>
-    </ul>
-    <ul class="chat-history" id="sample_history_2">
-        <li class="opponent unread"> <span class="user">Daniel A. Pena</span>
-            <p>I am going out.</p> <span class="time">08:21</span>
-        </li>
-        <li class="opponent unread"> <span class="user">Daniel A. Pena</span>
-            <p>Call me when you see this message.</p> <span class="time">08:27</span>
-        </li>
-    </ul>
-    <div class="modal fade" id="sample-modal-dialog-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header"> <button type="button" class="close" data-dismiss="modal"
-                        aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Widget Options - Default Modal</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Now residence dashwoods she excellent you. Shade being under his bed her. Much read on as draw.
-                        Blessing for ignorant exercise any yourself unpacked. Pleasant horrible but confined day end
-                        marriage. Eagerness furniture set preserved far recommend. Did even but nor are most gave hope.
-                        Secure active living depend son repair day ladies now.</p>
-                </div>
-                <div class="modal-footer"> <button type="button" class="btn btn-default"
-                        data-dismiss="modal">Close</button> <button type="button" class="btn btn-primary">Save
-                        changes</button> </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal invert fade" id="sample-modal-dialog-2">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header"> <button type="button" class="close" data-dismiss="modal"
-                        aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Widget Options - Inverted Skin Modal</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Now residence dashwoods she excellent you. Shade being under his bed her. Much read on as draw.
-                        Blessing for ignorant exercise any yourself unpacked. Pleasant horrible but confined day end
-                        marriage. Eagerness furniture set preserved far recommend. Did even but nor are most gave hope.
-                        Secure active living depend son repair day ladies now.</p>
-                </div>
-                <div class="modal-footer"> <button type="button" class="btn btn-default"
-                        data-dismiss="modal">Close</button> <button type="button" class="btn btn-primary">Save
-                        changes</button> </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal gray fade" id="sample-modal-dialog-3">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header"> <button type="button" class="close" data-dismiss="modal"
-                        aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Widget Options - Gray Skin Modal</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Now residence dashwoods she excellent you. Shade being under his bed her. Much read on as draw.
-                        Blessing for ignorant exercise any yourself unpacked. Pleasant horrible but confined day end
-                        marriage. Eagerness furniture set preserved far recommend. Did even but nor are most gave hope.
-                        Secure active living depend son repair day ladies now.</p>
-                </div>
-                <div class="modal-footer"> <button type="button" class="btn btn-default"
-                        data-dismiss="modal">Close</button> <button type="button" class="btn btn-primary">Save
-                        changes</button> </div>
-            </div>
-        </div>
-    </div>
-@endsection
+    @endsection
+
+
+    @section('script')
+    @endsection

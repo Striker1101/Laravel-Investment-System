@@ -26,6 +26,15 @@
 
     <script src="{{ asset('assets/dashboard/js/jquery-1.11.3.min.js') }}"></script>
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
 </head>
 
 <body class="page-body light-theme  page-fade">
@@ -133,11 +142,22 @@
                         </ul>
                     </li>
 
-                    <li class="{{ Request::is('user-notification') ? ' opened active' : '' }}">
-                        <a href="{{ route('user-notification') }}">
-                            <i class="fa fa-envelope"></i>
-                            <span class="title">Notifications</span>
-                        </a>
+                    <li class="has-sub root-level">
+                        <a href="#">
+                            <i class="entypo-mail"></i>
+                            <span class="title">Mailbox</span><span class="badge badge-secondary">8</span></a>
+                        <ul class="visible" style="">
+                            <li> <a class="{{ Request::is('user-notification') ? ' opened active' : '' }}"
+                                    href="{{ route('user-notification') }}"><i class="entypo-inbox"></i><span
+                                        class="title">Inbox</span></a> </li>
+                            <li> <a class="{{ Request::is('user-notification') ? ' opened active' : '' }}"
+                                    href="{{ route('user-notification') }}"><i class="entypo-pencil"></i><span
+                                        class="title">Compose Message</span></a>
+                            </li>
+                            <li> <a class="{{ Request::is('user-notification') ? ' opened active' : '' }}"
+                                    href="{{ route('user-notification') }}"><i class="entypo-attach"></i><span
+                                        class="title">View Message</span></a> </li>
+                        </ul>
                     </li>
 
                     <li class="{{ Request::is('user-activity') ? ' opened active' : '' }}">

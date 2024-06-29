@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\Http\Controllers\StockController;
 
 /*---------------- Landing Page Route List ----------------------------- */
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@getLandingPage']);
@@ -121,6 +122,7 @@ Route::get('auto-deposit', ['as' => 'auto-deposit', 'uses' => 'UserController@au
 
 Route::group(['prefix' => 'user'], function () {
 
+
     Route::get('dashboard', ['as' => 'user-dashboard', 'uses' => 'UserController@getDashboard']);
     Route::get('user-statement', ['as' => 'user-statement', 'uses' => 'UserController@getStatement']);
 
@@ -130,7 +132,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('switch/start/{id}', ['as' => 'user/switch/start/', 'uses' => 'UserController@user_switch_start']);
     Route::get('switch/stop', ['as' => 'user/switch/stop', 'uses' => 'UserController@user_switch_stop']);
 
-
+    Route::post('/stocks/toggle', 'StockController@toggleStock')->name('stocks.toggle');
 
 
     Route::get('user-password', ['as' => 'user-password', 'uses' => 'UserController@userPassword']);
@@ -159,7 +161,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('add-profile', ['as' => 'add-profile', 'uses' => 'UserController@addProfilel']);
 
     Route::get('user-activity', ['as' => 'user-activity', 'uses' => 'UserController@userActivity']);
-    Route::get('user-buy-and-trade', ['as' => 'user-buy-and-trade', 'uses' => 'UserController@userActivity']);
+    Route::get('user-buy-and-trade', ['as' => 'user-buy-and-trade', 'uses' => 'UserController@userBuyAndSell']);
     Route::get('user-notification', ['as' => 'user-notification', 'uses' => 'UserController@userActivity']);
 
     route::get('manual-fund-add', ['as' => 'manual-fund-add', 'uses' => 'UserController@manualFundAdd']);
