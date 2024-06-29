@@ -54,6 +54,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Stock::class);
     }
+
+    public function plan()
+    {
+        return $this->belongsTo(Plan::class);
+    }
 }
 
 

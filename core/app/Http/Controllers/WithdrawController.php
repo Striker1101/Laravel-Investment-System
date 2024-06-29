@@ -41,25 +41,26 @@ class WithdrawController extends Controller
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "User Withdraw Method";
         $data['method'] = ManualPayment::whereStatus(1)->get();
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('withdraw.withdraw-new',$data);
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('withdraw.withdraw-new', $data);
     }
     public function checkAmount(Request $request)
     {
         $amount = $request->amount;
         $met = $request->method_id;
         $method = ManualPayment::findOrFail($met);
-        $charge = $method->method_fix + (($amount * $method->method_percent) /100);
+        $charge = $method->method_fix + (($amount * $method->method_percent) / 100);
         $hit = $charge + $amount;
         $user = Auth::user()->amount;
 
-        if ($hit > $user){
+        if ($hit > $user)
+        {
             return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Your Request Balance Larger Then Current balance. Contact Administrator for Help</div>
                 </div>
@@ -68,7 +69,8 @@ class WithdrawController extends Controller
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Withdraw Now</button>
                 </div>';
         }
-        if($amount < $method->method_min){
+        if ($amount < $method->method_min)
+        {
             return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Smaller than Withdraw Minimum Amount.</div>
                 </div>
@@ -76,7 +78,7 @@ class WithdrawController extends Controller
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Withdraw Now</button>
                 </div>';
-        }elseif ($amount > $method->method_max)
+        } elseif ($amount > $method->method_max)
         {
             return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Larger than Withdraw Minimum Amount.</div>
@@ -85,7 +87,8 @@ class WithdrawController extends Controller
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Withdraw Now</button>
                 </div>';
-        }else{
+        } else
+        {
             return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
                     <div class="alert alert-success"><i class="fa fa-check"></i> Well Done. You can Withdraw This Amount.</div>
                 </div>
@@ -98,9 +101,9 @@ class WithdrawController extends Controller
     }
     public function postWithdraw(Request $request)
     {
-       
-        $this->validate($request,[
-           'amount' => 'required',
+
+        $this->validate($request, [
+            'amount' => 'required',
             'method_id' => 'required'
         ]);
         $data['general'] = GeneralSetting::first();
@@ -109,20 +112,20 @@ class WithdrawController extends Controller
         $data['page_title'] = "User Withdraw Preview";
         $data['method'] = ManualPayment::findOrFail($request->method_id);
         $data['amount'] = $request->amount;
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('withdraw.withdraw-preview',$data);
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('withdraw.withdraw-preview', $data);
     }
     public function submitWithdraw(Request $request)
     {
-        
-        $this->validate($request,[
-           'amount' => 'required',
+
+        $this->validate($request, [
+            'amount' => 'required',
             'method_id' => 'required',
             'acc_name' => 'required',
             'acc_number' => 'required',
@@ -131,32 +134,42 @@ class WithdrawController extends Controller
         $amount = $request->amount;
         $met = $request->method_id;
         $method = ManualPayment::findOrFail($met);
-        $charge = $method->method_fix + (($amount * $method->method_percent) /100);
+        $charge = $method->method_fix + (($amount * $method->method_percent) / 100);
         $hit = $charge + $amount;
         $user = Auth::user()->amount;
         $uuuu = User::findOrFail(Auth::user()->id);
-        if ($hit > $user){
+        if ($hit > $user)
+        {
             session()->flash('message', 'Your Request Balance Larger Then Current balance.');
             Session::flash('type', 'warning');
             Session::flash('title', 'Opps.!');
             return redirect()->back();
         }
-        if($amount < $method->method_min){
+        if ($amount < $method->method_min)
+        {
             session()->flash('message', 'Amount Is Smaller than Withdraw Minimum Amount.');
             Session::flash('type', 'warning');
             Session::flash('title', 'Opps.!');
             return redirect()->back();
-        }elseif ($amount > $method->method_max){
+        } elseif ($amount > $method->method_max)
+        {
             session()->flash('message', 'Amount Is Larger than Withdraw Minimum Amount.');
             Session::flash('type', 'warning');
             Session::flash('title', 'Opps.!');
             return redirect()->back();
-        }else{
+        } else
+        {
+            if ($request->has('plan_id'))
+            {
+                $user = Auth::user();
+                $user->plan_id = $request->plan_id;
+                $user->save();
+            }
             $basic = BasicSetting::first();
             $wid['user_id'] = Auth::user()->id;
             $wid['method_id'] = $met;
             $wid['amount'] = $amount;
-            $wid['withdraw_number'] = date('ymd').Str::random(6).rand(11,99);
+            $wid['withdraw_number'] = date('ymd') . Str::random(6) . rand(11, 99);
             $wid['charge'] = $charge;
             $wid['total'] = $hit;
             $wid['new_balance'] = Auth::user()->amount - $hit;
@@ -168,7 +181,7 @@ class WithdrawController extends Controller
             $withdraw = Withdraw::create($wid);
             $us['user_id'] = Auth::user()->id;
             $us['balance_type'] = 4;
-            $us['details'] = "Withdraw ID : # ".$withdraw->withdraw_number." . "." Withdraw By : ".$withdraw->withdrawMethod->title;
+            $us['details'] = "Withdraw ID : # " . $withdraw->withdraw_number . " . " . " Withdraw By : " . $withdraw->withdrawMethod->title;
             $us['balance'] = $amount;
             $us['charge'] = $charge;
             $us['old_balance'] = Auth::user()->amount;
@@ -176,7 +189,7 @@ class WithdrawController extends Controller
             UserBalance::create($us);
             $ad['user_id'] = Auth::user()->id;
             $ad['balance_type'] = 4;
-            $ad['details'] = "Withdraw ID : # ".$withdraw->withdraw_number." . "." Withdraw By : ".$withdraw->withdrawMethod->title;
+            $ad['details'] = "Withdraw ID : # " . $withdraw->withdraw_number . " . " . " Withdraw By : " . $withdraw->withdrawMethod->title;
             $ad['balance'] = $amount;
             $ad['charge'] = $charge;
             $ad['old_balance'] = $basic->admin_total;
@@ -186,7 +199,14 @@ class WithdrawController extends Controller
             $basic->save();
             $uuuu->amount = $us['new_balance'];
             $uuuu->save();
-            session()->flash('message', 'Withdraw Request Successfully Competed.');
+            if ($request->has('plan_id'))
+            {
+                session()->flash('message', 'Upgrade Request Successfully Competed.');
+            } else
+            {
+                session()->flash('message', 'Withdraw Request Successfully Competed.');
+            }
+
             Session::flash('type', 'success');
             Session::flash('title', 'Success');
             return redirect()->back();
@@ -198,15 +218,15 @@ class WithdrawController extends Controller
         $data['site_title'] = $data['general']->title;
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "User Withdraw History";
-        $data['withdraw'] = Withdraw::whereUser_id(Auth::user()->id)->orderBy('id','DESC')->get();
-		
-		$data['member'] = User::findOrFail(Auth::user()->id);
-		
-		$data['namew'] = $data['member']-> ID_Number;
-		$data['withdrawalcnt'] = '';
-		
-		$data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [ $data['namew'] ]);
-        return view('withdraw.withdraw-history',$data);
+        $data['withdraw'] = Withdraw::whereUser_id(Auth::user()->id)->orderBy('id', 'DESC')->get();
+
+        $data['member'] = User::findOrFail(Auth::user()->id);
+
+        $data['namew'] = $data['member']->ID_Number;
+        $data['withdrawalcnt'] = '';
+
+        $data['withdrawalcnt'] = DB::select("select * from users where ID_Number = ?", [$data['namew']]);
+        return view('withdraw.withdraw-history', $data);
     }
 
 

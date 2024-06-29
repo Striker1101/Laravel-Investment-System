@@ -12,6 +12,7 @@ use App\ManualBank;
 use App\ManualCrypto;
 use App\ManualFund;
 use App\ManualFundLog;
+use App\ManualPayment;
 use App\Payment;
 use App\Photo;
 use App\Plan;
@@ -38,9 +39,14 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
+    protected $data;
+
     public function __construct()
     {
         $this->middleware('auth');
+        $this->data['general'] = GeneralSetting::first();
+        $this->data['site_title'] = $this->data['general']->title;
+        $this->data['basic'] = BasicSetting::first();
     }
 
     public function getDashboard()
@@ -84,10 +90,20 @@ class UserController extends Controller
 
     public function userBuyAndSell()
     {
+
         $user = auth()->user();
-        $userBuy = User::find($user->id);
-        $userSell = User::find($user->id);
-        return view('buy-and-sell', []);
+        $userStocks = Stock::where('user_id', Auth::user()->id)->get();
+        $this->data['member'] = User::findOrFail($user->id);
+        $this->data['namew'] = $this->data['member']->ID_Number;
+        $this->data['withdrawalcnt'] = DB::select("SELECT * FROM users WHERE ID_Number = ?", [$this->data['namew']]);
+        $this->data['userStocks'] = $userStocks;
+        $plans = Plan::with('compound')->where('status', true)->get();
+        $method = ManualPayment::where("title", "Upgrade")->first();
+        return view('user.buy-and-sell', array_merge($this->data, [
+            'page_title' => "Buy And Sell Stocks And Crypto",
+            'plans' => $plans,
+            'upgrade_id' => $method
+        ]));
     }
 
     private function generateRandomWallet()
