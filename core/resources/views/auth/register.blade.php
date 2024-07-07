@@ -72,7 +72,7 @@
 
                         <div class="input-group">
                             <input type="text" name="ID_Number" value="" required class="form-control"
-                                placeholder="ID Number *" aria-describedby="basic-addon1">
+                                placeholder="ID Number (SSN, SIN, e.t.c)*" aria-describedby="basic-addon1">
                             <span class="input-group-addon" id="basic-addon1"><i class="fa fa-address-card"></i></span>
                         </div>
 
@@ -338,9 +338,16 @@
                         </div>
 
                         <div class="input-group">
-                            <input type="text" name="zip" autocomplete="new-password" required
+                            <input minlength="6" type="text" name="zip" autocomplete="zip" required
                                 class="form-control" placeholder="Zip Code *" aria-describedby="basic-addon4">
                             <span class="input-group-addon" id="basic-addon4"><i class="fa fa-map-marker"></i></span>
+                        </div>
+
+                        <div class="input-group">
+                            <input type="text" name="reference" autocomplete="reference" class="form-control"
+                                placeholder="Enter Reference ID (Optional)*" aria-describedby="basic-addon4"
+                                value="{{ request()->query('reference') }}">
+                            <span class="input-group-addon" id="basic-addon4"><i class="fa fa-group"></i></span>
                         </div>
 
 
@@ -349,6 +356,7 @@
                                 class="form-control" placeholder="Enter Password" aria-describedby="basic-addon4">
                             <span class="input-group-addon" id="basic-addon4"><i class="fa fa-unlock-alt"></i></span>
                         </div>
+
                         <div class="input-group">
                             <input type="password" name="password_confirmation" autocomplete="new-password" required
                                 class="form-control" placeholder="Confirm Password" aria-describedby="basic-addon4">

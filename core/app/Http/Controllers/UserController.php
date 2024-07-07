@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\AdminBalance;
+use App\Attachment;
 use App\BasicSetting;
+use App\DefaultStock;
 use App\Deposit;
 use App\Fund;
 use App\FundLog;
@@ -13,6 +15,7 @@ use App\ManualCrypto;
 use App\ManualFund;
 use App\ManualFundLog;
 use App\ManualPayment;
+use App\Notification;
 use App\Payment;
 use App\Photo;
 use App\Plan;
@@ -20,6 +23,7 @@ use App\RebeatLog;
 use App\Reference;
 use App\Repeat;
 use App\Stock;
+use App\Task;
 use App\User;
 use App\UserBalance;
 use App\Withdraw;
@@ -36,6 +40,7 @@ use Stripe\Charge;
 use Stripe\Stripe;
 use Stripe\Token;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\NotifyComposeRequest;
 
 class UserController extends Controller
 {
@@ -49,48 +54,68 @@ class UserController extends Controller
         $this->data['basic'] = BasicSetting::first();
     }
 
+    protected function get_notification($id, $data)
+    {
+        //message
+        $data['message'] = Notification::where('user_id', $id)
+            ->where('gene', 'message')
+            ->first();
+        $data['message_count'] = Notification::where('user_id', $id)
+            ->where('gene', 'message')
+            ->count();
+
+        //warning
+        $data['warning'] = Notification::where('user_id', $id)
+            ->where('gene', 'warning')
+            ->first();
+        $data['warning_count'] = Notification::where('user_id', $id)
+            ->where('gene', 'warning')
+            ->count();
+
+    }
+
     public function getDashboard()
     {
-        $data['general'] = GeneralSetting::first();
-        $data['basic'] = BasicSetting::first();
-        $data['site_title'] = $data['general']->title;
-        $data['page_title'] = "User Dashboard";
-        $data['member'] = User::findOrFail(Auth::user()->id);
-        $data['namew'] = $data['member']->ID_Number;
+        $user = User::find(Auth::user()->id);
+        // Eager load user's stocks and their associated default stocks
+        $user->load('stocks.stocks');
 
-        // Get all stocks for the authenticated user
-        $userStocks = Stock::where('user_id', Auth::user()->id)->get();
-        $defaultStocks = [
-            (object) ["id" => 0, 'name' => 'EURUSD', 'amount' => 0, 'symbol' => 'FX:EURUSD', 'status' => false, 'wallet' => $this->generateRandomWallet()],
-            (object) ["id" => 1, 'name' => 'BTCUSD', 'amount' => 0, 'symbol' => 'COINBASE:BTCUSD', 'status' => false, 'wallet' => $this->generateRandomWallet()],
-        ];
+        // Access user's stocks with their associated default stocks
+        $userStocks = $user->stocks;
 
-        // Check through defaultStocks and update status if there's a match
-        foreach ($defaultStocks as &$defaultStock)
-        {
-            foreach ($userStocks as $userStock)
-            {
-                if ($defaultStock->symbol == $userStock->name || $defaultStock->wallet == $userStock->wallet)
-                {
-                    $defaultStock->status = true;
-                    $defaultStock->wallet = $userStock->wallet;
-                    $defaultStock->id = $userStock->id;
-                    $defaultStock->amount = $userStock->amount;
-                }
-            }
-        }
 
-        $data['stocks'] = $defaultStocks;
-        $data['userStocks'] = $userStocks;
+        $defaultStocks = DefaultStock::all();
 
-        // Get the withdrawal count for the authenticated user
-        $data['withdrawalcnt'] = DB::select("SELECT * FROM users WHERE ID_Number = ?", [$data['namew']]);
-        return view('user.dashboard', $data);
+        //know which defaultstock user already have and add status = true else false to that stock 
+        // Map default stocks to include status based on user's stocks
+        $defaultStocks->transform(function ($defaultStock) use ($userStocks) {
+
+            $userHasStock = $userStocks->where('id', $defaultStock->id)->first();
+
+            $defaultStock->status = $userHasStock ? true : false;
+            return $defaultStock;
+        });
+        // dd($userStocks);
+
+        //extra
+        $this->data['member'] = User::findOrFail(Auth::user()->id);
+        $this->data['namew'] = $this->data['member']->ID_Number;
+
+        //get notification
+        $this->get_notification(Auth::user()->id, $this->data);
+        return view('user.dashboard', array_merge($this->data, [
+            'page_title' => "User Dashboard",
+            'member' => User::findOrFail(Auth::user()->id),
+            'namew' => $this->data['member']->ID_Number,
+            'stocks' => $defaultStocks,
+            'userStocks' => $userStocks,
+            'withdrawalcnt' => DB::select("SELECT * FROM users WHERE ID_Number = ?", [$this->data['namew']])
+
+        ]));
     }
 
     public function userBuyAndSell()
     {
-
         $user = auth()->user();
         $userStocks = Stock::where('user_id', Auth::user()->id)->get();
         $this->data['member'] = User::findOrFail($user->id);
@@ -109,6 +134,321 @@ class UserController extends Controller
     private function generateRandomWallet()
     {
         return bin2hex(random_bytes(8));
+    }
+
+    public function userNotify()
+    {
+        $user = auth()->user();
+
+        $id = request()->query('id');
+
+
+        if ($id)
+        {
+            return redirect()->route('user-notification-details', ['id' => $id]);
+        }
+
+        $this->data['member'] = User::findOrFail($user->id);
+        $this->data['namew'] = $this->data['member']->ID_Number;
+        $this->data['withdrawalcnt'] = DB::select("SELECT * FROM users WHERE ID_Number = ?", [$this->data['namew']]);
+        return view("notification.index", array_merge($this->data, [
+            'attachments' => $user->attachments,
+            'attachments_count' => $user->attachments->count(),
+            'page_title' => "Inbox",
+
+        ]));
+    }
+
+    public function updateTaskStatus(Request $request, $id)
+    {
+        $task = Task::findOrFail($id);
+        $task->status = $request->input('status');
+
+        $task->save();
+
+        session()->flash('message', 'Task has been updated successfully');
+        Session::flash('type', 'success');
+        Session::flash('title', 'Success');
+
+
+        return redirect()->back();
+    }
+
+    public function updateNotificationStatus(Request $request, $id)
+    {
+        $notification = Notification::findOrFail($id);
+        $notification->status = $request->input('status');
+        $notification->save();
+
+        session()->flash('message', 'Notification has been updated successfully');
+        Session::flash('type', 'success');
+        Session::flash('title', 'Success');
+
+
+        return redirect()->back();
+    }
+
+    public function deleteTask(Request $request, $id)
+    {
+        $task = Task::findOrFail($id);
+        $task->delete();
+
+        session()->flash('message', 'Task has been deleted');
+        Session::flash('type', 'success');
+        Session::flash('title', 'Success');
+        return redirect()->back();
+    }
+
+    public function userNotifyComposeSubmit(NotifyComposeRequest $request)
+    {
+        $data['title'] = $request->subject;
+        $data['status'] = false;
+        $data['gene'] = 'message';
+        $data['type'] = 'sent';
+        $data['icon'] = 'entypo-arrow-bold-up pull-right';
+        $data['tag'] = '';
+        $data['content'] = $request->sample_wysiwyg;
+        $data['user_id'] = auth()->user()->id;
+
+        $notification = Notification::create($data);
+
+        if ($request->hasFile('attachments'))
+        {
+            foreach ($request->file('attachments') as $file)
+            {
+                $filename = time() . uniqid() . '.' . $file->getClientOriginalExtension();
+                $size = $file->getSize(); // Get the size before moving the file
+                $location = 'assets/attachments/';
+
+                // Move the file to the desired location
+                $file->move(public_path($location), $filename);
+
+                // Store file information in the database
+                Attachment::create([
+                    'doc' => $filename,
+                    'notify_id' => $notification->id,
+                    'user_id' => auth()->id(),
+                    'name' => $file->getClientOriginalName(),
+                    'size' => $size, // Use the size retrieved earlier
+                ]);
+            }
+        }
+
+        session()->flash('message', 'Message sent Successfully, you would receive fedback from our support teams on' . $this->data['general']->email);
+        Session::flash('type', 'success');
+        Session::flash('title', 'Success');
+
+        return redirect()->back();
+    }
+
+
+    public function deleteNotification($id)
+    {
+        $notification = Notification::findOrFail($id);
+        $notification->type = 'trash';
+        $notification->save();
+
+        session()->flash('message', $notification->title . ' has been moved to trash');
+        Session::flash('type', 'success');
+        Session::flash('title', 'Success');
+
+        return redirect()->back()->with('success', 'Notification deleted successfully');
+    }
+
+    public function userNotifyDetails($id)
+    {
+        $notification = Notification::with('attachments')->find($id);
+        if (!$notification)
+        {
+            // Handle case where the notification is not found
+            return redirect()->back()->with('error', 'Notification not found.');
+        }
+
+
+        $notification->status = true;
+        $notification->save();
+
+        $user = auth()->user();
+        $attachments = $notification->attachments;
+        $attachments_count = $attachments->count();
+
+        $this->data['member'] = User::findOrFail($user->id);
+
+        $this->data['namew'] = $this->data['member']->ID_Number;
+        $this->data['withdrawalcnt'] = DB::select("SELECT * FROM users WHERE ID_Number = ?", [$this->data['namew']]);
+        return view('notification.preview', array_merge($this->data, [
+            'page_title' => "Inbox",
+            'notification' => $notification,
+            'attachments_count' => $attachments_count,
+            'attachments' => $attachments,
+        ]));
+    }
+    public function userNotifyCompose()
+    {
+        $user = auth()->user();
+        $this->data['member'] = User::findOrFail($user->id);
+        $this->data['namew'] = $this->data['member']->ID_Number;
+        $this->data['withdrawalcnt'] = DB::select("SELECT * FROM users WHERE ID_Number = ?", [$this->data['namew']]);
+        return view('notification.compose', array_merge($this->data, [
+            'page_title' => "Notification",
+
+        ]));
+    }
+
+
+
+    protected function separateString($input)
+    {
+        // Split the string by the colon followed by a space
+        $parts = explode(' : ', $input);
+
+        // Check if the split resulted in two parts
+        if (count($parts) === 2)
+        {
+            $first = $parts[0];
+            $second = $parts[1];
+            return [
+                'id' => $first,
+                'port' => $second
+            ];
+        } else
+        {
+            // Handle error case if the input string format is incorrect
+            return [
+                'id' => null,
+                'port' => null
+            ];
+        }
+    }
+
+    public function userTask()
+    {
+        $user = auth()->user();
+        $this->data['member'] = User::findOrFail($user->id);
+
+        $this->data['namew'] = $this->data['member']->ID_Number;
+        $this->data['withdrawalcnt'] = DB::select("SELECT * FROM users WHERE ID_Number = ?", [$this->data['namew']]);
+
+        return view('user.task', array_merge($this->data, [
+            'page_title' => "Inbox",
+            'tasks' => Task::where('user_id', $user->id)->get(),
+        ]));
+    }
+
+    public function userCalender()
+    {
+        $user = auth()->user();
+        $this->data['member'] = User::findOrFail($user->id);
+
+        $this->data['namew'] = $this->data['member']->ID_Number;
+        $this->data['withdrawalcnt'] = DB::select("SELECT * FROM users WHERE ID_Number = ?", [$this->data['namew']]);
+
+        return view('user.calender', array_merge($this->data, [
+            'page_title' => "Inbox",
+        ]));
+    }
+
+    public function userTaskStore(Request $request)
+    {
+        $user = auth()->user();
+        $data['user_id'] = $user->id;
+        $data['title'] = 'none';
+        $data['content'] = $request->content;
+        $data['status'] = false;
+        $data['percent'] = 0;
+
+        Task::create($data);
+        return redirect()->back();
+    }
+    public function UserLiquidate(Request $request)
+    {
+
+        // Separate the options into id and port
+        $result_from = $this->separateString($request['fromOption']);
+        $data['from-amount'] = $request['from-number'];
+        $data['from-id'] = $result_from['id'];
+        $data['from-port'] = $result_from['port'];
+
+        $result_to = $this->separateString($request['toOption']);
+        $data['to-amount'] = $request['to-number'];
+        $data['to-id'] = $result_to['id'];
+        $data['to-port'] = $result_to['port'];
+        // dd($data);
+
+        // Handle the 'from' port operation
+        if ($data['from-port'] == "user")
+        {
+            $user = User::find($data['from-id']);
+            if ($user->amount < $data['from-amount'])
+            {
+                return redirect()->back()->withErrors('Insufficient Funds');
+            }
+
+            if ($user)
+            {
+                $user->amount -= $data['from-amount'];
+                $user->save();
+            } else
+            {
+                return redirect()->back()->withErrors("User not found for 'from' operation.");
+            }
+        } else
+        {
+            $stock = Stock::find($data['from-id']);
+
+            if ($stock->amount < $data['from-amount'])
+            {
+                return redirect()->back()->withErrors('Insufficient Funds');
+            }
+
+            if ($stock)
+            {
+                $stock->amount -= $data['from-amount'];
+                $stock->save();
+            } else
+            {
+                return redirect()->back()->withErrors("Stock not found for 'from' operation.");
+            }
+        }
+
+        // Handle the 'to' port operation
+        if ($data['to-port'] == "user")
+        {
+            $user = User::find($data['to-id']);
+            if ($user)
+            {
+                $user->amount += $data['to-amount'];
+                $user->save();
+            } else
+            {
+                return redirect()->back()->withErrors("User not found for 'to' operation.");
+            }
+        } else
+        {
+            $stock = Stock::find($data['to-id']);
+
+            if ($stock)
+            {
+                $stock->amount += $data['to-amount'];
+                $stock->save();
+            } else
+            {
+                return redirect()->back()->withErrors("Stock not found for 'to' operation.");
+            }
+        }
+
+        // Flash success message and redirect
+        session()->flash('message', 'Successfully Liquidated.');
+        session()->flash('title', 'Success');
+        session()->flash('type', 'success');
+
+        return redirect()->back()->with("success", "Successfully Liquidated");
+    }
+
+    public function UserTaskSubmit(Request $request)
+    {
+        dd($request->all());
+        return redirect()->back();
     }
 
     public function getStatement()
@@ -307,28 +647,28 @@ class UserController extends Controller
 
             if (($amount) < $basic->paypal_min)
             {
-                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
+                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -0.9375rem;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Smaller than Funding Minimum Amount.</div>
                 </div>
-                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: 10px;">
+                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: .625rem;">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
             } elseif (($amount) > $basic->paypal_max)
             {
-                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
+                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -0.9375rem;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Larger than Funding Minimum Amount.</div>
                 </div>
-                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: 10px;">
+                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: .625rem;">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
             } else
             {
-                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
+                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -0.9375rem;">
                     <div class="alert alert-warning"><i class="fa fa-check"></i> Well Done. Add Fund This Amount.</div>
                 </div>
-                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: 10px;">
+                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: .625rem;">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="submit" class="btn btn-info"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
@@ -337,28 +677,28 @@ class UserController extends Controller
         {
             if (($amount) < $basic->perfect_min)
             {
-                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
+                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -0.9375rem;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Smaller than Funding Minimum Amount.</div>
                 </div>
-                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: 10px;">
+                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: .625rem;">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
             } elseif (($amount) > $basic->perfect_max)
             {
-                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
+                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -0.9375rem;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Larger than Funding Minimum Amount.</div>
                 </div>
-                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: 10px;">
+                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: .625rem;">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
             } else
             {
-                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
+                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -0.9375rem;">
                     <div class="alert alert-warning"><i class="fa fa-check"></i> Well Done. Add Fund This Amount.</div>
                 </div>
-                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: 10px;">
+                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: .625rem;">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="submit" class="btn btn-info"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
@@ -367,28 +707,28 @@ class UserController extends Controller
         {
             if (($amount) < $basic->btc_min)
             {
-                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
+                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -0.9375rem;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Smaller than Funding Minimum Amount.</div>
                 </div>
-                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: 10px;">
+                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: .625rem;">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
             } elseif (($amount) > $basic->btc_max)
             {
-                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
+                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -0.9375rem;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Larger than Funding Minimum Amount.</div>
                 </div>
-                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: 10px;">
+                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: .625rem;">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
             } else
             {
-                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
+                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -0.9375rem;">
                     <div class="alert alert-warning"><i class="fa fa-check"></i> Well Done. Add Fund This Amount.</div>
                 </div>
-                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: 10px;">
+                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: .625rem;">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="submit" class="btn btn-info"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
@@ -397,28 +737,28 @@ class UserController extends Controller
         {
             if (($amount) < $basic->stripe_min)
             {
-                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
+                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -0.9375rem;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Smaller than Funding Minimum Amount.</div>
                 </div>
-                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: 10px;">
+                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: .625rem;">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
             } elseif (($amount) > $basic->stripe_max)
             {
-                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
+                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -0.9375rem;">
                     <div class="alert alert-warning"><i class="fa fa-times"></i> Amount Is Larger than Funding Minimum Amount.</div>
                 </div>
-                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: 10px;">
+                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: .625rem;">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="button" class="btn btn-info disabled"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
             } else
             {
-                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -15px;">
+                return '<div class="col-sm-9 col-sm-offset-2" style="margin-bottom: -0.9375rem;">
                     <div class="alert alert-warning"><i class="fa fa-check"></i> Well Done. Add Fund This Amount.</div>
                 </div>
-                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: 10px;">
+                <div class="col-sm-9 col-sm-offset-2" style="text-align: right;margin-top: .625rem;">
                     <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     <button type="submit" class="btn btn-info"><i class="fa fa-send"></i> Add Fund</button>
                 </div>';
@@ -657,7 +997,7 @@ class UserController extends Controller
         /*$sendto = "1HoPiJqnHoqwM8NthJu86hhADR5oWN8qG7";
         $usd =100;*/
         $var = "bitcoin:$sendto?amount=$usd";
-        $data['code'] = "<img src=\"https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=$var&choe=UTF-8\" title='' style='width:300px;' />";
+        $data['code'] = "<img src=\"https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=$var&choe=UTF-8\" title='' style='width:18.75rem;' />";
         $data['general'] = GeneralSetting::first();
         $data['site_title'] = $data['general']->title;
         $data['basic'] = BasicSetting::first();

@@ -23,7 +23,7 @@
                                         <h3 style="font-size: 28px;"><b>{{ $p->name }}</b></h3>
                                     </div>
                                     <div style="font-size: 18px;padding: 18px;" class="panel-body text-center">
-                                        <p><strong>{{ $basic->symbol }}{{ $p->minimum }} - Unlimited</strong></p>
+                                        <p><strong>{{ $member->currency }}{{ $p->minimum }} - Unlimited</strong></p>
                                     </div>
 
                                     <div class="panel-footer" style="overflow: hidden">

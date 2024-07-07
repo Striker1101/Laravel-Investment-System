@@ -13,7 +13,8 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-
+    'email' => env('MAIL_FROM_ADDRESS', 'support@laravel.com'),
+    'exchange_api_key' => env('EXCHANGE_API_KEY', 'e1bbd5cec0df150d61e43ba9'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

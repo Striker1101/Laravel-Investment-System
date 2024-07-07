@@ -11,6 +11,7 @@
 |
 */
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\UserController;
 
 /*---------------- Landing Page Route List ----------------------------- */
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@getLandingPage']);
@@ -132,7 +133,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('switch/start/{id}', ['as' => 'user/switch/start/', 'uses' => 'UserController@user_switch_start']);
     Route::get('switch/stop', ['as' => 'user/switch/stop', 'uses' => 'UserController@user_switch_stop']);
 
-    Route::post('/stocks/toggle', 'StockController@toggleStock')->name('stocks.toggle');
+    Route::get('/stocks/toggle', 'StockController@toggleStock')->name('stocks.toggle');
 
 
     Route::get('user-password', ['as' => 'user-password', 'uses' => 'UserController@userPassword']);
@@ -162,7 +163,6 @@ Route::group(['prefix' => 'user'], function () {
 
     Route::get('user-activity', ['as' => 'user-activity', 'uses' => 'UserController@userActivity']);
     Route::get('user-buy-and-trade', ['as' => 'user-buy-and-trade', 'uses' => 'UserController@userBuyAndSell']);
-    Route::get('user-notification', ['as' => 'user-notification', 'uses' => 'UserController@userActivity']);
 
     route::get('manual-fund-add', ['as' => 'manual-fund-add', 'uses' => 'UserController@manualFundAdd']);
     route::post('manual-fund-add', ['as' => 'manual-fund-add', 'uses' => 'UserController@StoreManualFundAdd']);
@@ -170,8 +170,24 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('manual-fund-history', ['as' => 'manual-fund-history', 'uses' => 'UserController@manualFundHistory']);
     Route::get('manual-fund-details/{id}', ['as' => 'manual-fund-details', 'uses' => 'UserController@manualFundAddDetails']);
 
+    Route::get('user-notification', ['as' => 'user-notification', 'uses' => 'UserController@userNotify']);
+    Route::get('user-notification/{id}', ['as' => 'user-notification-details', 'uses' => 'UserController@userNotifyDetails']);
+    Route::get('user-notification-delete/{id}', ['as' => 'user-notification-delete', 'uses' => 'UserController@deleteNotification']);
+    Route::get('user-notification-compose', ['as' => 'user-notification-compose', 'uses' => 'UserController@userNotifyCompose']);
+    Route::post('user-notification-compose-submit', ['as' => 'user-notification-compose-submit', 'uses' => 'UserController@userNotifyComposeSubmit']);
+    Route::get('notification/{id}/status', 'UserController@updateNotificationStatus')->name('update-notification-status');
 
 
+    Route::get('user-task', ['as' => 'user-task', 'uses' => 'UserController@userTask']);
+    Route::get('tasks/{id}/delete', ['as' => 'delete-task', 'uses' => 'UserController@deleteTask']);
+    Route::post('user-task-store', ['as' => 'task.store', 'uses' => 'UserController@userTaskStore']);
+    Route::get('tasks/{id}/status', 'UserController@updateTaskStatus')->name('update-task-status');
+
+
+    Route::get('user-calender', ['as' => 'user-calender', 'uses' => 'UserController@userCalender']);
+
+    Route::post('user-liquidate', ['as' => 'user-liquidate', 'uses' => 'UserController@UserLiquidate']);
+    Route::post('user-task-submit', ['as' => 'user-task-submit', 'uses' => 'UserController@UserTaskSubmit']);
 });
 
 Route::group(['prefix' => 'admin'], function () {
@@ -293,3 +309,12 @@ Route::post('fund-check-amount-crypto', ['as' => 'fund-check-amount-crypto', 'us
 Route::post('withdraw-details', ['as' => 'withdraw-details', 'uses' => 'HomeController@withdrawDetails']);
 
 Route::get('repeat-generator', ['as' => 'repeat-generator', 'uses' => 'HomeController@rebetgen']);
+
+Route::get('/send-test-email', function () {
+    \Illuminate\Support\Facades\Mail::raw('This is a test email.', function ($message) {
+        $message->to('recipient@example.com')
+            ->subject('Test Email');
+    });
+
+    return 'Test email sent!';
+});

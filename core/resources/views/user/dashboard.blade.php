@@ -23,14 +23,19 @@
                 return [`${currentMonth} ${currentYear}`, `${previousMonth} ${previousYear}`];
             }
 
+            function genRandom(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+
             // Generate data for line chart dynamically
             function generateLineChartData(years) {
                 const data = [];
                 for (let i = 0; i < years; i++) {
                     data.push({
                         y: getYear(i).toString(),
-                        a: 0,
-                        b: 0
+                        a: genRandom(1000, 100000),
+                        b: genRandom(10, 30)
                     });
                 }
                 return data;
@@ -137,15 +142,15 @@
                     element: 'donut-chart-demo',
                     data: [{
                             label: "Stocks Sales",
-                            value: getRandomInt(0, 0)
+                            value: getRandomInt(200, 10)
                         },
                         {
                             label: "Forex Sales",
-                            value: getRandomInt(0, 0)
+                            value: getRandomInt(500, 300)
                         },
                         {
                             label: "Crypto Sales",
-                            value: getRandomInt(0, 0)
+                            value: getRandomInt(1000, 10)
                         }
                     ],
                     colors: ['#707f9b', '#455064', '#242d3c']
@@ -188,7 +193,7 @@
                     }, {
                         color: '#e0f2ff',
                         data: seriesData[1],
-                        name: 'Download'
+                        name: 'General market Trade'
                     }]
                 });
                 graph.render();
@@ -251,6 +256,8 @@
             .liqBTW {
                 display: flex;
                 justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 5px;
             }
 
             #liqContainer {
@@ -259,6 +266,7 @@
                 gap: 10px;
                 color: black;
                 font-size: larger;
+                width: 100%;
             }
 
             .liq-number {
@@ -298,66 +306,73 @@
                         </a>
                     </button>
                 </div>
+                <script>
+                    function getSubstringAfterColon(input) {
+                        const colonIndex = input.indexOf(':');
+                        if (colonIndex !== -1) {
+                            return input.substring(colonIndex + 1);
+                        } else {
+                            return input; // return the original string if no colon is found
+                        }
+                    }
+                </script>
+
+                @php
+                    function getSubstringAfterColon($input)
+                    {
+                        $parts = explode(':', $input);
+                        return isset($parts[1]) ? $parts[1] : $input;
+                    }
+                @endphp
 
 
                 <div class="modal fade custom-width " id="modal-3" style="display: none;">
-                    <div class="modal-dialog" style="width: 50%;">
+                    <div class="modal-dialog" style="width: 100%;">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                 <h4 class="modal-title">Deposit Liquidity</h4>
 
                             </div>
-                            <form action="" method="post">
+                            <form action="{{ route('user-liquidate') }}" method="POST" accept-charset="utf-8"
+                                enctype="multipart/form-data">
+                                {!! csrf_field() !!}
                                 <div class="modal-body" id="liqContainer" style="display: flex; flex-wrap:wrap;">
                                     <div id="fromLiq" class="liq">
                                         <div class="liqBTW">
                                             <span>From</span>
-                                            <span>Balance: <span id="from-balance-amount">
-                                                    10000
-                                                </span> <span id="from-balance-name">name</span></span>
+                                            <span>Balance:
+                                                <span id="from-balance-amount"></span>
+                                                <span id="from-balance-name"></span>
+                                            </span>
                                         </div>
                                         <hr>
                                         <div class="liqBTW">
                                             <span>amount: <span>
-                                                    <input min="0" minlength="1" class="liq-number" type="number"
-                                                        name="from-number">
+                                                    <input required min="0" minlength="1" class="liq-number"
+                                                        type="number" name="from-number" defaultValue=0 id="from-number">
                                                 </span> </span>
                                             <span>
                                                 <select name="fromOption" id="fromOption" class="selectOption">
-                                                    <option data-name="{{ $member->name }}"
-                                                        data-amount="{{ $member->amount }}" value="{{ $member->name }}">
+                                                    <option data-name="{{ $member->currency }}"
+                                                        data-amount="{{ $member->amount }}"
+                                                        data-stock={{ getSubstringAfterColon('USD:USD') }} data-rate=10.2
+                                                        value="{{ $member->id }} : user">
                                                         {{ $member->name }} {{ $member->amount }}
                                                     </option>
                                                     @foreach ($userStocks as $stock)
                                                         <option data-name="{{ $stock->name }}"
-                                                            data-amount="{{ $stock->amount }}" value="{{ $stock->name }}">
-                                                            {{ $stock->name }} {{ $stock->amount }}
+                                                            data-amount="{{ $stock->pivot->amount }}"
+                                                            data-rate={{ $stock->rate }}
+                                                            data-stock={{ getSubstringAfterColon($stock->name) }}
+                                                            value="{{ $stock->id }} : stock">
+                                                            {{ getSubstringAfterColon($stock->name) }}
+                                                            {{ $stock->pivot->amount }}
                                                         </option>
                                                     @endforeach
                                                 </select>
                                             </span>
                                         </div>
-
-                                        <script>
-                                            document.addEventListener('DOMContentLoaded', function() {
-                                                const selectElement = document.getElementById('fromOption');
-                                                const balanceAmountSpan = document.getElementById('from-balance-amount');
-                                                const balanceNameSpan = document.getElementById('from-balance-name');
-
-                                                selectElement.addEventListener('change', function() {
-                                                    const selectedOption = selectElement.options[selectElement.selectedIndex];
-                                                    const name = selectedOption.getAttribute('data-name');
-                                                    const amount = selectedOption.getAttribute('data-amount');
-
-                                                    balanceAmountSpan.textContent = amount;
-                                                    balanceNameSpan.textContent = name;
-                                                });
-
-                                                // Trigger change event to initialize with the first option's values
-                                                selectElement.dispatchEvent(new Event('change'));
-                                            });
-                                        </script>
                                     </div>
                                     <div id="midLiq"
                                         style="height:0px; width: 100%; display:flex; align-items: center; justify-content: center; position:relative;">
@@ -374,20 +389,25 @@
                                         <div class="liqBTW">
                                             <span>amount: <span>
                                                     <input min="0" minlength="1" class="liq-number" type="number"
-                                                        name="to-number">
+                                                        name="to-number" id="to-number" readonly style="width: 90px;">
                                                 </span> </span>
                                             <span>
                                                 <select name="toOption" id="toOption" class="selectOption">
-                                                    <option data-name-to="{{ $member->name }}"
-                                                        data-amount-to="{{ $member->amount }}"
-                                                        value="{{ $member->name }}">
+
+                                                    <option data-name-to="{{ $member->currency }}"
+                                                        data-amount-to="{{ $member->amount }}" data-rate=10.2
+                                                        data-stock={{ getSubstringAfterColon('USD:USD') }}
+                                                        value="{{ $member->id }} : user ">
                                                         {{ $member->name }} {{ $member->amount }}
                                                     </option>
                                                     @foreach ($userStocks as $stock)
                                                         <option data-name-to="{{ $stock->name }}"
-                                                            data-amount-to="{{ $stock->amount }}"
-                                                            value="{{ $stock->name }}">
-                                                            {{ $stock->name }} {{ $stock->amount }}
+                                                            data-stock={{ getSubstringAfterColon($stock->name) }}
+                                                            data-amount-to="{{ $stock->pivot->amount }}"
+                                                            data-rate={{ $stock->rate }}
+                                                            value="{{ $stock->id }} : stock">
+                                                            {{ getSubstringAfterColon($stock->name) }}
+                                                            {{ $stock->pivot->amount }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -396,21 +416,96 @@
 
                                         <script>
                                             document.addEventListener('DOMContentLoaded', function() {
-                                                const selectElement = document.getElementById('toOption');
-                                                const balanceAmountSpan = document.getElementById('to-balance-amount');
-                                                const balanceNameSpan = document.getElementById('to-balance-name');
+                                                const selectElement = document.getElementById('fromOption');
+                                                const selectElementTo = document.getElementById('toOption');
+
+                                                const balanceAmountSpan = document.getElementById('from-balance-amount');
+                                                const balanceNameSpan = document.getElementById('from-balance-name');
+                                                const balanceAmountSpanTo = document.getElementById('to-balance-amount');
+                                                const balanceNameSpanTo = document.getElementById('to-balance-name');
+
+                                                const fromAmount = document.getElementById('from-number')
+                                                const toAmount = document.getElementById('to-number')
+
+                                                function converter(input) {
+                                                    const selectOptionTo = selectElementTo.options[selectElementTo.selectedIndex]
+                                                        .getAttribute(
+                                                            'data-stock');
+
+                                                    const selectOptionFrom = selectElement.options[selectElement.selectedIndex]
+                                                        .getAttribute('data-stock');
+
+                                                    const selectOptionFromRate = parseInt(selectElement.options[selectElement.selectedIndex]
+                                                        .getAttribute('data-rate'));
+
+                                                    const selectOptionToRate = parseInt(selectElementTo.options[selectElementTo
+                                                            .selectedIndex]
+                                                        .getAttribute('data-rate'));
+
+                                                    if (input === "from") {
+                                                        if (parseInt(fromAmount.value) > parseInt(selectElement.options[selectElement
+                                                                    .selectedIndex]
+                                                                .getAttribute('data-amount'))) {
+                                                            fromAmount.style.cssText = "border:3px solid red; color:red;"
+                                                        } else {
+                                                            fromAmount.style.cssText = "border:transparent; color:black;"
+                                                        }
+
+                                                        const fromValue = parseFloat(fromAmount.value);
+                                                        const rate = selectOptionFromRate * selectOptionToRate / 100
+                                                        toAmount.value = (fromValue * rate).toFixed(2);
+
+                                                    } else {
+                                                        if (parseInt(toAmount.value) > parseInt(selectElementTo.options[selectElementTo
+                                                                    .selectedIndex]
+                                                                .getAttribute('data-amount'))) {
+
+                                                            toAmount.style.cssText = "border:3px solid red; color:red;"
+                                                        } else {
+                                                            toAmount.style.cssText = "border:transparent; color:black;"
+                                                        }
+
+                                                        const toValue = parseFloat(toAmount.value);
+                                                        const rate = selectOptionFromRate * selectOptionToRate / 100
+                                                        fromAmount.value = (toValue * rate).toFixed(2);
+                                                    }
+
+                                                }
+
+                                                toAmount.addEventListener('input', function() {
+                                                    converter("to")
+                                                })
+
+                                                fromAmount.addEventListener('input', async function() {
+                                                    converter('from')
+                                                })
 
                                                 selectElement.addEventListener('change', function() {
+
                                                     const selectedOption = selectElement.options[selectElement.selectedIndex];
-                                                    const name = selectedOption.getAttribute('data-name-to');
-                                                    const amount = selectedOption.getAttribute('data-amount-to');
+                                                    const name = selectedOption.getAttribute('data-name');
+                                                    const amount = selectedOption.getAttribute('data-amount');
 
                                                     balanceAmountSpan.textContent = amount;
                                                     balanceNameSpan.textContent = name;
+                                                    toAmount.value = 0
                                                 });
 
                                                 // Trigger change event to initialize with the first option's values
                                                 selectElement.dispatchEvent(new Event('change'));
+
+                                                selectElementTo.addEventListener('change', function() {
+                                                    const selectedOption = selectElementTo.options[selectElementTo.selectedIndex];
+                                                    const name = selectedOption.getAttribute('data-name-to');
+                                                    const amount = selectedOption.getAttribute('data-amount-to');
+
+                                                    balanceAmountSpanTo.textContent = amount;
+                                                    balanceNameSpanTo.textContent = name;
+                                                    fromAmount.value = 0
+                                                });
+
+                                                // Trigger change event to initialize with the first option's values
+                                                selectElementTo.dispatchEvent(new Event('change'));
                                             });
                                         </script>
                                     </div>
@@ -422,7 +517,7 @@
                                             <label for="slippage" style="position: relative; top;0; left:0;">
                                                 <i class="fa fa-percent" style="font-size: 15px;"></i>
                                             </label>
-                                            <input type="text" disabled value="0"
+                                            <input type="text" disabled value="8.5"
                                                 style="border: transparent; width:100%; padding:4px;">
                                         </div>
                                         <div>
@@ -431,8 +526,8 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-default" type="submit">Provide Liquidity</button>
+                                    <button class="btn btn-default" data-dismiss="modal" type="reset">Close</button>
+                                    <input class="btn btn-default" type="submit" value="Provide Liquidity" />
                                 </div>
                             </form>
                         </div>
@@ -448,7 +543,7 @@
                     <div class="icon"><i class="entypo-users"></i></div>
                     <div class="d-flex " style="display:flex; align-items: center; gap:4px;">
                         <span style="font-size: xx-large;">
-                            {{ $member->symbol }}
+                            {{ $member->symbol }} <span><sup>{{ $member->currency }}</sup></span>
                         </span>
                         <div class="num" data-start="0" data-end={{ $member->amount }} data-postfix
                             data-duration="1500" data-delay="0">
@@ -463,7 +558,7 @@
                     <div class="icon"><i class="entypo-chart-bar"></i></div>
                     <div class="d-flex " style="display:flex; align-items: center; gap:4px;">
                         <span style="font-size: xx-large;">
-                            {{ $member->symbol }}
+                            {{ $member->symbol }} <span><sup>{{ $member->currency }}</sup></span>
                         </span>
                         <div class="num" data-start="0" data-end={{ $member->profit }} data-postfix
                             data-duration="1500" data-delay="600">0
@@ -479,7 +574,7 @@
                     <div class="icon"><i class="entypo-bucket"></i></div>
                     <div class="d-flex " style="display:flex; align-items: center; gap:4px;">
                         <span style="font-size: xx-large;">
-                            {{ $member->symbol }}
+                            {{ $member->symbol }} <span><sup>{{ $member->currency }}</sup></span>
                         </span>
                         <div class="num" data-start="0" data-end={{ $member->bonus }} data-postfix
                             data-duration="1500" data-delay="1200">0
@@ -494,7 +589,7 @@
                     <div class="icon"><i class="entypo-rss"></i></div>
                     <div class="d-flex " style="display:flex; align-items: center; gap:4px;">
                         <span style="font-size: xx-large;">
-                            {{ $member->symbol }}
+                            {{ $member->symbol }} <span><sup>{{ $member->currency }}</sup></span>
                         </span>
                         <div class="num" data-start="0" data-end={{ $member->reference_bonus }} data-postfix
                             data-duration="1500" data-delay="1800">0
@@ -570,7 +665,7 @@
                                         {{ $member->currency }}
                                     </span>
                                     <span>
-                                        {{ $stock->amount }}
+                                        {{ $stock->pivot->amount }}
                                     </span>
                                 </span>
                                 {{-- Usage of the component --}}
@@ -613,7 +708,7 @@
                                     <div style="display: flex; flex-wrap:wrap;">
 
                                         @foreach ($stocks as $stock)
-                                            <form method="POST" style="display:flex; flex-direction:column;"
+                                            <form method="PATCH" style="display:flex; flex-direction:column;"
                                                 role="form" action="{{ route('stocks.toggle') }}">
                                                 {{ csrf_field() }}
                                                 <div class="form-group">
@@ -635,12 +730,7 @@
                                                                         class="entypo-cancel"></i></span>
                                                                 <input type="hidden" name="stock_id"
                                                                     value="{{ $stock->id }}">
-                                                                <input type="hidden" name="stock_name"
-                                                                    value="{{ $stock->symbol }}">
-                                                                <input type="hidden" name="stock_amount"
-                                                                    value="{{ $stock->amount }}">
-                                                                <input type="hidden" name="stock_wallet"
-                                                                    value="{{ $stock->wallet }}">
+
                                                             </div>
                                                         </div>
                                                         <script>
@@ -701,7 +791,7 @@
                 <div class="col-sm-8">
                     <div class="panel panel-primary" id="charts_env">
                         <div class="panel-heading">
-                            <div class="panel-title">{{ $member->name }} Stats</div>
+                            <div class="panel-title">{{ $general->title }} Daily Stats</div>
                             <div class="panel-options">
                                 <ul class="nav nav-tabs">
                                     <li class><a href="#area-chart" data-toggle="tab">Area Chart</a></li>
@@ -726,14 +816,22 @@
                         <table class="table table-bordered table-responsive">
                             <thead>
                                 <tr>
+                                    @php
+                                        function genRandom($min, $max)
+                                        {
+                                            return mt_rand($min, $max);
+                                        }
+                                    @endphp
                                     <th width="50%" class="col-padding-1">
                                         <div class="pull-left">
-                                            <div class="h4 no-margin">Stocks Sold</div> <small>54,127</small>
+                                            <div class="h4 no-margin">Stocks Sold</div>
+                                            <small>{{ genRandom(30000, 90000000) }}</small>
                                         </div> <span class="pull-right pageviews">4,3,5,4,5,6,5</span>
                                     </th>
                                     <th width="50%" class="col-padding-1">
                                         <div class="pull-left">
-                                            <div class="h4 no-margin">Unique Visitors</div> <small>25,127</small>
+                                            <div class="h4 no-margin">Stock Purchased</div>
+                                            <small>{{ genRandom(30000, 90000000) }}</small>
                                         </div> <span class="pull-right uniquevisitors">2,3,5,4,3,4,5</span>
                                     </th>
                                 </tr>
@@ -746,7 +844,7 @@
                         <div class="panel-heading">
                             <div class="panel-title">
                                 <h4>
-                                    Real Time Stats
+                                    Real Time {{ config('app.name') }} Stats
                                     <br /> <small>current server uptime</small>
                                 </h4>
                             </div>
@@ -836,11 +934,11 @@
                                         ];
 
                                         const activities = [
-                                            "4,3,5,4,5,6",
-                                            "1,3,4,5,3,5",
-                                            "5,3,2,5,4,5",
-                                            "3,4,5,3,2,4",
-                                            "2,4,5,3,1,5"
+                                            [4, 3, 5, 4, 5, 6],
+                                            [1, 3, 4, 5, 3, 5],
+                                            [5, 3, 2, 5, 4, 5],
+                                            [3, 4, 5, 3, 2, 4],
+                                            [2, 4, 5, 3, 1, 5]
                                         ];
 
                                         return {
@@ -858,18 +956,41 @@
 
                                         for (let i = 1; i <= 3; i++) {
                                             const data = getRandomData();
+                                            const activityString = data.activity.join(',');
                                             const row = `
-                    <tr>
-                        <td>${i}</td>
-                        <td>${data.name}</td>
-                        <td>${data.stock}</td>
-                        <td class="text-center">${data.balance}</td>
-                        <td class="text-center"><span class="inlinebar-${i}">${data.activity}</span></td>
-                    </tr>       
-                `;
+            <tr>
+                <td>${i}</td>
+                <td>${data.name}</td>
+                <td>${data.stock}</td>
+                <td class="text-center">${data.balance}</td>
+                <td class="text-center"><span class="inlinebar-${i}"></span></td>
+            </tr>
+        `;
                                             tbody.append(row);
+
+                                            // Draw the inline bar chart
+                                            drawInlineBarChart(`.inlinebar-${i}`, data.activity);
                                         }
                                     }
+
+                                    function drawInlineBarChart(selector, data) {
+                                        const element = document.querySelector(selector);
+                                        if (!element) return;
+
+                                        const width = 100;
+                                        const height = 20;
+                                        const paper = Raphael(element, width, height);
+                                        const max = Math.max(...data);
+
+                                        data.forEach((value, index) => {
+                                            const barHeight = (value / max) * height;
+                                            paper.rect(index * (width / data.length), height - barHeight, width / data.length,
+                                                barHeight).attr({
+                                                fill: '#0b62a4'
+                                            });
+                                        });
+                                    }
+
 
                                     // Initial population of the table
                                     populateTable();
@@ -924,21 +1045,65 @@
                         <div class="tile-header"> <i class="entypo-list"></i> <a href="#">
                                 Tasks
                                 <span>To do list, tick one.</span> </a> </div>
-                        <div class="tile-content"> <input type="text" class="form-control" placeholder="Add Task" />
-                            <ul class="todo-list">
-                                <li>
-                                    <div class="checkbox checkbox-replace color-white"> <input type="checkbox" />
-                                        <label> eg: Renew stocks</label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="checkbox checkbox-replace color-white"> <input type="checkbox"
-                                            id="task-2" checked /> <label>Upgrade Account</label> </div>
-                                </li>
+                        <div class="tile-content">
 
+                            <div class="card-body">
+                                <form class="m-3" method="POST" action="{{ route('task.store') }}">
+                                    {!! csrf_field() !!}
+
+                                    <div class="form-group">
+                                        <input id="taskInput" type="text"
+                                            class="form-control @error('task') is-invalid @enderror" name="content"
+                                            placeholder="Enter task here..." required autocomplete="task" autofocus>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Add Task</button>
+                                </form>
+                            </div>
+
+
+                            <ul class="todo-list">
+                                @php
+                                    use App\Task;
+
+                                    //task
+                                    $tasks = Task::where('user_id', Auth::user()->id)
+                                        ->orderBy('created_at', 'asc')
+                                        ->take(3)
+                                        ->get();
+                                    $task_count = Task::where('user_id', Auth::user()->id)->count();
+                                @endphp
+                                @foreach ($tasks as $task)
+                                    <li>
+                                        <form action="{{ url('user/tasks/' . $task->id . '/status') }}" method="PATCH"
+                                            id="taskForm_{{ $task->id }}">
+                                            {!! csrf_field() !!} <!-- Add CSRF token for Laravel forms -->
+
+                                            <div class="checkbox checkbox-replace color-white">
+                                                <input type="hidden" name="id" value="{{ $task->id }}">
+                                                <input type="hidden" name="status" value="{{ $task->status }}">
+                                                <!-- Hidden input for status -->
+
+                                                <input type="checkbox" id="checkbox_task_{{ $task->id }}"
+                                                    class="checkbox_task"
+                                                    onchange="updateTaskStatus('{{ $task->id }}', this.checked)">
+                                                <label
+                                                    for="checkbox_task_{{ $task->id }}">{{ $task->content }}</label>
+                                            </div>
+                                        </form>
+
+                                        <script>
+                                            function updateTaskStatus(taskId, isChecked) {
+                                                var form = document.getElementById('taskForm_' + taskId);
+                                                form.querySelector('input[name="status"]').value = isChecked ? 1 : 0;
+                                                form.submit();
+                                            }
+                                        </script>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
-                        <div class="tile-footer"> <a href="#">View all tasks</a> </div>
+                        <div class="tile-footer"> <a href="{{ route('user-task') }}">View all tasks</a> </div>
                     </div>
                 </div>
                 <div class="col-sm-9">

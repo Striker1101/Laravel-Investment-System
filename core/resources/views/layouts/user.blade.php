@@ -35,6 +35,19 @@
             }
         });
     </script>
+
+    {{-- google translator --}}
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                    pageLanguage: "en"
+                },
+                "google_translate_element"
+            );
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+    </script>
 </head>
 
 <body class="page-body light-theme  page-fade">
@@ -100,6 +113,22 @@
 
                     </li>
 
+                    <li class="{{ Request::is('user-task') ? ' opened active' : '' }}">
+                        <a href="{{ route('user-task') }}">
+                            <i class="fa fa-tasks"></i>
+                            <span class="title">Tasks</span>
+                        </a>
+
+                    </li>
+
+                    <li class="{{ Request::is('user-calender') ? ' opened active' : '' }}">
+                        <a href="{{ route('user-calender') }}">
+                            <i class="fa fa-calendar-o"></i>
+                            <span class="title">Calender</span>
+                        </a>
+
+                    </li>
+
                     <li class="has-sub">
                         <a href="#">
                             <span class="title"><i class="fa fa-money"></i> Deposits</span>
@@ -141,21 +170,54 @@
 
                         </ul>
                     </li>
+                    @php
 
+                        use App\Notification;
+                        use App\Task;
+                        use Carbon\Carbon;
+
+                        $messages = Notification::where('user_id', Auth::user()->id)
+                            ->where('gene', 'support')
+                            ->get();
+                        $message_count = Notification::where('user_id', Auth::user()->id)
+                            ->where('gene', 'support')
+                            ->count();
+
+                        //notification
+                        $notifications = Notification::where('user_id', Auth::user()->id)
+                            ->where('gene', 'message')
+                            ->get();
+                        $notification_count = Notification::where('user_id', Auth::user()->id)
+                            ->where('gene', 'message')
+                            ->count();
+
+                        $mailbox_count = Notification::where('user_id', Auth::user()->id)
+                            ->where('status', 0)
+                            ->count();
+
+                        //task
+                        $tasks = Task::where('user_id', Auth::user()->id)->get();
+                        $task_count = Task::where('user_id', Auth::user()->id)->count();
+
+                        //select random color
+                        $statuses = ['success', 'warning', 'important', 'info', 'danger'];
+                        $randomStatus = $statuses[array_rand($statuses)];
+                    @endphp
                     <li class="has-sub root-level">
                         <a href="#">
                             <i class="entypo-mail"></i>
-                            <span class="title">Mailbox</span><span class="badge badge-secondary">8</span></a>
+                            <span class="title">Mailbox</span><span
+                                class="badge badge-secondary">{{ $mailbox_count }}</span></a>
                         <ul class="visible" style="">
                             <li> <a class="{{ Request::is('user-notification') ? ' opened active' : '' }}"
                                     href="{{ route('user-notification') }}"><i class="entypo-inbox"></i><span
                                         class="title">Inbox</span></a> </li>
-                            <li> <a class="{{ Request::is('user-notification') ? ' opened active' : '' }}"
-                                    href="{{ route('user-notification') }}"><i class="entypo-pencil"></i><span
-                                        class="title">Compose Message</span></a>
+                            <li> <a class="{{ Request::is('user-notification-compose') ? ' opened active' : '' }}"
+                                    href="{{ route('user-notification-compose') }}"><i
+                                        class="entypo-pencil"></i><span class="title">Compose Message</span></a>
                             </li>
                             <li> <a class="{{ Request::is('user-notification') ? ' opened active' : '' }}"
-                                    href="{{ route('user-notification') }}"><i class="entypo-attach"></i><span
+                                    href="{{ route('user-notification', 0) }}"><i class="entypo-attach"></i><span
                                         class="title">View Message</span></a> </li>
                         </ul>
                     </li>
@@ -207,11 +269,10 @@
                                 <li> <a href="{{ route('user-notification') }}"> <i class="entypo-mail"></i>
                                         Inbox
                                     </a> </li>
-                                <li> <a href="https://demo.neontheme.com/extra/calendar/"> <i
-                                            class="entypo-calendar"></i>
+                                <li> <a href="{{ route('user-calender') }}"> <i class="entypo-calendar"></i>
                                         Calendar
                                     </a> </li>
-                                <li> <a href="#"> <i class="entypo-clipboard"></i>
+                                <li> <a href="{{ route('user-task') }}"> <i class="entypo-clipboard"></i>
                                         Tasks
                                     </a> </li>
                                 <li>
@@ -229,56 +290,44 @@
                     </ul>
                     </li>
                     </ul>
+                    <style>
+                        @media (max-width: 768px) {
+                            .dropdown-menu-inline {
+                                width: 50% !important;
+                            }
+                        }
+                    </style>
                     <ul class="user-info pull-left pull-right-xs pull-none-xsm">
                         <li class="notifications dropdown"> <a href="#" class="dropdown-toggle"
-                                data-toggle="dropdown" data-hover="dropdown" data-close-others="true"> <i
-                                    class="entypo-attention"></i> <span class="badge badge-info">6</span> </a>
-                            <ul class="dropdown-menu">
+                                data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                <i class="entypo-attention"></i> <span
+                                    class="badge badge-info">{{ $notification_count }}</span> </a>
+
+                            <ul class="dropdown-menu scroller dropdown-menu-inline" style="float:right; width: 100%;">
                                 <li class="top">
                                     <p class="small"> <a href="#" class="pull-right">Mark all Read</a>
-                                        You have <strong>3</strong> new notifications.
+                                        You have <strong>{{ $notification_count }}</strong> new notifications.
                                     </p>
                                 </li>
                                 <li>
-                                    <ul class="dropdown-menu-list scroller">
-                                        <li class="unread notification-success"> <a href="#"> <i
-                                                    class="entypo-user-add pull-right"></i> <span class="line">
-                                                    <strong>New user registered</strong> </span> <span
-                                                    class="line small">
-                                                    30 seconds ago
-                                                </span> </a> </li>
-                                        <li class="unread notification-secondary"> <a href="#"> <i
-                                                    class="entypo-heart pull-right"></i> <span class="line">
-                                                    <strong>Someone special liked this</strong> </span> <span
-                                                    class="line small">
-                                                    2 minutes ago
-                                                </span> </a> </li>
-                                        <li class="notification-primary"> <a href="#"> <i
-                                                    class="entypo-user pull-right"></i> <span class="line">
-                                                    <strong>Privacy settings have been changed</strong> </span> <span
-                                                    class="line small">
-                                                    3 hours ago
-                                                </span> </a> </li>
-                                        <li class="notification-danger"> <a href="#"> <i
-                                                    class="entypo-cancel-circled pull-right"></i> <span
-                                                    class="line">
-                                                    John cancelled the event
-                                                </span> <span class="line small">
-                                                    9 hours ago
-                                                </span> </a> </li>
-                                        <li class="notification-info"> <a href="#"> <i
-                                                    class="entypo-info pull-right"></i>
-                                                <span class="line">
-                                                    The server is status is stable
-                                                </span> <span class="line small">
-                                                    yesterday at 10:30am
-                                                </span> </a> </li>
-                                        <li class="notification-warning"> <a href="#"> <i
-                                                    class="entypo-rss pull-right"></i> <span class="line">
-                                                    New comments waiting approval
-                                                </span> <span class="line small">
-                                                    last week
-                                                </span> </a> </li>
+                                    <ul class="dropdown-menu-list scroller ">
+
+                                        @foreach ($notifications as $item)
+                                            <li class="{{ $item->status == 1 ? 'unread' : '' }} notification-success">
+                                                <a id="notify_container"
+                                                    href="{{ route('user-notification-details', $item->id) }}">
+                                                    <i class="{{ $item->icon }} pull-right"></i>
+                                                    <div>
+                                                        <span class="line">
+                                                            <strong>{{ $item->title }}</strong>
+                                                        </span>
+                                                        <span class="line small">
+                                                            {{ Carbon::parse($item->created_at)->diffForHumans() }}
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </li>
                                 <li class="external">
@@ -289,52 +338,32 @@
                         </li>
                         <li class="notifications dropdown"> <a href="#" class="dropdown-toggle"
                                 data-toggle="dropdown" data-hover="dropdown" data-close-others="true"> <i
-                                    class="entypo-mail"></i> <span class="badge badge-secondary">10</span> </a>
+                                    class="entypo-mail"></i> <span
+                                    class="badge badge-secondary">{{ $message_count }}</span> </a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <form class="top-dropdown-search">
                                         <div class="form-group"> <input type="text" class="form-control"
-                                                placeholder="Search anything..." name="s" /> </div>
+                                                placeholder="Search anything..." name="searchMessage" /> </div>
                                     </form>
-                                    <ul class="dropdown-menu-list scroller">
-                                        <li class="active"> <a href="#"> <span class="image pull-right"> <img
-                                                        src="https://demo.neontheme.com/assets/images/thumb-1@2x.png"
-                                                        width="44" alt class="img-circle" /> </span> <span
-                                                    class="line">
-                                                    <strong>Luc Chartier</strong>
-                                                    - yesterday
-                                                </span> <span class="line desc small">
-                                                    This ain’t our first item, it is the best of the rest.
-                                                </span> </a> </li>
-                                        <li class="active"> <a href="#"> <span class="image pull-right"> <img
-                                                        src="https://demo.neontheme.com/assets/images/thumb-2@2x.png"
-                                                        width="44" alt class="img-circle" /> </span> <span
-                                                    class="line">
-                                                    <strong>Salma Nyberg</strong>
-                                                    - 2 days ago
-                                                </span> <span class="line desc small">
-                                                    Oh he decisively impression attachment friendship so if everything.
-                                                </span> </a> </li>
-                                        <li> <a href="#"> <span class="image pull-right"> <img
-                                                        src="https://demo.neontheme.com/assets/images/thumb-3@2x.png"
-                                                        width="44" alt class="img-circle" /> </span> <span
-                                                    class="line">
-                                                    Hayden Cartwright
-                                                    - a week ago
-                                                </span> <span class="line desc small">
-                                                    Whose her enjoy chief new young. Felicity if ye required likewise so
-                                                    doubtful.
-                                                </span> </a> </li>
-                                        <li> <a href="#"> <span class="image pull-right"> <img
-                                                        src="https://demo.neontheme.com/assets/images/thumb-4@2x.png"
-                                                        width="44" alt class="img-circle" /> </span> <span
-                                                    class="line">
-                                                    Sandra Eberhardt
-                                                    - 16 days ago
-                                                </span> <span class="line desc small">
-                                                    On so attention necessary at by provision otherwise existence
-                                                    direction.
-                                                </span> </a> </li>
+                                    <ul class="dropdown-menu-list scroller  dropdown-menu-inline"
+                                        style="float:right; width: 100%;">
+                                        @foreach ($messages as $message)
+                                            <li class="{{ $message->status ? 'active' : '' }}">
+                                                <a href="{{ route('user-notification-details', $message->id) }}">
+                                                    <span class="image pull-right">
+                                                        <img src="{{ $message->icon }}" width="44" alt
+                                                            class="img-circle" />
+                                                    </span>
+                                                    <span class="line">
+                                                        <strong>{{ $message->title }}</strong>
+                                                        - {{ Carbon::parse($message->created_at)->diffForHumans() }}
+                                                    </span>
+                                                    <span class="line desc small">
+
+                                                    </span> </a>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </li>
                                 <li class="external">
@@ -345,87 +374,52 @@
                         </li>
                         <li class="notifications dropdown"> <a href="#" class="dropdown-toggle"
                                 data-toggle="dropdown" data-hover="dropdown" data-close-others="true"> <i
-                                    class="entypo-list"></i> <span class="badge badge-warning">1</span> </a>
+                                    class="entypo-list"></i> <span class="badge badge-warning">{{ $task_count }}
+                                </span> </a>
                             <ul class="dropdown-menu">
                                 <li class="top">
-                                    <p>You have 6 pending tasks</p>
+                                    <p>You have {{ $task_count }} pending tasks</p>
                                 </li>
                                 <li>
                                     <ul class="dropdown-menu-list scroller">
-                                        <li> <a href="#"> <span class="task"> <span
-                                                        class="desc">Procurement</span>
-                                                    <span class="percent">27%</span> </span> <span class="progress">
-                                                    <span style="width: 27%;"
-                                                        class="progress-bar progress-bar-success"> <span
-                                                            class="sr-only">27% Complete</span> </span> </span> </a>
-                                        </li>
-                                        <li> <a href="#"> <span class="task"> <span class="desc">App
-                                                        Development</span> <span class="percent">83%</span> </span>
-                                                <span class="progress progress-striped"> <span style="width: 83%;"
-                                                        class="progress-bar progress-bar-danger"> <span
-                                                            class="sr-only">83%
-                                                            Complete</span> </span> </span> </a>
-                                        </li>
-                                        <li> <a href="#"> <span class="task"> <span class="desc">HTML
-                                                        Slicing</span> <span class="percent">91%</span> </span> <span
-                                                    class="progress"> <span style="width: 91%;"
-                                                        class="progress-bar progress-bar-success"> <span
-                                                            class="sr-only">91%
-                                                            Complete</span> </span> </span> </a>
-                                        </li>
-                                        <li> <a href="#"> <span class="task"> <span class="desc">Database
-                                                        Repair</span> <span class="percent">12%</span> </span> <span
-                                                    class="progress progress-striped"> <span style="width: 12%;"
-                                                        class="progress-bar progress-bar-warning"> <span
-                                                            class="sr-only">12%
-                                                            Complete</span> </span> </span> </a>
-                                        </li>
-                                        <li> <a href="#"> <span class="task"> <span class="desc">Backup
-                                                        Create Progress</span> <span class="percent">54%</span> </span>
-                                                <span class="progress progress-striped"> <span style="width: 54%;"
-                                                        class="progress-bar progress-bar-info"> <span
-                                                            class="sr-only">54%
-                                                            Complete</span> </span> </span> </a>
-                                        </li>
-                                        <li> <a href="#"> <span class="task"> <span class="desc">Upgrade
-                                                        Progress</span> <span class="percent">17%</span> </span> <span
-                                                    class="progress progress-striped"> <span style="width: 17%;"
-                                                        class="progress-bar progress-bar-important"> <span
-                                                            class="sr-only">17%
-                                                            Complete</span> </span> </span> </a>
-                                        </li>
-                                    </ul>
+                                        @foreach ($tasks as $task)
+                                            <li>
+                                                <a href="#">
+                                                    <span class="task">
+                                                        <span class="desc">{{ $task->title }}</span>
+                                                        <span class="percent">{{ $task->percent }}%</span> </span>
+                                                    <span class="progress">
+                                                        <span style="width: {{ $task->percent }}%;"
+                                                            class="progress-bar progress-bar-{{ $randomStatus }}">
+                                                            <span class="sr-only">{{ $task->percent }}%
+                                                                Complete</span>
+                                                        </span> </span>
+                                                </a>
+                                            </li>
+                                        @endforeach
                                 </li>
-                                <li class="external"> <a href="#">See all tasks</a> </li>
                             </ul>
                         </li>
+                        <li class="external"> <a href="{{ route('user-task') }}">See all
+                                tasks</a> </li>
+                    </ul>
+                    </li>
                     </ul>
                 </div>
                 <div class="col-md-6 col-sm-4 clearfix hidden-xs">
                     <ul class="list-inline links-list pull-right">
                         <li class="dropdown language-selector">
-                            Language: &nbsp;
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                data-close-others="true"> <img
-                                    src="https://demo.neontheme.com/assets/images/flags/flag-uk.png" width="16"
-                                    height="16" /> </a>
-                            <ul class="dropdown-menu pull-right">
-                                <li> <a href="#"> <img
-                                            src="https://demo.neontheme.com/assets/images/flags/flag-de.png"
-                                            width="16" height="16" /> <span>Deutsch</span> </a> </li>
-                                <li class="active"> <a href="#"> <img
-                                            src="https://demo.neontheme.com/assets/images/flags/flag-uk.png"
-                                            width="16" height="16" /> <span>English</span> </a> </li>
-                                <li> <a href="#"> <img
-                                            src="https://demo.neontheme.com/assets/images/flags/flag-fr.png"
-                                            width="16" height="16" /> <span>François</span> </a> </li>
-                                <li> <a href="#"> <img
-                                            src="https://demo.neontheme.com/assets/images/flags/flag-al.png"
-                                            width="16" height="16" /> <span>Shqip</span> </a> </li>
-                                <li> <a href="#"> <img
-                                            src="https://demo.neontheme.com/assets/images/flags/flag-es.png"
-                                            width="16" height="16" /> <span>Español</span> </a> </li>
-                            </ul>
+                            <div id="google_translate_element"></div>
+
+                            <style>
+                                #google_translate_element>div>span {
+                                    display: none;
+                                }
+
+                                #google_translate_element>div::after {
+                                    content: "EveryDrop";
+                                }
+                            </style>
                         </li>
                         <li class="sep"></li>
                         <li class="sep"></li>

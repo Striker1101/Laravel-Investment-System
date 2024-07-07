@@ -83,7 +83,7 @@
 
 
             <div class="modal fade custom-width " id="modal-3" style="display: none;">
-                <div class="modal-dialog" style="width: 50%;">
+                <div class="modal-dialog" style="width: 100%;">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -276,7 +276,7 @@
         </a>
 
         <div class="modal fade custom-width " id="modal-1" style="display: none;">
-            <div class="modal-dialog" style="width: 50%;">
+            <div class="modal-dialog" style="width: 100%;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -308,7 +308,8 @@
                                     @if ($plan->compound)
                                         <p>Compound: {{ $plan->compound->name }}</p>
                                     @endif
-                                    <h4 style="color: {{ $amountColor }};">Amount: {{ $plan->amount }}</h4>
+                                    <h4 style="color: {{ $amountColor }};">Amount: {{ $plan->amount }}
+                                        {{ $member->currency }}</h4>
                                 </div>
                                 {!! Form::close() !!}
                             </div>

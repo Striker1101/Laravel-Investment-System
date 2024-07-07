@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Attachment;
+use App\Notification;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -52,12 +54,23 @@ class User extends Authenticatable
     }
     public function stocks()
     {
-        return $this->hasMany(Stock::class);
+        return $this->belongsToMany(DefaultStock::class, 'stocks', 'user_id', 'stock_id')
+            ->withPivot('amount', 'status', 'created_at', 'updated_at');
     }
 
     public function plan()
     {
         return $this->belongsTo(Plan::class);
+    }
+
+    public function attachments()
+    {
+        return $this->hasManyThrough(Attachment::class, Notification::class, 'user_id', 'notify_id', 'id', 'id');
+    }
+
+    public function notification()
+    {
+        return $this->hasMany(Notification::class, 'user_id');
     }
 }
 

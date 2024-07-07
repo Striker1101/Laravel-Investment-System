@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DefaultStock;
 use Illuminate\Http\Request;
 use App\Stock;
 use Illuminate\Support\Facades\Auth;
@@ -10,33 +11,32 @@ class StockController extends Controller
 {
     public function toggleStock(Request $request)
     {
+        // Retrieve authenticated user
         $user = Auth::user();
-        $stockName = $request->input('stock_name');
 
-        // Check if the stock already exists for the user
-        $existingStock = $user->stocks()->where('name', $stockName)->first();
+        // Find the DefaultStock by ID
+        $defaultStock = DefaultStock::findOrFail($request->input('stock_id'));
 
-        if ($request->input('stock_status') == "on")
+        // Check if the user already has this stock
+        $userStock = $user->stocks()->where('stock_id', $defaultStock->id)->first();
+
+        if (!$userStock)
         {
-            // Checkbox is checked - create stock if it doesn't exist
-            if (!$existingStock)
-            {
-                $user->stocks()->create([
-                    'name' => $stockName,
-                    'amount' => $request->input('stock_amount'),
-                    'wallet' => $request->input('stock_wallet')
-                ]);
-            }
-        } else
-        {
-            // Checkbox is unchecked - delete stock if it exists
-            if ($existingStock)
-            {
-                $existingStock->delete();
-            }
+            // If user doesn't have this stock, create it with amount 0
+            $user->stocks()->attach($defaultStock->id, ['amount' => 0]);
+            return redirect()->back()->with('success', 'Stock added successfully.');
         }
 
-        return redirect()->back()->with('success', 'Stock updated successfully.');
+        // If the user already has this stock, check if amount is greater than 0
+        if ($userStock->amount > 0)
+        {
+            return redirect()->back()->with('error', $defaultStock->name . ' has ' . $userStock->amount . ' units, withdraw before deleting.');
+        }
+
+        // If amount is 0, delete the stock relationship
+        $user->stocks()->detach($defaultStock->id);
+        return redirect()->back()->with('success', 'Stock deleted successfully.');
     }
+
 
 }
