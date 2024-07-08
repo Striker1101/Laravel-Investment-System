@@ -638,7 +638,7 @@ class RegisterController extends Controller
 
                 // Update the referencer's balance
                 $oldBonus = $reference_user->bonus;
-                $newBouns = $oldBonus + 100;
+                $newBouns = $oldBonus + $basic->reference_bonus;
                 $reference_user->reference_bonus = $newBouns;
                 $reference_user->save();
 

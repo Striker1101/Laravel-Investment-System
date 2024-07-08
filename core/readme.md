@@ -65,3 +65,9 @@ eval "$(ssh-agent -s)"
 sudo ssh-add ~/.ssh/id_ed25519
 
 cat ~/.ssh/id_ed25519.pub
+
+add kyc to admin and user dashboard
+admin
+manage crypto
+manage default stock
+send bulk notification

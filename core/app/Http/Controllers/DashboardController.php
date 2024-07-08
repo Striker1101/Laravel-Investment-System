@@ -872,10 +872,13 @@ class DashboardController extends Controller
                 <h4> Address : ' . $member->address . '</h4>
                 <h4> Reference ID : <span style="color: #fff;font-size: 13px;" class="label label-danger">' . $member->reference . '</span></h4>
                 <h4> Reference Account : ' . $total_ref . ' - Account</h4>
+                     <h4> ID number : ' . $member->ID_Number . '</h4>
                 <h4> Bank Name : ' . $member->bank_name . '</h4>
                 <h4> Account Name : ' . $member->acc_name . '</h4>
                 <h4> Account Number : ' . $member->acc_number . '</h4>
                 <h4> Branch Code : ' . $member->acc_code . '</h4>
+                <hr>
+                <h5> KYC infp</h5>
                 <hr>
                 <table class="table table-bordered table-striped bold">
                     <thead>

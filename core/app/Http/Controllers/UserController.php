@@ -95,7 +95,7 @@ class UserController extends Controller
             $defaultStock->status = $userHasStock ? true : false;
             return $defaultStock;
         });
-        // dd($userStocks);
+
 
         //extra
         $this->data['member'] = User::findOrFail(Auth::user()->id);

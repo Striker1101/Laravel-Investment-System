@@ -10,8 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\BasicSetting;
+use App\Category;
+use App\GeneralSetting;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\UserController;
+use App\Menu;
 
 /*---------------- Landing Page Route List ----------------------------- */
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@getLandingPage']);
@@ -121,7 +125,7 @@ Route::get('btc_ipn/{invoice_id}/{secret}', ['as' => 'btc_ipn', 'uses' => 'HomeC
 
 Route::get('auto-deposit', ['as' => 'auto-deposit', 'uses' => 'UserController@autoDeposit']);
 
-Route::group(['prefix' => 'user'], function () {
+Route::group(['prefix' => 'user', 'middleware' => 'checkIfUserBlocked'], function () {
 
 
     Route::get('dashboard', ['as' => 'user-dashboard', 'uses' => 'UserController@getDashboard']);
@@ -284,6 +288,18 @@ Route::group(['prefix' => 'admin'], function () {
 
 
 });
+
+Route::get('/blocked', function () {
+
+    return view('blocked', [
+        'general' => GeneralSetting::first(),
+        'siteTitle' => GeneralSetting::first()->title,
+        'basic' => BasicSetting::first(),
+        'pageTitle' => "Blocked User",
+        'category' => Category::all(),
+        'menu' => Menu::all(),
+    ]);
+})->name('blocked');
 
 Route::get('partner-create', ['as' => 'partner-create', 'uses' => 'DashboardController@createPartner']);
 Route::post('partner-create', ['as' => 'partner-create', 'uses' => 'DashboardController@storePartner']);
