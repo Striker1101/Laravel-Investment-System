@@ -91,7 +91,7 @@
                     <li class="{{ Request::is('manual-payment-request') ? ' opened active' : '' }}">
                         <a href="{{ route('manual-payment-request') }}">
                             <i class="fa fa-cog"></i>
-                            <span class="title">Manage Bank Payment</span>
+                            <span class="title">Manage Payment</span>
                         </a>
                     </li>
                     <li class="has-sub">
@@ -159,7 +159,14 @@
                     <li class="{{ Request::is('manual-payment') ? ' opened active' : '' }}">
                         <a href="{{ route('manual-payment') }}">
                             <i class="fa fa-bank"></i>
-                            <span class="title">Manage Bank</span>
+                            <span class="title">Manage Payment GateWays</span>
+                        </a>
+                    </li>
+
+                    <li class="{{ Request::is('default-stock') ? ' opened active' : '' }}">
+                        <a href="{{ route('default-stock') }}">
+                            <i class="fa fa-history"></i>
+                            <span class="title">Manage Stocks</span>
                         </a>
                     </li>
 

@@ -20,4 +20,10 @@ class ManualFundLog extends Model
         return $this->belongsTo(ManualCrypto::class, 'trans_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(user::class, 'user_id');
+    }
+
+
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BasicSetting;
 use App\GeneralSetting;
 use App\ManualBank;
+use App\ManualCrypto;
 use App\ManualPayment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
@@ -27,6 +28,7 @@ class ManualPaymentController extends Controller
         $data['site_title'] = $data['general']->title;
         $data['page_title'] = "Manage Bank";
         $data['bank'] = ManualBank::all();
+        $data['crypto'] = ManualCrypto::all();
         return view('bank.manage-bank', $data);
     }
     public function storeMethod(Request $request)
@@ -52,15 +54,42 @@ class ManualPaymentController extends Controller
             return Response::json($category);
         }
     }
+
+    public function storeMethodCrypto(Request $request)
+    {
+        $rules = [
+            'name' => 'required',
+            'wallet_address' => 'required',
+            'wallet_type' => 'required',
+            'fix' => 'required',
+            'percent' => 'required',
+            'minimum' => 'required',
+            'maximum' => 'required',
+        ];
+        $validator = Validator::make(Input::all(), $rules);
+        if ($validator->fails())
+        {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+
+        $category = ManualCrypto::create($request->all());
+        return Response::json($category);
+
+    }
     public function editMethod($task_id)
     {
         $category = ManualBank::find($task_id);
         return Response::json($category);
     }
+
+    public function editMethodCrypto($task_id)
+    {
+        $category = ManualCrypto::find($task_id);
+        return Response::json($category);
+    }
     public function updateMethod(Request $request, $task_id)
     {
-
-
         $cat = ManualBank::find($task_id);
         $rules = array(
             'name' => 'required|unique:manual_banks,name,' . $cat->id,
@@ -88,15 +117,63 @@ class ManualPaymentController extends Controller
             return Response::json($cat);
         }
     }
+
+    public function updateMethodCrypto(Request $request, $task_id)
+    {
+        $cat = ManualCrypto::find($task_id);
+        if (!$cat)
+        {
+            return response()->json(['error' => 'Task not found'], 404);
+        }
+
+        $rules = [
+            'name' => 'required',
+            'wallet_address' => 'required',
+            'wallet_type' => 'required',
+            'fix' => 'required',
+            'percent' => 'required',
+            'minimum' => 'required',
+            'maximum' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails())
+        {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        $cat->name = $request->name;
+        $cat->wallet_address = $request->wallet_address;
+        $cat->wallet_type = $request->wallet_type;
+        $cat->fix = $request->fix;
+        $cat->percent = $request->percent;
+        $cat->minimum = $request->minimum;
+        $cat->maximum = $request->maximum;
+        $cat->save();
+
+        return response()->json($cat);
+    }
     public function manualActive(Request $request)
     {
 
         $this->validate($request, [
             'id' => 'required',
         ]);
-        $pp = ManualBank::findOrFail($request->id);
-        $pp->status = 1;
-        $pp->save();
+        switch ($request->type)
+        {
+            case 'crypto':
+                $pp = ManualCrypto::findOrFail($request->id);
+                $pp->status = 1;
+                $pp->save();
+                break;
+            default:
+                $pp = ManualBank::findOrFail($request->id);
+                $pp->status = 1;
+                $pp->save();
+                break;
+        }
+
         session()->flash('message', 'Payment Method Activate Successfully.');
         Session::flash('type', 'success');
         Session::flash('title', 'Success');
@@ -108,9 +185,19 @@ class ManualPaymentController extends Controller
         $this->validate($request, [
             'id' => 'required',
         ]);
-        $pp = ManualBank::findOrFail($request->id);
-        $pp->status = 0;
-        $pp->save();
+        switch ($request->type)
+        {
+            case 'crypto':
+                $pp = ManualCrypto::findOrFail($request->id);
+                $pp->status = 0;
+                $pp->save();
+                break;
+            default:
+                $pp = ManualBank::findOrFail($request->id);
+                $pp->status = 0;
+                $pp->save();
+                break;
+        }
         session()->flash('message', 'Payment Method DeActivate Successfully.');
         Session::flash('type', 'success');
         Session::flash('title', 'Success');

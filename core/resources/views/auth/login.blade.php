@@ -41,7 +41,7 @@
                         @endforeach
                     @endif
                     <form action="{{ route('login') }}" method="post" accept-charset="utf-8" class="block">
-                        {!! csrf_field() !!}
+                        {{ csrf_field() }}
 
                         <div class="input-group">
                             <input type="email" name="email" value="{{ old('email') }}" required class="form-control"

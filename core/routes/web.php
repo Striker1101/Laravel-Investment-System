@@ -245,14 +245,26 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::get('manual-payment', ['as' => 'manual-payment', 'uses' => 'ManualPaymentController@getMethod']);
     Route::post('manual-payment', ['as' => 'manual-payment', 'uses' => 'ManualPaymentController@storeMethod']);
+    Route::post('manual-payment-crypto', ['as' => 'manual-payment-crypto', 'uses' => 'ManualPaymentController@storeMethodCrypto']);
     Route::get('manual-payment/{task_id?}', ['as' => 'manual-payment-edit', 'uses' => 'ManualPaymentController@editMethod']);
+    Route::get('manual-payment-crypto/{task_id?}', ['as' => 'manual-payment-edit-crypto', 'uses' => 'ManualPaymentController@editMethodCrypto']);
     Route::put('manual-payment/{task_id?}', ['as' => 'manual-payment-edit', 'uses' => 'ManualPaymentController@updateMethod']);
+    Route::put('manual-payment-crypto/{task_id?}', ['as' => 'manual-payment-edit-crypto', 'uses' => 'ManualPaymentController@updateMethodCrypto']);
     Route::post('manual-active', ['as' => 'manual-active', 'uses' => 'ManualPaymentController@manualActive']);
     Route::post('manual-deactive', ['as' => 'manual-deactive', 'uses' => 'ManualPaymentController@manualDeActive']);
+
+
 
     Route::get('manual-payment-request', ['as' => 'manual-payment-request', 'uses' => 'DashboardController@getManualPaymentRequest']);
     Route::get('manual-payment-view/{id}', ['as' => 'manual-payment-view', 'uses' => 'DashboardController@viewManualPayment']);
     Route::post('manual-payment-confirm', ['as' => 'manual-payment-confirm', 'uses' => 'DashboardController@manualPaymentConfirm']);
+
+    Route::get('default-stock', ['as' => 'default-stock', 'uses' => 'DefaultStockController@getMethod']);
+    Route::post('default-stock', ['as' => 'default-stock', 'uses' => 'DefaultStockController@storeMethod']);
+    Route::get('default-stock/{task_id?}', ['as' => 'default-stock-edit', 'uses' => 'DefaultStockController@editMethod']);
+    Route::put('default-stock/{task_id?}', ['as' => 'default-stock-edit', 'uses' => 'DefaultStockController@updateMethod']);
+    Route::post('default-stock-active', ['as' => 'default-stock-active', 'uses' => 'DefaultStockController@Active']);
+    Route::post('default-stock-deactive', ['as' => 'default-stock-deactive', 'uses' => 'DefaultStockController@DeActive']);
 
     Route::get('slider-create', ['as' => 'slider-create', 'uses' => 'DashboardController@sliderCreate']);
     Route::post('slider-create', ['as' => 'slider-create', 'uses' => 'DashboardController@sliderStore']);

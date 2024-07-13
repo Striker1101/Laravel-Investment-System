@@ -31,10 +31,15 @@
             <tr>
                 <td width="13%">{{ \Carbon\Carbon::parse($fund->created_at)->format('d-F-y h:i:s A') }}</td>
                 <td>{{ $fund->log->transaction_id }}</td>
-                <td width="12%">{{ $fund->log->method->name }}</td>
-                <td width="15%">{{ $basic->symbol }} {{ $fund->log->total }}</td>
-                <td>{{ $basic->symbol }} {{ $fund->log->charge }}</td>
-                <td>{{ $basic->symbol }} {{ $fund->log->amount }}</td>
+                <td width="12%">{{ $fund->log->type == 'bank' ? $fund->log->method->name : $fund->log->method2->name }}
+                </td>
+                <td width="15%">
+                    {{ $fund->log->type == 'bank' ? $fund->log->user->currency : $fund->log->method2->wallet_type }}
+                    {{ $fund->log->total }}</td>
+                <td> {{ $fund->log->type == 'bank' ? $fund->log->user->currency : $fund->log->method2->wallet_type }}
+                    {{ $fund->log->charge }}</td>
+                <td> {{ $fund->log->type == 'bank' ? $fund->log->user->currency : $fund->log->method2->wallet_type }}
+                    {{ $fund->log->amount }}</td>
                 <td width="10%">
                     @if ($fund->made_time == null)
                         <span class="label label-success"><i class="fa fa-times"></i> Not Seen Yet.</span>

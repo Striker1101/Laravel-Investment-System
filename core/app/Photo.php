@@ -8,6 +8,6 @@ class Photo extends Model
 {
     protected $table = 'photos';
 
-    protected $fillable = ['image','fund_id'];
+    protected $fillable = ['image', 'user_id', 'fund_id'];
 
 }
