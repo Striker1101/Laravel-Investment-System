@@ -31,68 +31,87 @@
         });
     </script>
 
-    <table class="table table-striped table-hover table-bordered datatable" id="table-4">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Current Amount</th>
-                <th>Created At</th>
-                <th>Documentation</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php $i = 0;@endphp
-            @foreach ($user as $p)
-                @php $i++;@endphp
-
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered datatable" id="table-4">
+            <thead>
                 <tr>
-                    <td>{{ $i }}</td>
-                    <td>{{ $p->name }}</td>
-                    <td>{{ $p->email }}</td>
-                    <td>{{ $p->amount }} - {{ $basic->currency }}</td>
-                    <td>{{ \Carbon\Carbon::parse($p->created_at)->diffForHumans() }}</td>
-                    <td width="30%">
-                        <button data-toggle="modal" data-target="#view-modal" data-id="{{ $p->id }}" id="getUser"
-                            class="btn btn-info btn-icon icon-left">
-                            <i class="fa fa-eye"></i> Details
-                        </button>
-                        <button type="button" class="btn btn-primary btn-icon icon-left" data-toggle="popover-x"
-                            data-target="#myPopover{{ $p->id }}" data-placement="top"><i class="fa fa-list"></i>
-                            Activity</button>
-
-                        <div id="myPopover{{ $p->id }}" class="popover popover-success popover-md">
-                            <div class="arrow"></div>
-                            <div class="popover-title"><span class="close"
-                                    data-dismiss="popover-x">&times;</span><strong><i class="fa fa-indent"></i>
-                                    Activity</strong></div>
-                            <div class="popover-content">
-                                <a href="{{ route('user-transaction', $p->id) }}" class="btn btn-info btn-icon icon-left"><i
-                                        class="fa fa-cloud-upload"></i> Transaction</a>
-                                <a href="{{ route('user-deposit', $p->id) }}" class="btn btn-success btn-icon icon-left"><i
-                                        class="fa fa-cloud-download"></i> Deposit</a>
-                                <a href="{{ route('user-withdraw', $p->id) }}" class="btn btn-danger btn-icon icon-left"><i
-                                        class="fa fa-reply-all"></i> Withdraw</a>
-                            </div>
-                        </div>
-                        @if ($p->block_status == 1)
-                            <button type="button" class="btn btn-danger btn-icon icon-left unblock_button"
-                                data-toggle="modal" data-target="#unblocklModal" data-id="{{ $p->id }}">
-                                <i class="fa fa-user-plus"></i> UnBlock
-                            </button>
-                        @else
-                            <button type="button" class="btn btn-danger btn-icon icon-left block_button"
-                                data-toggle="modal" data-target="#blockModal" data-id="{{ $p->id }}">
-                                <i class="fa fa-user-times"></i> Block
-                            </button>
-                        @endif
-                    </td>
+                    <th>No</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Current Amount</th>
+                    <th>Created At</th>
+                    <th>Documentation</th>
                 </tr>
-            @endforeach
-        </tbody>
+            </thead>
+            <tbody>
+                @php $i = 0;@endphp
+                @foreach ($user as $p)
+                    @php $i++;@endphp
 
-    </table>
+                    <tr>
+                        <td>{{ $i }}</td>
+                        <td>{{ $p->name }}</td>
+                        <td>{{ $p->email }}</td>
+                        <td>{{ $p->amount }} - {{ $basic->currency }}</td>
+                        <td>{{ \Carbon\Carbon::parse($p->created_at)->diffForHumans() }}</td>
+                        <td width="30%">
+                            <button data-toggle="modal" data-target="#view-modal" data-id="{{ $p->id }}" id="getUser"
+                                class="btn btn-info btn-icon icon-left">
+                                <i class="fa fa-eye"></i> Details
+                            </button>
+                            <button type="button" class="btn btn-primary btn-icon icon-left" data-toggle="popover-x"
+                                data-target="#myPopover{{ $p->id }}" data-placement="top"><i class="fa fa-list"></i>
+                                Activity</button>
+
+                            <div id="myPopover{{ $p->id }}" class="popover popover-success popover-md">
+                                <div class="arrow"></div>
+                                <div class="popover-title"><span class="close"
+                                        data-dismiss="popover-x">&times;</span><strong><i class="fa fa-indent"></i>
+                                        Activity</strong></div>
+                                <div class="popover-content">
+                                    <a href="{{ route('user-transaction', $p->id) }}"
+                                        class="btn btn-info btn-icon icon-left"><i class="fa fa-cloud-upload"></i>
+                                        Transaction</a>
+                                    <a href="{{ route('user-deposit', $p->id) }}"
+                                        class="btn btn-success btn-icon icon-left"><i class="fa fa-cloud-download"></i>
+                                        Deposit</a>
+                                    <a href="{{ route('user-withdraw', $p->id) }}"
+                                        class="btn btn-danger btn-icon icon-left"><i class="fa fa-reply-all"></i>
+                                        Withdraw</a>
+                                </div>
+                            </div>
+                            @if ($p->block_status == 1)
+                                <button type="button" class="btn btn-danger btn-icon icon-left unblock_button"
+                                    data-toggle="modal" data-target="#unblocklModal" data-id="{{ $p->id }}">
+                                    <i class="fa fa-user-plus"></i> UnBlock
+                                </button>
+                            @else
+                                <button type="button" class="btn btn-danger btn-icon icon-left block_button"
+                                    data-toggle="modal" data-target="#blockModal" data-id="{{ $p->id }}">
+                                    <i class="fa fa-user-times"></i> Block
+                                </button>
+                            @endif
+
+                            @if ($p->trade == 1)
+                                <button type="button" class="btn btn-danger btn-icon icon-left  block_button"
+                                    style="margin: 2px" data-toggle="modal" data-target="#untradeModal"
+                                    data-id="{{ $p->id }}">
+                                    <i class="fa fa-hand-paper-o"></i> Stop Trade
+                                </button>
+                            @else
+                                <button type="button" class="btn btn-success btn-icon icon-left unblock_button"
+                                    style="margin: 2px" data-toggle="modal" data-target="#tradeModal"
+                                    data-id="{{ $p->id }}">
+                                    <i class="fa fa-handshake-o"></i> Start Trade
+                                </button>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+
+        </table>
+    </div>
     <meta name="_token" content="{!! csrf_token() !!}" />
 
     <div class="modal fade" id="blockModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -151,6 +170,67 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="tradeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel"> <i class='fa fa-exclamation-triangle'></i> Confirmation..!
+                    </h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <strong>Are you sure you want to <strong>Start</strong> This Trade.?</strong>
+                </div>
+
+                <div class="modal-footer">
+                    <form method="post" action="{{ route('user-trade') }}" class="form-inline">
+                        {!! csrf_field() !!}
+                        <input type="hidden" name="id" class="abir_id" value="0">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>
+                            Close</button>
+                        <button type="submit" class="btn btn-danger"><i class="fa fa-check"></i> Yes I'm
+                            Sure..!</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="untradeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel"> <i class='fa fa-exclamation-triangle'></i> Confirmation..!
+                    </h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <strong>Are you sure you want to <strong>Stop</strong> This User.?</strong>
+                </div>
+
+                <div class="modal-footer">
+                    <form method="post" action="{{ route('user-untrade') }}" class="form-inline">
+                        {!! csrf_field() !!}
+                        <input type="hidden" name="id" class="abir_id" value="0">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>
+                            Close</button>
+                        <button type="submit" class="btn btn-danger"><i class="fa fa-check"></i> Yes I'm
+                            Sure..!</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
     <div id="view-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
         aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
@@ -215,7 +295,7 @@
                     .fail(function() {
                         $('#dynamic-content').html(
                             '<i class="glyphicon glyphicon-info-sign"></i> Something went wrong, Please try again...'
-                            );
+                        );
                         $('#modal-loader').hide();
                     });
 
@@ -229,7 +309,11 @@
             $(document).on("click", '.block_button', function(e) {
                 var id = $(this).data('id');
                 $(".abir_id").val(id);
+            });
 
+            $(document).on("click", '.block_button', function(e) {
+                var id = $(this).data('id');
+                $(".abir_id").val(id);
             });
 
         });

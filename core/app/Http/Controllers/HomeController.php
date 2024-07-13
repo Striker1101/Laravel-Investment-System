@@ -67,10 +67,11 @@ class HomeController extends Controller
     public function getAbout()
     {
         $data['general'] = GeneralSetting::first();
-        $data['site_title'] = $data['general']->title;
+        $data['siteTitle'] = $data['general']->title;
         $data['basic'] = BasicSetting::first();
         $data['menu'] = Menu::all();
         $data['page_title'] = "About US";
+        $data['pageTitle'] = "About US";
         $data['page'] = Page::first();
         $data['payment'] = Payment::first();
         $data['category'] = Category::all();

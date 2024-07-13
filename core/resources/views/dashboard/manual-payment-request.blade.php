@@ -30,71 +30,74 @@
         });
     </script>
 
-    <table class="table table-striped table-hover table-bordered datatable" id="table-4">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Transaction ID</th>
-                <th>Date</th>
-                <th>User</th>
-                <th>Type</th>
-
-                <th>Method Name</th>
-                <th>Total</th>
-                <th>Charge</th>
-                <th>Amount</th>
-                <th>Success Date</th>
-                <th>Status</th>
-                <th>Documentation</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php $i = 0;@endphp
-            @foreach ($fund as $p)
-                @php $i++;@endphp
-
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered datatable" id="table-4">
+            <thead>
                 <tr>
-                    <td>{{ $i }}</td>
-                    <td>{{ $p->log->transaction_id }}</td>
-                    <td width="13%">{{ \Carbon\Carbon::parse($p->created_at)->format('d-F-y h:i:s A') }}</td>
-                    <td>{{ $p->log->user->name }}</td>
-                    <td>{{ ucfirst($p->log->type) }}</td>
-                    <td width="12%">{{ $p->log->type == 'bank' ? $p->log->method->name : $p->log->method2->name }}</td>
-                    <td width="15%">
-                        {{ $p->log->type == 'bank' ? $p->log->user->currency : $p->log->method2->wallet_type }}
-                        {{ $p->log->total }}</td>
-                    <td>{{ $basic->symbol }} {{ $p->log->charge }}</td>
-                    <td>{{ $p->log->type == 'bank' ? $p->log->user->currency : $p->log->method2->wallet_type }}
-                        {{ $p->log->amount }}</td>
-                    <td width="10%">
-                        @if ($p->made_time == null)
-                            <span class="label label-success"><i class="fa fa-times"></i> Not Seen Yet.</span>
-                        @else
-                            {{ \Carbon\Carbon::parse($p->made_time)->format('d-F-y h:i:s A') }}
-                        @endif
-                    </td>
-
-                    <td>
-                        @if ($p->status == 0)
-                            <span class="label label-secondary"><i class="fa fa-spinner"></i> Pending</span>
-                        @elseif($p->status == 1)
-                            <span class="label label-success"><i class="fa fa-check" aria-hidden="true"></i>
-                                Completed</span>
-                        @else
-                            <span class="label label-danger"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                                Refunded</span>
-                        @endif
-
-                    </td>
-                    <td>
-                        <a target="_blank" href="{{ route('manual-payment-view', $p->id) }}"
-                            class="btn btn-info btn-sm btn-icon icon-left"><i class="fa fa-eye"></i>View</a>
-                    </td>
+                    <th>No</th>
+                    <th>Transaction ID</th>
+                    <th>Date</th>
+                    <th>User</th>
+                    <th>Type</th>
+                    <th>Method Name</th>
+                    <th>Total</th>
+                    <th>Charge</th>
+                    <th>Amount</th>
+                    <th>Success Date</th>
+                    <th>Status</th>
+                    <th>Documentation</th>
                 </tr>
-            @endforeach
-        </tbody>
+            </thead>
+            <tbody>
+                @php $i = 0;@endphp
+                @foreach ($fund as $p)
+                    @php $i++;@endphp
 
-    </table>
+                    <tr>
+                        <td>{{ $i }}</td>
+                        <td>{{ $p->log->transaction_id }}</td>
+                        <td width="13%">{{ \Carbon\Carbon::parse($p->created_at)->format('d-F-y h:i:s A') }}</td>
+                        <td>{{ $p->log->user->name }}</td>
+                        <td>{{ ucfirst($p->log->type) }}</td>
+                        <td width="12%">{{ $p->log->type == 'bank' ? $p->log->method->name : $p->log->method2->name }}
+                        </td>
+                        <td width="15%">
+                            {{ $p->log->type == 'bank' ? $p->log->user->currency : $p->log->method2->wallet_type }}
+                            {{ $p->log->total }}</td>
+                        <td>{{ $basic->symbol }} {{ $p->log->charge }}</td>
+                        <td>{{ $p->log->type == 'bank' ? $p->log->user->currency : $p->log->method2->wallet_type }}
+                            {{ $p->log->amount }}</td>
+                        <td width="10%">
+                            @if ($p->made_time == null)
+                                <span class="label label-success"><i class="fa fa-times"></i> Not Seen Yet.</span>
+                            @else
+                                {{ \Carbon\Carbon::parse($p->made_time)->format('d-F-y h:i:s A') }}
+                            @endif
+                        </td>
+
+                        <td>
+                            @if ($p->status == 0)
+                                <span class="label label-secondary"><i class="fa fa-spinner"></i> Pending</span>
+                            @elseif($p->status == 1)
+                                <span class="label label-success"><i class="fa fa-check" aria-hidden="true"></i>
+                                    Completed</span>
+                            @else
+                                <span class="label label-danger"><i class="fa fa-exclamation-triangle"
+                                        aria-hidden="true"></i>
+                                    Refunded</span>
+                            @endif
+
+                        </td>
+                        <td>
+                            <a target="_blank" href="{{ route('manual-payment-view', $p->id) }}"
+                                class="btn btn-info btn-sm btn-icon icon-left"><i class="fa fa-eye"></i>View</a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+
+        </table>
+    </div>
 @endsection
 @section('scripts')
     <script>

@@ -30,7 +30,7 @@
 
                             <div class="col-sm-8">
                                 <input type="text" name="subject" id="" class="form-control input-lg" required
-                                    placeholder="Latter Subject">
+                                    placeholder="Notification Subject">
                             </div>
                         </div>
                         <div class="form-group">
@@ -50,11 +50,11 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Latter Description : </label>
+                            <label class="col-sm-3 control-label">Notification Description : </label>
 
                             <div class="col-sm-8">
                                 <textarea name="description" class="form-control input-lg" id="area1" cols="30" rows="10" required
-                                    placeholder="Latter Description"></textarea>
+                                    placeholder="Notification Description"></textarea>
                             </div>
                         </div>
 
@@ -64,7 +64,7 @@
                                 <div class="col-md-offset-3 col-md-8">
                                     <button type="submit" onclick="nicEditors.findEditor('area1').saveContent();"
                                         class="btn btn-info btn-block margin-top-10"><i class="fa fa-paper-plane"></i> Send
-                                        This Latter</button>
+                                        This Notification</button>
                                 </div>
                             </div>
                         </div>

@@ -715,7 +715,7 @@ class RegisterController extends Controller
             'status' => 0, // Assuming 0 means unread
             'gene' => 'message',
             'type' => 'inbox',
-            'icon' => 'entypo-user', // You can set the appropriate icon
+            'icon' => 'fa fa-envelope-o', // You can set the appropriate icon
             'user_id' => $thisUser['id'],
             'tag' => 'white' // Default tag
         ]);

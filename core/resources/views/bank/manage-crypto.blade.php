@@ -5,57 +5,61 @@
 </div>
 
 
-<table class="table table-striped table-hover table-bordered datatable" id="table-4">
-    <thead>
-        <tr>
-            <th>No</th>
-            <th> Name</th>
-            <th>Wallet Address </th>
-            <th>Wallet Type</th>
-            <th>Limit</th>
-            <th>Charge</th>
-            <th>Status</th>
-            <th>Documentation</th>
-        </tr>
-    </thead>
-    <tbody id="tasks-list-crypto" name="tasks-list-crypto">
-        <?php $no = 0; ?>
-        @foreach ($crypto as $cat)
-            <?php $no++; ?>
-            <tr id="task_crypto{{ $cat->id }}">
-                <td>{{ $no }}</td>
-                <td>{{ $cat->name }}</td>
-                <td>
-                    {{ $cat->wallet_address }}
-                </td>
-                <td>
-                    {{ $cat->wallet_type }}
-                </td>
-                <td width="14%">{{ $basic->symbol }} {{ $cat->minimum }} - {{ $basic->symbol }} {{ $cat->maximum }}
-                </td>
-                <td width="13%">{{ $basic->symbol }} {{ $cat->fix }} - {{ $cat->percent }} <i
-                        class="fa fa-percent"></i></td>
-                <td>
-                    @if ($cat->status == 1)
-                        <button title="Do Deactive" type="button" class="btn btn-danger btn-sm delete_button_crypto1"
-                            data-toggle="modal" data-target="#DelModalCrypto" data-id="{{ $cat->id }}">
-                            <i class="fa fa-eye-slash"></i>
-                        </button>
-                    @else
-                        <button title="Do Active" type="button" class="btn btn-success btn-sm delete_button_crypto"
-                            data-toggle="modal" data-target="#DelModal1Crypto" data-id="{{ $cat->id }}">
-                            <i class="fa fa-eye"></i>
-                        </button>
-                    @endif
-                </td>
-                <td>
-                    <button class="btn btn-info btn-sm btn-detail open-modal-crypto" value="{{ $cat->id }}"><i
-                            class="fa fa-edit"></i></button>
-                </td>
+<div class="table-responsiv">
+    <table class="table table-striped table-hover table-bordered datatable" id="table-4">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th> Name</th>
+                <th>Wallet Address </th>
+                <th>Wallet Type</th>
+                <th>Limit</th>
+                <th>Charge</th>
+                <th>Status</th>
+                <th>Documentation</th>
             </tr>
-        @endforeach
-    </tbody>
-</table>
+        </thead>
+        <tbody id="tasks-list-crypto" name="tasks-list-crypto">
+            <?php $no = 0; ?>
+            @foreach ($crypto as $cat)
+                <?php $no++; ?>
+                <tr id="task_crypto{{ $cat->id }}">
+                    <td>{{ $no }}</td>
+                    <td>{{ $cat->name }}</td>
+                    <td>
+                        {{ $cat->wallet_address }}
+                    </td>
+                    <td>
+                        {{ $cat->wallet_type }}
+                    </td>
+                    <td width="14%">{{ $basic->symbol }} {{ $cat->minimum }} - {{ $basic->symbol }}
+                        {{ $cat->maximum }}
+                    </td>
+                    <td width="13%">{{ $basic->symbol }} {{ $cat->fix }} - {{ $cat->percent }} <i
+                            class="fa fa-percent"></i></td>
+                    <td>
+                        @if ($cat->status == 1)
+                            <button title="Do Deactive" type="button"
+                                class="btn btn-danger btn-sm delete_button_crypto1" data-toggle="modal"
+                                data-target="#DelModalCrypto" data-id="{{ $cat->id }}">
+                                <i class="fa fa-eye-slash"></i>
+                            </button>
+                        @else
+                            <button title="Do Active" type="button" class="btn btn-success btn-sm delete_button_crypto"
+                                data-toggle="modal" data-target="#DelModal1Crypto" data-id="{{ $cat->id }}">
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        @endif
+                    </td>
+                    <td>
+                        <button class="btn btn-info btn-sm btn-detail open-modal-crypto" value="{{ $cat->id }}"><i
+                                class="fa fa-edit"></i></button>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 
 
 <div class="modal fade" id="myModalCrypto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

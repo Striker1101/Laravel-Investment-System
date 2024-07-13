@@ -210,10 +210,17 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('user-block', ['as' => 'user-block', 'uses' => 'DashboardController@blockUser']);
     Route::post('user-unblock', ['as' => 'user-unblock', 'uses' => 'DashboardController@unblockUser']);
 
+    Route::post('user-trade', ['as' => 'user-trade', 'uses' => 'DashboardController@tradeUser']);
+    Route::post('user-untrade', ['as' => 'user-untrade', 'uses' => 'DashboardController@untradeUser']);
+
     Route::get('block-user', ['as' => 'block-user', 'uses' => 'DashboardController@blockUserList']);
 
     Route::get('latter-create', ['as' => 'latter-create', 'uses' => 'DashboardController@latterCreate']);
     Route::post('latter-create', ['as' => 'latter-create', 'uses' => 'DashboardController@latterStore']);
+
+
+    Route::get('notify-create', ['as' => 'notify-create', 'uses' => 'DashboardController@notifyCreate']);
+    Route::post('notify-create', ['as' => 'notify-create', 'uses' => 'DashboardController@notifyStore']);
 
     Route::get('manage-strategy', ['as' => 'manage-strategy', 'uses' => 'DashboardController@getStrategy']);
     Route::post('manage-strategy', ['as' => 'manage-strategy', 'uses' => 'DashboardController@storeStrategy']);
@@ -263,8 +270,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('default-stock', ['as' => 'default-stock', 'uses' => 'DefaultStockController@storeMethod']);
     Route::get('default-stock/{task_id?}', ['as' => 'default-stock-edit', 'uses' => 'DefaultStockController@editMethod']);
     Route::put('default-stock/{task_id?}', ['as' => 'default-stock-edit', 'uses' => 'DefaultStockController@updateMethod']);
-    Route::post('default-stock-active', ['as' => 'default-stock-active', 'uses' => 'DefaultStockController@Active']);
-    Route::post('default-stock-deactive', ['as' => 'default-stock-deactive', 'uses' => 'DefaultStockController@DeActive']);
+    Route::delete('default-stock/{task_id?}', ['as' => 'default-stock-delete', 'uses' => 'DefaultStockController@deleteMethod']);
+    Route::post('default-stock-active', ['as' => 'default-stock-active', 'uses' => 'DefaultStockController@active']);
+    Route::post('default-stock-deactive', ['as' => 'default-stock-deactive', 'uses' => 'DefaultStockController@deActive']);
 
     Route::get('slider-create', ['as' => 'slider-create', 'uses' => 'DashboardController@sliderCreate']);
     Route::post('slider-create', ['as' => 'slider-create', 'uses' => 'DashboardController@sliderStore']);

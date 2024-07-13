@@ -171,66 +171,72 @@
                     </li>
 
 
-                    <!--<li class="{{ Request::is('withdraw-payment') ? ' opened active' : '' }}">
-                    <a href="{{ route('withdraw-payment') }}">
-                        <i class="fa fa-money"></i>
-                        <span class="title">Withdraw Method</span>
-                    </a>
-                </li>
+                    <li class="{{ Request::is('withdraw-payment') ? ' opened active' : '' }}">
+                        <a href="{{ route('withdraw-payment') }}">
+                            <i class="fa fa-money"></i>
+                            <span class="title">Withdraw Method</span>
+                        </a>
+                    </li>
 
-                <li class="{{ Request::is('news-category') ? ' opened active' : '' }}">
-                    <a href="{{ route('news-category') }}">
-                        <i class="fa fa-list"></i>
-                        <span class="title">News Category</span>
-                    </a>
-                </li>
-                <li class="has-sub">
-                    <a href="#">
-                        <span class="title"><i class="fa fa-newspaper-o"></i> Manage News</span>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="{{ route('news-create') }}">
-                                <span class="title"><i class="entypo-plus"></i> Create New News</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('news-show') }}">
-                                <span class="title"><i class="entypo-monitor"></i> View All News</span>
-                            </a>
-                        </li>
+                    <li class="{{ Request::is('news-category') ? ' opened active' : '' }}">
+                        <a href="{{ route('news-category') }}">
+                            <i class="fa fa-list"></i>
+                            <span class="title">News Category</span>
+                        </a>
+                    </li>
+                    <li class="has-sub">
+                        <a href="#">
+                            <span class="title"><i class="fa fa-newspaper-o"></i> Manage News</span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="{{ route('news-create') }}">
+                                    <span class="title"><i class="entypo-plus"></i> Create New News</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('news-show') }}">
+                                    <span class="title"><i class="entypo-monitor"></i> View All News</span>
+                                </a>
+                            </li>
 
-                    </ul>
-                </li>-->
+                        </ul>
+                    </li>
                     <li>
                         <a href="{{ route('latter-create') }}">
                             <span class="title"><i class="fa fa-envelope-open"></i> Send News Latter</span>
                         </a>
                     </li>
-                    <!-- <li class="{{ Request::is('manage-compound') ? ' opened active' : '' }}">
-                    <a href="{{ route('manage-compound') }}">
-                        <i class="fa fa-sort-amount-asc"></i>
-                        <span class="title">Manage Compound</span>
-                    </a>
-                </li>
-            <li class="has-sub">
-                    <a href="#">
-                        <span class="title"><i class="fa fa-handshake-o"></i> Manage Partner</span>
-                    </a>
-                    <ul>
-                        <li>
-                            <a href="{{ route('partner-create') }}">
-                                <span class="title"><i class="entypo-plus"></i> Create New Partner</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('partner-show') }}">
-                                <span class="title"><i class="entypo-monitor"></i> View All Partner</span>
-                            </a>
-                        </li>
 
-                    </ul>
-                </li>-->
+                    <li>
+                        <a href="{{ route('notify-create') }}">
+                            <span class="title"><i class="fa fa-envelope"></i> Send Notification Message</span>
+                        </a>
+                    </li>
+                    <li class="{{ Request::is('manage-compound') ? ' opened active' : '' }}">
+                        <a href="{{ route('manage-compound') }}">
+                            <i class="fa fa-sort-amount-asc"></i>
+                            <span class="title">Manage Compound</span>
+                        </a>
+                    </li>
+                    <li class="has-sub">
+                        <a href="#">
+                            <span class="title"><i class="fa fa-handshake-o"></i> Manage Partner</span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="{{ route('partner-create') }}">
+                                    <span class="title"><i class="entypo-plus"></i> Create New Partner</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('partner-show') }}">
+                                    <span class="title"><i class="entypo-monitor"></i> View All Partner</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
                     <li class="has-sub">
                         <a href="#">
                             <i class="entypo-tools"></i>

@@ -15,7 +15,7 @@
                     } elseif ($notification['tag'] == 'stocks') {
                         $tag = 'info';
                     } else {
-                        $tag = null;
+                        $tag = 'secondary';
                     }
 
                 @endphp

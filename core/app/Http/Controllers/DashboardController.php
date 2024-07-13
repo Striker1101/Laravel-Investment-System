@@ -20,6 +20,7 @@ use App\ManualFund;
 use App\ManualPayment;
 use App\Member;
 use App\News;
+use App\Notification;
 use App\Partner;
 use App\Payment;
 use App\Photo;
@@ -963,6 +964,36 @@ class DashboardController extends Controller
         Session::flash('title', 'Success');
         return redirect()->back();
     }
+
+    public function tradeUser(Request $request)
+    {
+
+        $this->validate($request, [
+            'id' => 'required'
+        ]);
+        $user = User::findOrFail($request->id);
+        $user->trade = 1;
+        $user->trade_start = date('Y-m-d H:i:s');
+        $user->save();
+        session()->flash('message', "{$user->name} Successfully Start Trading .");
+        Session::flash('type', 'success');
+        Session::flash('title', 'Success');
+        return redirect()->back();
+    }
+    public function untradeUser(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required'
+        ]);
+        $user = User::findOrFail($request->id);
+        $user->trade = 0;
+        $user->trade_stop = date('Y-m-d H:i:s');
+        $user->save();
+        session()->flash('message', "{$user->name} Successfully Stopped Trading.");
+        Session::flash('type', 'success');
+        Session::flash('title', 'Success');
+        return redirect()->back();
+    }
     public function blockUserList()
     {
         $data['site_title'] = $this->site_title;
@@ -980,6 +1011,15 @@ class DashboardController extends Controller
         $data['page_title'] = "Create New Latter";
         $data['user'] = User::orderBy('id', 'DESC')->get();
         return view('dashboard.latter-create', $data);
+    }
+    public function notifyCreate()
+    {
+        $data['site_title'] = $this->site_title;
+        $data['general'] = GeneralSetting::first();
+        $data['basic'] = BasicSetting::first();
+        $data['page_title'] = "Create New Notification";
+        $data['user'] = User::orderBy('id', 'DESC')->get();
+        return view('dashboard.notify-create', $data);
     }
     public function latterStore(Request $request)
     {
@@ -1004,9 +1044,7 @@ class DashboardController extends Controller
                 'g_title' => $general->title,
                 'subject' => $request->subject,
             ];
-            Config::set('mail.driver', 'mail');
-            Config::set('mail.from', $general->email);
-            Config::set('mail.name', $general->title);
+
             Mail::send('emails.news.letter', ['title' => $request->subject, 'description' => $request->description], function ($m) use ($mail_val) {
                 $m->from($mail_val['g_email'], $mail_val['g_title']);
                 $m->to($mail_val['email'], $mail_val['name'])->subject($mail_val['subject']);
@@ -1020,6 +1058,54 @@ class DashboardController extends Controller
         Session::flash('title', 'Success');
         return redirect()->back();
     }
+
+    public function notifyStore(Request $request)
+    {
+        $basic = BasicSetting::first();
+
+        $this->validate($request, [
+            'subject' => 'required',
+            'description' => 'required'
+        ]);
+
+
+        foreach ($request->user_id as $key => $value)
+        {
+            $user = User::findOrFail($value);
+            $general = GeneralSetting::first();
+            $mail_val = [
+                'email' => $user->email,
+                'name' => $user->name,
+                'g_email' => $general->email,
+                'g_title' => $general->title,
+                'subject' => $request->subject,
+            ];
+
+            Mail::send('emails.news.letter', ['title' => $request->subject, 'description' => $request->description], function ($m) use ($mail_val) {
+                $m->from($mail_val['g_email'], $mail_val['g_title']);
+                $m->to($mail_val['email'], $mail_val['name'])->subject($mail_val['subject']);
+            });
+
+            //save to notification database 
+            Notification::create([
+                'content' => $request->description,
+                'title' => $request->subject,
+                'status' => 0, // Assuming 0 means unread
+                'gene' => 'message',
+                'type' => 'inbox',
+                'icon' => 'fa-envelope-o', // You can set the appropriate icon
+                'user_id' => $value,
+                'tag' => 'white' // Default tag
+            ]);
+        }
+
+
+        session()->flash('message', 'Notification Created Successfully.');
+        Session::flash('type', 'success');
+        Session::flash('title', 'Success');
+        return redirect()->back();
+    }
+
     public function getStrategy()
     {
         $data['site_title'] = $this->site_title;

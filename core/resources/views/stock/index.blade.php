@@ -10,46 +10,43 @@
 @section('content')
     <div class="col-md-12">
         <button id="btn-add" name="btn-add" style="margin-bottom: 20px;" class="btn btn-primary"><i class="fa fa-plus"></i> Add
-            New Bank</button>
+            New Stock</button>
     </div>
 
 
     <div class="table-responsiv">
-        <table class="table table-striped table-responsive table-hover table-bordered datatable" id="table-4">
+        <table class="table table-striped table-hover table-responsive table-bordered datatable" id="table-4">
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Bank Name</th>
-                    <th>Account Name</th>
-                    <th>Account Number</th>
-                    <th>Swift Code</th>
-                    <th>Limit</th>
-                    <th>Charge</th>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Symbol</th>
+                    <th>Wallet</th>
+                    <th>Rate</th>
                     <th>Status</th>
+                    <th>Delete</th>
                     <th>Documentation</th>
                 </tr>
             </thead>
             <tbody id="tasks-list" name="tasks-list">
                 <?php $no = 0; ?>
-                @foreach ($bank as $cat)
+                @foreach ($stock as $cat)
                     <?php $no++; ?>
                     <tr id="task{{ $cat->id }}">
                         <td>{{ $no }}</td>
                         <td>{{ $cat->name }}</td>
                         <td>
-                            {{ $cat->acc_name }}
+                            {{ $cat->amount }}
                         </td>
                         <td>
-                            {{ $cat->acc_number }}
+                            {{ $cat->symbol }}
                         </td>
                         <td>
-                            {{ $cat->acc_code }}
+                            {{ $cat->wallet }}
                         </td>
-                        <td width="14%">{{ $basic->symbol }} {{ $cat->minimum }} - {{ $basic->symbol }}
-                            {{ $cat->maximum }}
+                        <td width="14%">{{ $basic->symbol }} {{ $cat->rate }}
                         </td>
-                        <td width="13%">{{ $basic->symbol }} {{ $cat->fix }} - {{ $cat->percent }} <i
-                                class="fa fa-percent"></i></td>
                         <td>
                             @if ($cat->status == 1)
                                 <button title="Do Deactive" type="button" class="btn btn-danger btn-sm delete_button1"
@@ -62,6 +59,13 @@
                                     <i class="fa fa-eye"></i>
                                 </button>
                             @endif
+                        </td>
+                        <td>
+                            <button title="Do Delete" type="button" class="btn btn-danger btn-sm delete_button3"
+                                data-toggle="modal" data-target="#DelModal3" data-id="{{ $cat->id }}">
+                                <i class="fa fa-power-off"></i>
+                            </button>
+
                         </td>
                         <td>
                             <button class="btn btn-info btn-sm btn-detail open-modal" value="{{ $cat->id }}"><i
@@ -81,13 +85,13 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel"><i class="fa fa-money"></i> Manage Bank</h4>
+                    <h4 class="modal-title" id="myModalLabel"><i class="fa fa-money"></i> Manage Default Stocks</h4>
                 </div>
                 <div class="modal-body">
                     <form id="frmTasks" name="frmTasks" class="form-horizontal" novalidate="">
 
                         <div class="form-group error">
-                            <label for="inputTask" class="col-sm-3 col-sm-offset-1 control-label">Bank Name :</label>
+                            <label for="inputTask" class="col-sm-3 col-sm-offset-1 control-label"> Name :</label>
                             <div class="col-sm-6">
                                 <div class="input-group mb15">
                                     <input class="form-control" name="name" id="name" value="" type="text"
@@ -97,30 +101,30 @@
                             </div>
                         </div>
                         <div class="form-group error">
-                            <label for="inputTask" class="col-sm-3 col-sm-offset-1 control-label">Account Name :</label>
+                            <label for="inputTask" class="col-sm-3 col-sm-offset-1 control-label">Amount :</label>
                             <div class="col-sm-6">
                                 <div class="input-group mb15">
-                                    <input class="form-control" name="acc_name" id="acc_name" value="" type="text"
+                                    <input class="form-control" name="amount" id="amount" value="" type="text"
                                         required>
                                     <span class="input-group-addon"><i class="fa fa-file-word-o"></i></span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group error">
-                            <label for="inputTask" class="col-sm-3 col-sm-offset-1 control-label">Account Number :</label>
+                            <label for="inputTask" class="col-sm-3 col-sm-offset-1 control-label">Symbol :</label>
                             <div class="col-sm-6">
                                 <div class="input-group mb15">
-                                    <input class="form-control" name="acc_number" id="acc_number" value=""
-                                        type="text" required>
+                                    <input class="form-control" name="symbol" id="symbol" value="" type="text"
+                                        required>
                                     <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group error">
-                            <label for="inputTask" class="col-sm-3 col-sm-offset-1 control-label">Swift Code :</label>
+                            <label for="inputTask" class="col-sm-3 col-sm-offset-1 control-label">Wallet :</label>
                             <div class="col-sm-6">
                                 <div class="input-group mb15">
-                                    <input class="form-control" name="acc_code" id="acc_code" value=""
+                                    <input class="form-control" name="wallet" id="wallet" value=""
                                         type="text" required>
                                     <span class="input-group-addon"><i class="fa fa-key"></i></span>
                                 </div>
@@ -128,55 +132,23 @@
                         </div>
                         <hr>
                         <div class="form-group error">
-                            <label for="inputTask" class="col-sm-3 col-sm-offset-1 control-label">Fixed Charge : </label>
+                            <label for="inputTask" class="col-sm-3 col-sm-offset-1 control-label">Rate : </label>
                             <div class="col-sm-6">
                                 <div class="input-group mb15">
-                                    <input class="form-control" name="fix" id="fix" value=""
-                                        type="text" required>
+                                    <input class="form-control" name="rate" id="rate" value=""
+                                        type="number" min="1" minlength="1" required>
                                     <span class="input-group-addon">{{ $basic->currency }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group error">
-                            <label for="inputTask" class="col-sm-3 col-sm-offset-1 control-label">Percentage : </label>
-                            <div class="col-sm-6">
-                                <div class="input-group mb15">
-                                    <input class="form-control" name="percent" id="percent" value=""
-                                        type="text" required>
-                                    <span class="input-group-addon"><i class="fa fa-percent"></i></span>
                                 </div>
                             </div>
                         </div>
                         <hr>
-                        <div class="form-group error">
-                            <label for="inputTask" class="col-sm-3 col-sm-offset-1 control-label">Minimum Amount :
-                            </label>
-                            <div class="col-sm-6">
-                                <div class="input-group mb15">
-                                    <input class="form-control" name="minimum" id="minimum" value=""
-                                        type="text" required>
-                                    <span class="input-group-addon">{{ $basic->currency }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group error">
-                            <label for="inputTask" class="col-sm-3 col-sm-offset-1 control-label">Maximum Amount :
-                            </label>
-                            <div class="col-sm-6">
-                                <div class="input-group mb15">
-                                    <input class="form-control" name="maximum" id="maximum" value=""
-                                        type="text" required>
-                                    <span class="input-group-addon">{{ $basic->currency }}</span>
-                                </div>
-                            </div>
-                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-4 text-right">
                             <button type="button" class="btn btn-info btn-block btn-icon icon-left" id="btn-save"
-                                value="add"><i class="fa fa-send"></i> Save Bank</button>
+                                value="add"><i class="fa fa-send"></i> Save Stock</button>
                             <input type="hidden" id="task_id" name="task_id" value="0">
                         </div>
                     </div>
@@ -200,7 +172,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <form method="post" action="{{ route('manual-deactive') }}" class="form-inline">
+                    <form method="post" action="{{ route('default-stock-deactive') }}" class="form-inline">
                         {!! csrf_field() !!}
                         <input type="hidden" name="id" class="abir_id" value="0">
 
@@ -229,7 +201,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <form method="post" action="{{ route('manual-active') }}" class="form-inline">
+                    <form method="post" action="{{ route('default-stock-active') }}" class="form-inline">
                         {!! csrf_field() !!}
                         <input type="hidden" name="id" class="abir_id" value="0">
 
@@ -244,7 +216,39 @@
         </div>
     </div>
 
-    @include('bank.manage-crypto')
+    <div class="modal fade" id="DelModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel"> <i class='fa fa-exclamation-triangle'></i> Confirmation..!
+                    </h4>
+                </div>
+
+                <div class="modal-body">
+                    <strong>Are you sure you want to Delete this.?</strong>
+                </div>
+
+                <div class="modal-footer">
+                    <form method="delete" action="{{ route('default-stock-delete') }}" class="form-inline"
+                        novalidate="">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="id" class="abir_id" value="0">
+
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>
+                            Close</button>
+                        <button data-id="" type="button" id="btn_delete" class="btn btn-danger"><i
+                                class="fa fa-check"></i> Yes
+                            I'm
+                            Sure..!</button>
+                        <span id="delet_id"></span>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
 @endsection
 @section('scripts')
     <script>
@@ -256,24 +260,22 @@
 
             });
 
-            $(document).on("click", '.delete_button_crypto', function(e) {
-                var id = $(this).data('id');
-                $(".abir_id_crypto").val(id);
-
-            });
 
         });
         $(document).ready(function() {
-
-            $(document).on("click", '.delete_button1', function(e) {
+            $(document).on("click", '.delete_button3', function(e) {
                 var id = $(this).data('id');
-                $(".abir_id").val(id);
-
+                $("#btn_delete").data('id', id);
             });
 
-            $(document).on("click", '.delete_button_crypto1', function(e) {
+        });
+
+
+        $(document).ready(function() {
+
+            $(document).on("click", '.delete_button3', function(e) {
                 var id = $(this).data('id');
-                $(".abir_id_crypto").val(id);
+                $(".abir_id").val(id);
 
             });
 
@@ -282,7 +284,7 @@
     <script>
         jQuery(document).ready(function($) {
 
-            var url = '{{ url('/admin/manual-payment') }}';
+            var url = '{{ url('/admin/default-stock') }}';
             var symbol = '{{ $basic->symbol }}';
 
             //display modal form for creating new task
@@ -291,6 +293,29 @@
                 $('#frmTasks').trigger("reset");
                 $('#myModal').modal('show');
             });
+
+            $('#btn_delete').click(function(e) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                })
+
+                var task_id = $(this).data('id');
+                var my_url = url += '/' + task_id;
+                $.ajax({
+                    type: 'DELETE',
+                    url: my_url,
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data)
+                    }
+                }).done(function() {
+                    swal('Success', ` ${data.name} Deleted Successfully `, 'success');
+                });
+            })
+
+
 
             //create new task / update existing task
 
@@ -305,13 +330,10 @@
 
                 var formData = {
                     'name': $('#name').val(),
-                    'acc_name': $('#acc_name').val(),
-                    'acc_number': $('#acc_number').val(),
-                    'acc_code': $('#acc_code').val(),
-                    'fix': $('#fix').val(),
-                    'percent': $('#percent').val(),
-                    'minimum': $('#minimum').val(),
-                    'maximum': $('#maximum').val(),
+                    'amount': $('#amount').val(),
+                    'symbol': $('#symbol').val(),
+                    'wallet': $('#wallet').val(),
+                    'rate': $('#rate').val(),
                     'type_id': $('#type_id').val()
                 }
 
@@ -337,11 +359,9 @@
                     dataType: 'json',
                     success: function(data) {
                         var task = '<tr id="task' + data.id + '"><td>' + data.id + '</td><td>' +
-                            data.name + '</td><td>' + data.acc_name + '</td><td>' + data
-                            .acc_number + '</td><td>' + data.acc_code + '</td><td>' + symbol +
-                            " " + data.minimum + " - " + symbol + " " + data.maximum +
-                            '</td><td>' + symbol + " " + data.fix + " - " + data.percent + " " +
-                            '<i class="fa fa-percent"></i>' + '</td>';
+                            data.name + '</td><td>' + data.amount + '</td><td>' + data
+                            .symbol + '</td><td>' + data.wallet + '</td><td>' + data.rate +
+                            '</td>';
                         task +=
                             '<td><button class="btn btn-success btn-sm delete_button" data-toggle="modal" data-target="' +
                             data.id + '" ><i class="fa fa-eye"></i></button></td>';
@@ -361,7 +381,7 @@
                     },
                     error: function(data) {}
                 }).done(function() {
-                    swal('Success', 'Successfully Payment Method Saved.', 'success');
+                    swal('Success', ' Saved Stock Successfully ', 'success');
                 });
             });
 
@@ -374,129 +394,16 @@
                     console.log(data);
                     $('#task_id').val(data.id);
                     $('#name').val(data.name);
-                    $('#acc_name').val(data.acc_name);
-                    $('#acc_number').val(data.acc_number);
-                    $('#acc_code').val(data.acc_code);
-                    $('#fix').val(data.fix);
-                    $('#percent').val(data.percent);
-                    $('#minimum').val(data.minimum);
-                    $('#maximum').val(data.maximum);
+                    $('#amount').val(data.amount);
+                    $('#symbol').val(data.symbol);
+                    $('#wallet').val(data.wallet);
+                    $('#rate	').val(data.rate);
                     $('#type_id').val(data.id);
                     $('#btn-save').val("update");
                     $('#myModal').modal('show');
                 })
             });
 
-        });
-    </script>
-
-    <script>
-        jQuery(document).ready(function($) {
-
-            var url = '{{ url('/admin/manual-payment-crypto') }}';
-            var symbol = '{{ $basic->symbol }}';
-            //display modal form for creating new task
-            $('#btn-add-crypto').click(function() {
-                $('#btn-save-crypto').val("add");
-                $('#frmTasksCrypto').trigger("reset");
-                $('#myModalCrypto').modal('show');
-            });
-
-            //create new task / update existing task
-            $("#btn-save-crypto").click(function(e) {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                    }
-                })
-
-                e.preventDefault();
-
-                var formDataCrypto = {
-                    'name': $('#name_crypto').val(),
-                    'wallet_address': $('#wallet_address').val(),
-                    'wallet_type': $('#wallet_type').val(),
-                    'fix': $('#fix_crypto').val(),
-                    'percent': $('#percent_crypto').val(),
-                    'minimum': $('#minimum_crypto').val(),
-                    'maximum': $('#maximum_crypto').val(),
-                    'type_id': $('#task_id_crypto').val()
-                }
-
-                //used to determine the http verb to use [add=POST], [update=PUT]
-                var state = $('#btn-save-crypto').val();
-
-                var type = "POST"; //for creating new resource
-                var task_id = $('#task_id_crypto').val(); //crypto id
-                var my_url = url;
-
-                if (state == "update") {
-                    type = "PUT"; //for updating existing resource
-                    my_url += '/' + task_id;
-
-                }
-                $.ajax({
-                    type: type,
-                    url: my_url,
-                    data: formDataCrypto,
-                    dataType: 'json',
-                    success: function(data) {
-                        console.log(data)
-                        var task =
-                            '<tr id="task' + data.id + '">' +
-                            '<td > ' + data.id + ' < /td><td>' +
-                            data.name + '</td><td>' + data.wallet_address + '</td><td>' + data
-                            .wallet_type + '</td><td>' + symbol +
-                            " " + data.minimum + " - " + symbol + " " + data.maximum +
-                            '</td><td>' + symbol + " " + data.fix + " - " + data.percent + " " +
-                            '<i class="fa fa-percent"></i>' + '</td>';
-                        task +=
-                            '<td><button class="btn btn-success btn-sm delete_button_crypto" data-toggle="modal" data-target="' +
-                            data.id + '" ><i class="fa fa-eye"></i></button></td>';
-                        task +=
-                            '<td><button class="btn btn-info btn-sm btn-detail open-modal" value="' +
-                            data.id + '"><i class="fa fa-edit"></i></button></td>';
-
-                        if (state == "add") { //if user added a new record
-                            $('#tasks-list-crypto').append(task);
-                        } else { //if user updated an existing record
-
-                            $("#task_crypto" + task_id).replaceWith(task);
-                        }
-                        $('#frmTasksCrypto').trigger("reset");
-
-                        $('#myModalCrypto').modal('hide');
-                    },
-                    error: function(data) {
-                        console.log(data)
-                    }
-                }).done(function() {
-                    swal('Success', 'Successfully Crypto Payment Method Saved.', 'success');
-                });
-            });
-
-            //display modal form for task editing
-            $('.open-modal-crypto').click(function() {
-                var task_id_crypto = $(this).val();
-
-                $.get(url + '/' + task_id_crypto, function(data) {
-                    // success data 
-                    $('#task_id_crypto').val(data.id);
-                    $('#name_crypto').val(data.name);
-                    $('#wallet_address').val(data.wallet_address);
-                    $('#wallet_type').val(data.wallet_type);
-                    $('#fix_crypto').val(data.fix);
-                    $('#percent_crypto').val(data.percent);
-                    $('#minimum_crypto').val(data.minimum);
-                    $('#maximum_crypto').val(data.maximum);
-                    $('#type_id_crypto').val(data.id);
-                    $('#btn-save-crypto').val("update");
-                    $('#myModalCrypto').modal('show');
-                }).fail(function() {
-                    // handle error
-                    console.error('Error fetching data');
-                });
-            });
         });
     </script>
 @endsection

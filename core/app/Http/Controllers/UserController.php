@@ -1364,7 +1364,6 @@ class UserController extends Controller
     }
     public function autoDeposit(Request $request)
     {
-
         $amount = $request->amount;
         $plan_id = $request->plan_id;
         $data['general'] = GeneralSetting::first();
@@ -1374,13 +1373,7 @@ class UserController extends Controller
         $data['payment'] = Payment::first();
         $data['plan'] = Plan::findOrFail($plan_id);
         $data['amount'] = $amount;
-        if (Auth::user()->amount < $amount)
-        {
-            $data['hit'] = 1;
-        } else
-        {
-            $data['hit'] = 0;
-        }
+        $data['hit'] = (Auth::user()->amount < $amount) ? 1 : 0;
 
         $data['member'] = User::findOrFail(Auth::user()->id);
 
