@@ -18,7 +18,7 @@ use App\Http\Controllers\UserController;
 use App\Menu;
 
 /*---------------- Landing Page Route List ----------------------------- */
-Route::get('/', ['as' => 'home', 'uses' => 'HomeController@getLandingPage']);
+Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 Route::get('about-us', ['as' => 'about-us', 'uses' => 'HomeController@getAbout']);
 Route::get('faq', ['as' => 'faqs', 'uses' => 'HomeController@getFaq']);
 Route::get('document', ['as' => 'document', 'uses' => 'HomeController@getDocument']);
@@ -327,6 +327,13 @@ Route::get('partner-show', ['as' => 'partner-show', 'uses' => 'DashboardControll
 Route::get('partner-edit/{id}', ['as' => 'partner-edit', 'uses' => 'DashboardController@editPartner']);
 Route::put('partner-edit/{id}', ['as' => 'partner-update', 'uses' => 'DashboardController@updatePartner']);
 Route::post('partner-delete', ['as' => 'partner-delete', 'uses' => 'DashboardController@deletePartner']);
+
+Route::get('slider-create', ['as' => 'slider-create', 'uses' => 'DashboardController@createSlider']);
+Route::post('slider-create', ['as' => 'slider-create', 'uses' => 'DashboardController@storeSlider']);
+Route::get('slider-show', ['as' => 'slider-show', 'uses' => 'DashboardController@showSlider']);
+Route::get('slider-edit/{id}', ['as' => 'slider-edit', 'uses' => 'DashboardController@editSlider']);
+Route::put('slider-edit/{id}', ['as' => 'slider-update', 'uses' => 'DashboardController@updateSlider']);
+Route::post('slider-delete', ['as' => 'slider-delete', 'uses' => 'DashboardController@deleteSlider']);
 
 
 Route::get('perfect-ipn', ['as' => 'perfect-ipn', 'uses' => 'HomeController@perfectIPN']);

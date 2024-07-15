@@ -239,6 +239,26 @@
                     </li>
                     <li class="has-sub">
                         <a href="#">
+                            <span class="title"><i class="fa fa-image"></i> Manage Slider</span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="{{ route('slider-create') }}">
+                                    <span class="title"><i class="entypo-plus"></i> Create New Slider</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('slider-show') }}">
+                                    <span class="title"><i class="entypo-monitor"></i> View All Slider</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+                    <li class="has-sub">
+                        <a href="#">
                             <i class="entypo-tools"></i>
                             <span class="title">Web Control</span>
                         </a>
@@ -253,91 +273,93 @@
                                     <span class="title"><i class="entypo-cog"></i> General Setting</span>
                                 </a>
                             </li>
-                            <!--<li>
-                            <a href="{{ route('manage-chose') }}">
-                                <span class="title"><i class="entypo-cog"></i> Manage Chose Us</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('manage-promo') }}">
-                                <span class="title"><i class="entypo-cog"></i> Manage Promo</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('manage-testimonial') }}">
-                                <span class="title"><i class="entypo-cog"></i> Manage Testimonial</span>
-                            </a>
-                        </li>
-                        <li class="has-sub">
-                            <a href="#">
-                                <span class="title"><i class="entypo-cog"></i> Manage Menu</span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <a href="{{ route('menu_create') }}">
-                                        <span class="title"><i class="entypo-plus"></i> Add New</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('menu_show') }}">
-                                        <span class="title"><i class="entypo-monitor"></i> View All</span>
-                                    </a>
-                                </li>
+                            <li>
+                                <a href="{{ route('manage-chose') }}">
+                                    <span class="title"><i class="entypo-cog"></i> Manage Chose Us</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('manage-promo') }}">
+                                    <span class="title"><i class="entypo-cog"></i> Manage Promo</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('manage-testimonial') }}">
+                                    <span class="title"><i class="entypo-cog"></i> Manage Testimonial</span>
+                                </a>
+                            </li>
+                            <li class="has-sub">
+                                <a href="#">
+                                    <span class="title"><i class="entypo-cog"></i> Manage Menu</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="{{ route('menu_create') }}">
+                                            <span class="title"><i class="entypo-plus"></i> Add New</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('menu_show') }}">
+                                            <span class="title"><i class="entypo-monitor"></i> View All</span>
+                                        </a>
+                                    </li>
 
-                            </ul>
-                        </li>
-                        <li class="has-sub">
-                            <a href="#">
-                                <span class="title"><i class="entypo-cog"></i> Manage Slider</span>
-                            </a>
-                            <ul>
-                                <li>
-                                    <a href="{{ route('slider-create') }}">
-                                        <span class="title"><i class="entypo-plus"></i> Add New</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('slider-show') }}">
-                                        <span class="title"><i class="entypo-monitor"></i> View All</span>
-                                    </a>
-                                </li>
+                                </ul>
+                            </li>
+                            <li class="has-sub">
+                                <a href="#">
+                                    <span class="title"><i class="entypo-cog"></i> Manage Slider</span>
+                                </a>
+                                <ul>
+                                    <li>
+                                        <a href="{{ route('slider-create') }}">
+                                            <span class="title"><i class="entypo-plus"></i> Add New</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('slider-show') }}">
+                                            <span class="title"><i class="entypo-monitor"></i> View All</span>
+                                        </a>
+                                    </li>
 
-                            </ul>
-                        </li>
-                        <li class="has-sub">
-                            <a href="#">
-                                <span class="title"><i class="entypo-cog"></i> Manage Web page</span>
-                            </a>
-                            <ul>
+                                </ul>
+                            </li>
+                            <li class="has-sub">
+                                <a href="#">
+                                    <span class="title"><i class="entypo-cog"></i> Manage Web page</span>
+                                </a>
+                                <ul>
 
-                                <li>
-                                    <a href="{{ route('manage-about') }}">
-                                        <span class="title"><i class="entypo-cog"></i> Manage About Page</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('manage-faq') }}">
-                                        <span class="title"><i class="entypo-cog"></i> Manage FAQ Page</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('manage-document') }}">
-                                        <span class="title"><i class="entypo-cog"></i> Manage Document Page</span>
-                                    </a>
-                                </li>
+                                    <li>
+                                        <a href="{{ route('manage-about') }}">
+                                            <span class="title"><i class="entypo-cog"></i> Manage About Page</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('manage-faq') }}">
+                                            <span class="title"><i class="entypo-cog"></i> Manage FAQ Page</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('manage-document') }}">
+                                            <span class="title"><i class="entypo-cog"></i> Manage Document
+                                                Page</span>
+                                        </a>
+                                    </li>
 
-                                <li>
-                                    <a href="{{ route('manage-terms') }}">
-                                        <span class="title"><i class="entypo-cog"></i> Manage Terms & Condition</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ route('manage-privacy') }}">
-                                        <span class="title"><i class="entypo-cog"></i> Manage Privacy page</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>-->
+                                    <li>
+                                        <a href="{{ route('manage-terms') }}">
+                                            <span class="title"><i class="entypo-cog"></i> Manage Terms &
+                                                Condition</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('manage-privacy') }}">
+                                            <span class="title"><i class="entypo-cog"></i> Manage Privacy page</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
 
                         </ul>
                     </li>

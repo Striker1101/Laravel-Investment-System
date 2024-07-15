@@ -152,7 +152,7 @@
 	.main_menu .nav {
 		padding-top:8px;
 	}
-	.main_menu .nav li span {
+	 .nav li span {
 		display: none;
 	}
 	.main_menu .nav>li {
@@ -362,7 +362,7 @@
 	.navbar-default .navbar-toggle:focus {
 		background: transparent;
 	}
-	.main_menu .nav>li>span {
+	 .nav>li>span {
 		display: none;
 	}
 	.main_menu .nav>li:first-child a {

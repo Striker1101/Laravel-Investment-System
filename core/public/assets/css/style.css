@@ -39,15 +39,15 @@
  }
  
  .body_wrapper .bottom_header{
-	display:none;
+	display:block;
 }
 
 .body_wrapper .main_menu{
-	display:none;
+	display:block;
 }
 
 .body_wrapper footer{
-	display:none;
+	display:block;
 }
 
 

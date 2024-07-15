@@ -41,11 +41,13 @@ class HomeController extends Controller
     public function index()
     {
         $data['general'] = GeneralSetting::first();
+        $data['siteTitle'] = $data['general']->title;
         $data['site_title'] = $data['general']->title;
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Home Page";
+        $data['pageTitle'] = "Home Page";
         $data['plan'] = Plan::whereStatus(1)->get();
-        $data['strategy'] = Strategy::take(6)->get();
+        $data['strategy'] = Strategy::take(6)->get(); //not used yet
         $data['page'] = Page::first();
         $data['menu'] = Menu::all();
         $data['slider'] = Slider::all();
@@ -60,10 +62,7 @@ class HomeController extends Controller
         /*return view('home.home',$data);*/
         return view('home.new-home', $data);
     }
-    public function getLandingPage()
-    {
-        return view('welcome');
-    }
+
     public function getAbout()
     {
         $data['general'] = GeneralSetting::first();

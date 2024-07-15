@@ -68,3 +68,13 @@ cat ~/.ssh/id_ed25519.pub
 
 default stock name should be from
 [https://www.tradingview.com/widget-docs/widgets/charts/advanced-chart/](Default Symbol)
+
+build managers on admin for
+testimonies
+promo
+choose fields short_text
+
+get forest news from
+https://www.sciencedaily.com/news/earth_climate/forests/
+
+https://www.investing.com/news/markets/2?utm_source=google&utm_medium=cpc&utm_campaign=21018086042&utm_content=690754185971&utm_term=dsa-1546555492214_&GL_Ad_ID=690754185971&GL_Campaign_ID=21018086042&ISP=1&npl=1&ppu=9801673&gad_source=1&gclid=Cj0KCQjwkdO0BhDxARIsANkNcrfh9mGJKMDw4as2MZqAODgLiT1-x3evjEwQbhEEJuMUX8oJcXwDFQwaAgdZEALw_wcB

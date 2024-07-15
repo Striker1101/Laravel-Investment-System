@@ -1442,6 +1442,15 @@ class DashboardController extends Controller
         $data['page_title'] = "Create Partner";
         return view('partner.partner-create', $data);
     }
+
+    public function createSlider()
+    {
+        $data['site_title'] = $this->site_title;
+        $data['general'] = GeneralSetting::first();
+        $data['basic'] = BasicSetting::first();
+        $data['page_title'] = "Create Slider";
+        return view('slider.slider-create', $data);
+    }
     public function storePartner(Request $request)
     {
         $this->validate($request, [
@@ -1463,6 +1472,32 @@ class DashboardController extends Controller
         Session::flash('title', 'success');
         return redirect()->back();
     }
+
+    public function storeSlider(Request $request)
+    {
+        // dd($request->all());
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required',
+            'image' => 'required|image|mimes:png|max:2048'
+        ]);
+
+        $nu = Input::except('_method', '_token');
+        if ($request->hasFile('image'))
+        {
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = "assets/images/$filename";
+            Image::make($image)->resize(170, 75)->save($location);
+            $nu['image'] = $filename;
+        }
+        Slider::create($nu);
+        session()->flash('message', 'Slider Created Successfully.');
+        Session::flash('type', 'success');
+        Session::flash('title', 'success');
+        return redirect()->back();
+    }
+
     public function showPartner()
     {
         $data['site_title'] = $this->site_title;
@@ -1472,6 +1507,16 @@ class DashboardController extends Controller
         $data['partner'] = Partner::all();
         return view('partner.partner-show', $data);
     }
+
+    public function showSlider()
+    {
+        $data['site_title'] = $this->site_title;
+        $data['general'] = GeneralSetting::first();
+        $data['basic'] = BasicSetting::first();
+        $data['page_title'] = "All Partner";
+        $data['slider'] = Slider::all();
+        return view('slider.slider-show', $data);
+    }
     public function editPartner($id)
     {
         $data['site_title'] = $this->site_title;
@@ -1480,6 +1525,16 @@ class DashboardController extends Controller
         $data['page_title'] = "Edit Partner";
         $data['partner'] = Partner::findOrFail($id);
         return view('partner.partner-edit', $data);
+    }
+
+    public function editSlider($id)
+    {
+        $data['site_title'] = $this->site_title;
+        $data['general'] = GeneralSetting::first();
+        $data['basic'] = BasicSetting::first();
+        $data['page_title'] = "Edit Partner";
+        $data['slider'] = Slider::findOrFail($id);
+        return view('slider.slider-edit', $data);
     }
     public function updatePartner(Request $request, $id)
     {
@@ -1503,6 +1558,31 @@ class DashboardController extends Controller
         Session::flash('title', 'success');
         return redirect()->back();
     }
+
+    public function updateSlider(Request $request, $id)
+    {
+        $pt = Slider::findOrFail($id);
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required',
+            'image' => 'mimes:png'
+        ]);
+        $part = Input::except('_method', '_token');
+        if ($request->hasFile('image'))
+        {
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = "assets/images/$filename";
+            Image::make($image)->resize(170, 75)->save($location);
+            $part['image'] = $filename;
+        }
+        $pt->fill($part)->save();
+        session()->flash('message', 'Slider Updated Successfully.');
+        Session::flash('type', 'success');
+        Session::flash('title', 'success');
+        return redirect()->back();
+    }
+
     public function deletePartner(Request $request)
     {
         $this->validate($request, [
@@ -1514,6 +1594,19 @@ class DashboardController extends Controller
         Session::flash('title', 'success');
         return redirect()->back();
     }
+
+    public function deleteSlider(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required'
+        ]);
+        Slider::destroy($request->id);
+        session()->flash('message', 'Slider Deleted Successfully.');
+        Session::flash('type', 'success');
+        Session::flash('title', 'success');
+        return redirect()->back();
+    }
+
     public function manageChose()
     {
         $data['site_title'] = $this->site_title;

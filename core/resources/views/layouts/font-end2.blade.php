@@ -10,7 +10,8 @@
     <!-- For Resposive Device -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ $siteTitle }} | {{ $pageTitle }}</title>
+    <title>{{ $siteTitle ?? $site_title }} | {{ $pageTitle ?? $page_title }}</title>
+
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images') }}/{{ $general->favicon }}">
