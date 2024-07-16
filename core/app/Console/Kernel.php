@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         CustomCommand::class,
+        Commands\TradeCron::class,
     ];
 
     /**
@@ -28,7 +29,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->command('custom:command')
-                  ->everyFiveMinutes();
+            ->everyFiveMinutes();
+        $schedule->command('trade')->hourly();
     }
 
     /**
@@ -38,6 +40,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
+
         require base_path('routes/console.php');
     }
 }

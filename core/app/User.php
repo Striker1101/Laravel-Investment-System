@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Attachment;
+use App\Trade;
 use App\Notification;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Notifications\Notifiable;
@@ -72,6 +73,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Notification::class, 'user_id');
     }
+    public function trades()
+    {
+        return $this->hasMany(Trade::class);
+    }
+
 }
 
 
