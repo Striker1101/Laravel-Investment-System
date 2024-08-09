@@ -843,8 +843,41 @@ class DashboardController extends Controller
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Manage User";
         $data['user'] = User::orderBy('id', 'DESC')->get();
+        // dd($data['user']);
         return view('dashboard.user-manage', $data);
     }
+    public function userUpdate(Request $request, $id)
+    {
+        // Find the user by ID
+        $user = User::findOrFail($id);
+
+        // Validate the request data
+        $this->validate($request, [
+            'amount' => 'required',
+            'profit' => 'required',
+            'bonus' => 'required',
+            'reference_bonus' => 'required',
+            'currency' => 'required|string|max:4',
+        ]);
+
+        // Update the user's fields
+        $user->amount = $request->input('amount');
+        $user->profit = $request->input('profit');
+        $user->bonus = $request->input('bonus');
+        $user->reference_bonus = $request->input('reference_bonus');
+        $user->currency = $request->input('currency');
+
+        // Save the updated user to the database
+        $user->save();
+
+        session()->flash('message', 'User Details Update Successfully.');
+        Session::flash('type', 'success');
+        Session::flash('title', 'Success');
+
+        // Return a response, e.g., redirect back with a success message
+        return redirect()->back()->with('success', 'User updated successfully.');
+    }
+
     public function userDetails(Request $request)
     {
 
@@ -871,15 +904,20 @@ class DashboardController extends Controller
                 <h4> E-Mail : ' . $member->email . '</h4>
                 <h4> Phone : ' . $member->phone . '</h4>
                 <h4> Address : ' . $member->address . '</h4>
+                
                 <h4> Reference ID : <span style="color: #fff;font-size: 13px;" class="label label-danger">' . $member->reference . '</span></h4>
                 <h4> Reference Account : ' . $total_ref . ' - Account</h4>
-                     <h4> ID number : ' . $member->ID_Number . '</h4>
+                   <h4> Profit : ' . $member->profit . '</h4>
+                <h4>Bonus : ' . $member->bonus . '</h4>
+                <h4>Reference Bonus : ' . $member->reference_bonus . '</h4>
+                
+                 <h2> KYC info</h2>
+                  <h4> ID number : ' . $member->ID_Number . '</h4>
                 <h4> Bank Name : ' . $member->bank_name . '</h4>
                 <h4> Account Name : ' . $member->acc_name . '</h4>
                 <h4> Account Number : ' . $member->acc_number . '</h4>
                 <h4> Branch Code : ' . $member->acc_code . '</h4>
                 <hr>
-                <h5> KYC infp</h5>
                 <hr>
                 <table class="table table-bordered table-striped bold">
                     <thead>

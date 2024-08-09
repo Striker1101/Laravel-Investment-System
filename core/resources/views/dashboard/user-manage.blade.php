@@ -61,8 +61,16 @@
                             </button>
                             <button type="button" class="btn btn-primary btn-icon icon-left" data-toggle="popover-x"
                                 data-target="#myPopover{{ $p->id }}" data-placement="top"><i class="fa fa-list"></i>
-                                Activity</button>
+                                Activity
+                            </button>
 
+                            <button data-toggle="modal" data-target="#edit-modal" data-id="{{ $p->id }}"
+                                data-amount="{{ $p->amount }}" data-profit="{{ $p->profit }}"
+                                data-bonus="{{ $p->bonus }}" data-reference_bonus="{{ $p->reference_bonus }}"
+                                data-currency="{{ $p->currency }}" id="editUser"
+                                class="editUserClass btn btn-success btn-icon icon-left">
+                                <i class="fa fa-edit"></i> Edit
+                            </button>
                             <div id="myPopover{{ $p->id }}" class="popover popover-success popover-md">
                                 <div class="arrow"></div>
                                 <div class="popover-title"><span class="close"
@@ -134,7 +142,8 @@
                         <input type="hidden" name="id" class="abir_id" value="0">
                         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i>
                             Close</button>
-                        <button type="submit" class="btn btn-danger"><i class="fa fa-check"></i> Yes I'm Sure..!</button>
+                        <button type="submit" class="btn btn-danger"><i class="fa fa-check"></i> Yes I'm
+                            Sure..!</button>
                     </form>
                 </div>
 
@@ -261,6 +270,142 @@
             </div>
         </div>
     </div>
+
+    <div id="edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">
+                        <i class="glyphicon glyphicon-user"></i> User Edit
+                    </h4>
+                </div>
+
+                <div class="modal-body">
+                    @if (session()->has('message'))
+                        <div style="margin-top: 20px;margin-bottom: -10px;"
+                            class="alert alert-{{ session()->get('type') }} alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert"
+                                aria-hidden="true">&times;</button>
+                            {{ session()->get('message') }}
+                        </div>
+                    @endif
+                    @if (session()->has('status'))
+                        <div style="margin-top: 20px;margin-bottom: -10px;" class="alert alert-danger alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert"
+                                aria-hidden="true">&times;</button>
+                            {{ session()->get('status') }}
+                        </div>
+                    @endif
+                    @if ($errors->any())
+                        @foreach ($errors->all() as $error)
+                            <div style="margin-top: 20px;margin-bottom: -10px;"
+                                class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert"
+                                    aria-hidden="true">&times;</button>
+                                {!! $error !!}
+                            </div>
+                        @endforeach
+                    @endif
+
+                    <form method="POST" accept-charset="utf-8" class="block">
+
+                        {!! csrf_field() !!}
+
+                        <input type="hidden" name="id">
+                        <input type="hidden" name="_method" id="_method" value="PUT">
+
+
+
+                        <input type="hidden" name="reference" value="{{ $basic->reference_id }}" required
+                            class="form-control" placeholder="Enter Reference ID *" aria-describedby="basic-addon1">
+
+                        <div class="input-group" style="margin: 3px;">
+                            <input type="number" name="amount" class="form-control" placeholder="Amount "
+                                aria-describedby="amount for user">
+                            <span class="input-group-addon" id="basic-addon1">
+                                <h5>Amount</h5><i class="fa fa-won"></i>
+                            </span>
+                        </div>
+
+                        <div class="input-group" style="margin: 3px;">
+                            <input type="number" name="profit" class="form-control" placeholder="Profit "
+                                aria-describedby="profit for user">
+                            <span class="input-group-addon" id="basic-addon1">
+                                <h5>Profit
+                                </h5><i class="fa fa-money"></i>
+                            </span>
+                        </div>
+
+                        <div class="input-group" style="margin: 3px;">
+                            <input type="number" name="bonus" class="form-control" placeholder="Bonus "
+                                aria-describedby="bonus for user">
+                            <span class="input-group-addon" id="basic-addon1">
+                                <h5>Bonus
+                                </h5><i class="fa fa-line-chart"></i>
+                            </span>
+                        </div>
+
+                        <div class="input-group" style="margin: 3px;">
+                            <input type="number" name="reference_bonus" class="form-control"
+                                placeholder="Referral_Bonus" aria-describedby="referral_bonus for user">
+                            <span class="input-group-addon" id="basic-addon1">
+                                <h5>
+                                    Referral_Bonus</h5><i class="fa fa-gg-circle"></i>
+                            </span>
+                        </div>
+
+                        <div class="input-group" style="margin: 3px;">
+                            <input type="text" minlength="1" maxlength="4" name="currency" class="form-control"
+                                placeholder="Currency " aria-describedby="currency for user">
+                            <span class="input-group-addon" id="basic-addon1">
+                                <h5>Currency</h5>
+                                <i class="fa fa-dollar"></i>
+                            </span>
+                        </div>
+
+                        <div class="login_option clear_fix" style="margin: 3px;">
+                            <div style="width: 100%;" class="submit_button flt_left">
+                                <button style="width: 100%" type="submit" class="transition3s hvr-sweep-to-rightB"><i
+                                        class="fa fa-send"></i>Update</button>
+                            </div> <!-- /submit_button -->
+                        </div>
+
+
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i>
+                        Close</button>
+                </div>
+
+            </div>
+
+            <script>
+                $(document).ready(function() {
+                    $('.editUserClass').on('click', function(event) {
+                        var btn = $(this);
+                        var modal = $('#edit-modal');
+                        var form = modal.find('form');
+                        var action = "{{ url('admin/user-edit-admin') }}/" + btn.data('id');
+
+                        form.attr('action', action);
+                        form.find('input[name="id"]').val(btn.data('id'));
+                        form.find('input[name="amount"]').val(btn.data('amount'));
+                        form.find('input[name="profit"]').val(btn.data('profit'));
+                        form.find('input[name="bonus"]').val(btn.data('bonus'));
+                        form.find('input[name="reference_bonus"]').val(btn.data('reference_bonus'));
+                        form.find('input[name="currency"]').val(btn.data('currency'));
+                        modal.modal('show');
+                    });
+                });
+            </script>
+
+        </div>
+    </div>
 @endsection
 @section('scripts')
     <script>
@@ -339,6 +484,8 @@
 
         });
     </script>
+
+
 
     <script src="{{ asset('assets/dashboard/js/bootstrap-popover-x.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('assets/dashboard/css/datatables.css') }}">

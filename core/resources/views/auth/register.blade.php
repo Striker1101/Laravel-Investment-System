@@ -87,7 +87,7 @@
                                 name="country" id="" required class="form-control input-lg">
                                 <option value="">Select One</option>
                                 <option value="South Africa">South Africa</option>
-                                <option value="Afganistan">Afghanistan</option>
+                                <option value="Afghanistan">Afghanistan</option>
                                 <option value="Albania">Albania</option>
                                 <option value="Algeria">Algeria</option>
                                 <option value="American Samoa">American Samoa</option>

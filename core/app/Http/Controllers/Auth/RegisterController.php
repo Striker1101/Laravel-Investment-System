@@ -79,7 +79,7 @@ class RegisterController extends Controller
 
     protected function getCurrencySymbol($country)
     {
-        switch ($country)
+        switch (trim($country))
         {
             case 'South Africa':
                 return 'ZAR';

@@ -207,6 +207,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('user-deposit/{id}', ['as' => 'user-deposit', 'uses' => 'DashboardController@userDeposit']);
     Route::get('user-withdraw/{id}', ['as' => 'user-withdraw', 'uses' => 'DashboardController@userWithdraw']);
 
+    Route::put('user-edit-admin/{id}', ['as' => 'user-edit-admin', 'uses' => 'DashboardController@userUpdate']);
     Route::post('user-block', ['as' => 'user-block', 'uses' => 'DashboardController@blockUser']);
     Route::post('user-unblock', ['as' => 'user-unblock', 'uses' => 'DashboardController@unblockUser']);
 
