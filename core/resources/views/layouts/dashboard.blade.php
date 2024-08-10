@@ -219,6 +219,26 @@
                             <span class="title">Manage Compound</span>
                         </a>
                     </li>
+
+                    <li class="has-sub">
+                        <a href="#">
+                            <span class="title"><i class="fa fa-plus"></i> Manage Plan</span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="{{ route('plan-create') }}">
+                                    <span class="title"><i class="entypo-plus"></i> Create New Plan</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('plan-show') }}">
+                                    <span class="title"><i class="entypo-monitor"></i> View All Plan</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
                     <li class="has-sub">
                         <a href="#">
                             <span class="title"><i class="fa fa-handshake-o"></i> Manage Partner</span>
