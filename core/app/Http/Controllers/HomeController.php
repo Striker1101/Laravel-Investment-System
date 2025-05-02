@@ -59,8 +59,9 @@ class HomeController extends Controller
         $data['partner'] = Partner::all();
         $data['payment'] = Payment::first();
         $data['category'] = Category::all();
+        $plans = Plan::with('compound')->take(3)->get();
         /*return view('home.home',$data);*/
-        return view('home.new-home', $data);
+        return view('pages.index', compact('data', 'plans'));
     }
 
     public function getAbout()
@@ -75,7 +76,7 @@ class HomeController extends Controller
         $data['payment'] = Payment::first();
         $data['category'] = Category::all();
         $data['tt'] = 'about';
-        return view('home.about', $data);
+        return view('pages.about', $data);
     }
     public function getFaq()
     {
@@ -88,9 +89,9 @@ class HomeController extends Controller
         $data['category'] = Category::all();
         $data['payment'] = Payment::first();
         $data['tt'] = 'faq';
-        return view('home.about', $data);
+        return view('pages.faq', $data);
     }
-    public function getDocument()
+    public function getProduct()
     {
         $data['general'] = GeneralSetting::first();
         $data['site_title'] = $data['general']->title;
@@ -101,7 +102,8 @@ class HomeController extends Controller
         $data['page_title'] = "Document Page";
         $data['page'] = Page::first();
         $data['tt'] = 'document';
-        return view('home.about', $data);
+        $plans = Plan::with('compound')->take(3)->get();
+        return view('pages.product', compact('data', 'plans'));
     }
     public function getTerms()
     {
@@ -116,7 +118,21 @@ class HomeController extends Controller
         $data['tt'] = 'terms';
         return view('home.about', $data);
     }
-    public function getBandbook()
+
+    public function getBlog()
+    {
+        $data['general'] = GeneralSetting::first();
+        $data['site_title'] = $data['general']->title;
+        $data['basic'] = BasicSetting::first();
+        $data['page_title'] = "Terms & Condition";
+        $data['payment'] = Payment::first();
+        $data['category'] = Category::all();
+        $data['menu'] = Menu::all();
+        $data['page'] = Page::first();
+        $data['tt'] = 'terms';
+        return view('pages.blog', $data);
+    }
+    public function getMembership()
     {
         $data['general'] = GeneralSetting::first();
         $data['site_title'] = $data['general']->title;
@@ -126,7 +142,8 @@ class HomeController extends Controller
         $data['category'] = Category::all();
         $data['menu'] = Menu::all();
         $data['tt'] = 'bankbook';
-        return view('home.about', $data);
+        $plans = Plan::with('compound')->take(3)->get();
+        return view('pages.membership', compact('data', 'plans'));
     }
     public function getPrivacy()
     {
@@ -150,7 +167,7 @@ class HomeController extends Controller
         $data['category'] = Category::all();
         $data['page_title'] = "Contact Page";
         $data['payment'] = Payment::first();
-        return view('home.contact', $data);
+        return view('pages.contact', $data);
     }
     public function submitContact(Request $request)
     {

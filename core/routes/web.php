@@ -20,18 +20,14 @@ use App\Menu;
 /*---------------- Landing Page Route List ----------------------------- */
 Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 Route::get('about-us', ['as' => 'about-us', 'uses' => 'HomeController@getAbout']);
-Route::get('faq', ['as' => 'faqs', 'uses' => 'HomeController@getFaq']);
-Route::get('document', ['as' => 'document', 'uses' => 'HomeController@getDocument']);
-Route::get('brandbook', ['as' => 'brandbook', 'uses' => 'HomeController@getBandbook']);
+Route::get('faq', ['as' => 'faq', 'uses' => 'HomeController@getFaq']);
+Route::get('product', ['as' => 'product', 'uses' => 'HomeController@getProduct']);
+Route::get('membership', ['as' => 'membership', 'uses' => 'HomeController@getMembership']);
 Route::get('terms', ['as' => 'terms', 'uses' => 'HomeController@getTerms']);
+Route::get('blog', ['as' => 'blog', 'uses' => 'HomeController@getBlog']);
 Route::get('privacy', ['as' => 'privacy', 'uses' => 'HomeController@getPrivacy']);
-Route::get('contact', ['as' => 'contact', 'uses' => 'HomeController@getContact']);
+Route::get('contact-us', ['as' => 'contact-us', 'uses' => 'HomeController@getContact']);
 Route::post('contact', ['as' => 'contact', 'uses' => 'HomeController@submitContact']);
-Route::get('news', ['as' => 'news', 'uses' => 'HomeController@getNews']);
-Route::get('news-details/{id}/{slug}', ['as' => 'news-details', 'uses' => 'HomeController@newsDetails']);
-Route::get('/menu/{id}/{name}', 'HomeController@menu');
-Route::get('category-news/{id}/{slug}', ['as' => 'category-news', 'uses' => 'HomeController@categoryNews']);
-
 
 /*----------------Start Admin Authentication Route List----------------------------- */
 Route::get('admin', 'Admin\LoginController@showLoginForm')->name('admin.login');
@@ -354,11 +350,6 @@ Route::post('withdraw-details', ['as' => 'withdraw-details', 'uses' => 'HomeCont
 
 Route::get('repeat-generator', ['as' => 'repeat-generator', 'uses' => 'HomeController@rebetgen']);
 
-Route::get('/send-test-email', function () {
-    \Illuminate\Support\Facades\Mail::raw('This is a test email.', function ($message) {
-        $message->to('recipient@example.com')
-            ->subject('Test Email');
-    });
-
-    return 'Test email sent!';
-});
+Route::any('{any}', function () {
+    return response()->view('pages.404', [], 404);
+})->where('any', '.*');

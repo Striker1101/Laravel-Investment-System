@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -31,109 +32,113 @@
 
 
 </head>
+
 <body class="page-body login-page login-form-fall" data-url="http://neon.dev">
 
 
-<!-- This is needed when you send requests via Ajax -->
-<script type="text/javascript">
-    var baseurl = '';
-</script>
+    <!-- This is needed when you send requests via Ajax -->
+    <script type="text/javascript">
+        var baseurl = '';
+    </script>
 
-<div class="login-container">
+    <div class="login-container">
 
-    <div class="login-header login-caret">
+        <div class="login-header login-caret">
 
-        <div class="login-content">
+            <div class="login-content">
 
-            <a href="" class="logo">
-                <img src="{{ asset('assets/images/logo.png') }}" width="120" alt="" />
-            </a>
+                <a href="" class="logo">
+                    <img src="{{ asset('images/tradizlogo3.png') }}" width="120" alt="" />
+                </a>
 
-            <p class="description">Dear user, log in to access the admin area!</p>
+                <p class="description">Dear user, log in to access the admin area!</p>
 
+
+            </div>
 
         </div>
 
-    </div>
+        <div class="login-progressbar">
+            <div></div>
+        </div>
 
-    <div class="login-progressbar">
-        <div></div>
-    </div>
+        <div class="login-form">
 
-    <div class="login-form">
+            <div class="login-content">
 
-        <div class="login-content">
-
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-                @if($errors->any())
+                @if (session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                @endif
+                @if ($errors->any())
                     @foreach ($errors->all() as $error)
-
                         <div class="alert alert-danger alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            {!!  $error !!}
+                            <button type="button" class="close" data-dismiss="alert"
+                                aria-hidden="true">&times;</button>
+                            {!! $error !!}
                         </div>
                     @endforeach
                 @endif
 
-            <form class="form-horizontal" method="POST" role="form" action="{{ route('admin.password.email') }}" >
+                <form class="form-horizontal" method="POST" role="form"
+                    action="{{ route('admin.password.email') }}">
 
-                {{ csrf_field() }}
+                    {{ csrf_field() }}
 
-                <div class="form-steps">
+                    <div class="form-steps">
 
-                    <div class="step current" id="step-1">
+                        <div class="step current" id="step-1">
 
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="entypo-mail"></i>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="entypo-mail"></i>
+                                    </div>
+                                    <input type="email" class="form-control" name="email" id="email"
+                                        placeholder="Email" data-mask="email" required autocomplete="off" />
                                 </div>
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Email" data-mask="email" required autocomplete="off" />
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-info btn-block btn-login">
-                                Reset password
-                                <i class="entypo-right-open-mini"></i>
-                            </button>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-info btn-block btn-login">
+                                    Reset password
+                                    <i class="entypo-right-open-mini"></i>
+                                </button>
+                            </div>
+
                         </div>
 
                     </div>
 
-                </div>
+                </form>
 
-            </form>
 
+            </div>
 
         </div>
 
     </div>
 
-</div>
+
+    <!-- Bottom scripts (common) -->
+    <script src="{{ asset('assets/dashboard/js/TweenMax.min.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/jquery-ui-1.10.3.minimal.min.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/joinable.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/resizeable.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/neon-api.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/neon-login.js') }}"></script>
 
 
-<!-- Bottom scripts (common) -->
-<script src="{{ asset('assets/dashboard/js/TweenMax.min.js') }}"></script>
-<script src="{{ asset('assets/dashboard/js/jquery-ui-1.10.3.minimal.min.js') }}"></script>
-<script src="{{ asset('assets/dashboard/js/bootstrap.js') }}"></script>
-<script src="{{ asset('assets/dashboard/js/joinable.js') }}"></script>
-<script src="{{ asset('assets/dashboard/js/resizeable.js') }}"></script>
-<script src="{{ asset('assets/dashboard/js/neon-api.js') }}"></script>
-<script src="{{ asset('assets/dashboard/js/jquery.validate.min.js') }}"></script>
-<script src="{{ asset('assets/dashboard/js/neon-login.js') }}"></script>
+    <!-- JavaScripts initializations and stuff -->
+    <script src="{{ asset('assets/dashboard/js/neon-custom.js') }}"></script>
 
 
-<!-- JavaScripts initializations and stuff -->
-<script src="{{ asset('assets/dashboard/js/neon-custom.js') }}"></script>
-
-
-<!-- Demo Settings -->
-<script src="{{ asset('assets/dashboard/js/neon-demo.js') }}"></script>
+    <!-- Demo Settings -->
+    <script src="{{ asset('assets/dashboard/js/neon-demo.js') }}"></script>
 
 </body>
+
 </html>

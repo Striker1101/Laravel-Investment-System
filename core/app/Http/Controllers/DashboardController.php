@@ -1225,6 +1225,7 @@ class DashboardController extends Controller
         $data['basic'] = BasicSetting::first();
         $data['page_title'] = "Manual Payment Request";
         $data['fund'] = ManualFund::orderBy('id', 'desc')->get();
+       
         return view('dashboard.manual-payment-request', $data);
     }
     public function viewManualPayment($id)

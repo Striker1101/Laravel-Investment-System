@@ -79,7 +79,7 @@ class RegisterController extends Controller
 
     protected function getCurrencySymbol($country)
     {
-        switch (trim($country))
+        switch ($country)
         {
             case 'South Africa':
                 return 'ZAR';
@@ -715,6 +715,7 @@ class RegisterController extends Controller
             'status' => 0, // Assuming 0 means unread
             'gene' => 'message',
             'type' => 'inbox',
+            'title' => 'Verify Email',
             'icon' => 'fa fa-envelope-o', // You can set the appropriate icon
             'user_id' => $thisUser['id'],
             'tag' => 'white' // Default tag
@@ -756,6 +757,7 @@ class RegisterController extends Controller
             'content' => $content,
             'status' => 0, // Assuming 0 means unread
             'gene' => 'message',
+            'title' => 'Welcome',
             'type' => 'inbox',
             'icon' => 'entypo-heart ', // You can set the appropriate icon
             'user_id' => $thisUser['id'],
@@ -800,6 +802,7 @@ class RegisterController extends Controller
             'status' => 0, // Assuming 0 means unread
             'gene' => 'message',
             'type' => 'inbox',
+            'title' => 'Welcome',
             'icon' => 'entypo-info', // You can set the appropriate icon
             'user_id' => $thisUser['id'],
             'tag' => 'white' // Default tag

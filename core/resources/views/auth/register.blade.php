@@ -87,7 +87,7 @@
                                 name="country" id="" required class="form-control input-lg">
                                 <option value="">Select One</option>
                                 <option value="South Africa">South Africa</option>
-                                <option value="Afghanistan">Afghanistan</option>
+                                <option value="Afganistan">Afghanistan</option>
                                 <option value="Albania">Albania</option>
                                 <option value="Algeria">Algeria</option>
                                 <option value="American Samoa">American Samoa</option>
@@ -344,8 +344,8 @@
                         </div>
 
                         <div class="input-group">
-                            <input type="text" name="reference" autocomplete="reference" class="form-control"
-                                placeholder="Enter Reference ID (Optional)*" aria-describedby="basic-addon4"
+                            <input required type="text" name="reference" autocomplete="reference" class="form-control"
+                                placeholder="Enter Reference ID (Required)*" aria-describedby="basic-addon4"
                                 value="{{ request()->query('reference') }}">
                             <span class="input-group-addon" id="basic-addon4"><i class="fa fa-group"></i></span>
                         </div>

@@ -35,7 +35,7 @@
         <table class="table table-striped table-hover table-bordered datatable" id="table-4">
             <thead>
                 <tr>
-                    <th>No</th>
+                    <th>Ref</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Current Amount</th>
@@ -49,7 +49,7 @@
                     @php $i++;@endphp
 
                     <tr>
-                        <td>{{ $i }}</td>
+                        <td>{{ $p->reference }}</td>
                         <td>{{ $p->name }}</td>
                         <td>{{ $p->email }}</td>
                         <td>{{ $p->amount }} - {{ $basic->currency }}</td>

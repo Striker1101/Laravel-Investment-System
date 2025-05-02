@@ -50,7 +50,7 @@
             <div class="login-content">
 
                 <a href="" class="logo">
-                    <img src="{{ asset('assets/images/logo.png') }}" width="120" alt="" />
+                    <img src="{{ asset('images/tradizlogo3.png') }}" width="120" alt="" />
                 </a>
 
                 <p class="description">Dear user, log in to access the admin area!</p>

@@ -1,0 +1,638 @@
+[17-Jul-2024 00:20:55 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[17-Jul-2024 00:20:55 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[17-Jul-2024 00:21:19 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[17-Jul-2024 00:21:19 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[17-Jul-2024 12:46:38 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[17-Jul-2024 12:46:38 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[17-Jul-2024 12:46:57 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[17-Jul-2024 12:46:57 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[17-Jul-2024 12:47:04 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[17-Jul-2024 12:47:04 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[17-Jul-2024 12:47:14 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[17-Jul-2024 12:47:14 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[17-Jul-2024 12:47:26 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[17-Jul-2024 12:47:26 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[17-Jul-2024 17:55:17 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[17-Jul-2024 17:55:17 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[17-Jul-2024 17:55:17 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[17-Jul-2024 17:55:17 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[17-Jul-2024 17:55:17 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[17-Jul-2024 17:55:17 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[17-Jul-2024 17:55:17 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[17-Jul-2024 17:55:17 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[17-Jul-2024 17:55:17 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[17-Jul-2024 17:55:17 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[27-Jul-2024 10:38:46 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[27-Jul-2024 10:38:46 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[27-Jul-2024 10:38:46 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[27-Jul-2024 10:38:46 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[27-Jul-2024 10:38:46 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[27-Jul-2024 10:38:46 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[27-Jul-2024 10:40:44 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[27-Jul-2024 10:40:44 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[27-Jul-2024 10:40:45 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[27-Jul-2024 10:40:45 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[27-Jul-2024 10:40:45 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[27-Jul-2024 10:40:45 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[27-Jul-2024 10:40:45 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[27-Jul-2024 10:40:45 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[27-Jul-2024 10:40:48 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[27-Jul-2024 10:40:48 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[27-Jul-2024 10:45:20 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[27-Jul-2024 10:45:20 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788
+[30-Jul-2024 07:22:28 Asia/Dhaka] PHP Fatal error:  During inheritance of ArrayAccess: Uncaught ErrorException: Return type of Illuminate\Http\Request::offsetExists($offset) should either be compatible with ArrayAccess::offsetExists(mixed $offset): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php:552
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php(15): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(576): include('/home/coinpeck/...')
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/composer/ClassLoader.php(427): Composer\Autoload\{closure}()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/SetRequestForConsole.php(31): Composer\Autoload\ClassLoader->loadClass()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(208): Illuminate\Foundation\Bootstrap\SetRequestForConsole->bootstrap()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(267): Illuminate\Foundation\Application->bootstrapWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(114): Illuminate\Foundation\Console\Kernel->bootstrap()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/artisan(33): Illuminate\Foundation\Console\Kernel->handle()
+#8 {main} in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Http/Request.php on line 15
+[30-Jul-2024 07:22:28 Asia/Dhaka] PHP Fatal error:  Uncaught ErrorException: Method ReflectionParameter::getClass() is deprecated in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php:788
+Stack trace:
+#0 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(788): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError()
+#1 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(756): Illuminate\Container\Container->resolveDependencies()
+#2 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#3 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(564): Illuminate\Container\Container->resolve()
+#4 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(709): Illuminate\Container\Container->makeWith()
+#5 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(248): Illuminate\Foundation\Application->makeWith()
+#6 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(726): Illuminate\Container\Container->Illuminate\Container\{closure}()
+#7 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(608): Illuminate\Container\Container->build()
+#8 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php(575): Illuminate\Container\Container->resolve()
+#9 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(728): Illuminate\Container\Container->make()
+#10 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(159): Illuminate\Foundation\Application->make()
+#11 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(101): Illuminate\Foundation\Bootstrap\HandleExceptions->getExceptionHandler()
+#12 /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(87): Illuminate\Foundation\Bootstrap\HandleExceptions->renderForConsole()
+#13 [internal function]: Illuminate\Foundation\Bootstrap\HandleExceptions->handleException()
+#14 {main}
+  thrown in /home/coinpeck/jacovax.coinpeckko.com/core/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 788

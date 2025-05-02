@@ -53,7 +53,7 @@
                     <!-- logo -->
                     <div class="logo">
                         <a href="{{ route('dashboard') }}">
-                            <img src="{{ asset('assets/images/logo.png') }}" width="120" alt="" />
+                            <img src="{{ asset('images/tradizlogo3.png') }}" width="120" alt="" />
                         </a>
                     </div>
 

@@ -120,9 +120,9 @@
                     $freq = 0;
                     $amount = $fund->log->amount;
                     $servername = env('DB_HOST', '127.0.0.1');
-                    $username = env('DB_USERNAME', 'homestead');
-                    $password = env('DB_PASSWORD', 'secret');
-                    $dbname = env('DB_DATABASE', 'homestead');
+                    $username = env('DB_USERNAME', 'coinpeck_homestead');
+                    $password = env('DB_PASSWORD', 'saqWyx-9rutse-fyrnoh');
+                    $dbname = env('DB_DATABASE', 'coinpeck_homestead');
                     
                     // Create connection
                     $conn = new mysqli($servername, $username, $password, $dbname);

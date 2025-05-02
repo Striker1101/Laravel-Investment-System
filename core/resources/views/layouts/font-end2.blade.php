@@ -86,7 +86,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 top_header_left">
-                        <a href="mailto:{{ $general->email }}"> <span class="icon flaticon-envelope133"></span> Email
+                        <a href="mailto:{{ $general->email }}">
+                            <span class="icon flaticon-envelope133"></span> Email
                             Us:&nbsp; {{ $general->email }}</a>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 top_header_right pull-right">
@@ -130,7 +131,8 @@
         <div class="bottom_header">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12 logo_holder">
+                    <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12 logo_holder"
+                        style="background-image: url('{{ asset('images/tradizlogo3-300x87.png') }}')">
                         <a href="{{ route('home') }}"></a>
                     </div>
                     <div class="col-lg-8 col-md-9 col-sm-12 col-xs-12 pull-right address_container">
@@ -189,16 +191,7 @@
                             <ul class="nav navbar-nav">
                                 <li><a href="{{ route('home') }}">Home</a></li>
                                 <li><a href="{{ route('about-us') }}">About Us</a></li>
-                                <li class="dropdown_menu"><a href="{{ route('news') }}">News <i
-                                            class="fa fa-sort-desc"></i></a>
-                                    <ul class="sub-menu">
-                                        @foreach ($category as $c)
-                                            <li><a
-                                                    href="{{ route('category-news', ['id' => $c->id, 'slug' => str_slug($c->name)]) }}">{{ $c->name }}</a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </li>
+
                                 @foreach ($menu as $m)
                                     <li>
                                         <a
@@ -207,7 +200,7 @@
                                         </a>
                                     </li>
                                 @endforeach
-                                <li><a href="{{ route('contact') }}">Contact</a></li>
+                                <li><a href="{{ route('contact-us') }}">Contact</a></li>
                             </ul>
                         </div><!-- /.navbar-collapse -->
                     </nav> <!-- /nav -->
@@ -225,7 +218,8 @@
                 <div class="main_footer">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 footer_logo">
-                            <a href="{{ route('home') }}" class="logo"></a>
+                            <a href="{{ route('home') }}" class="logo"
+                                style="background-image: url('{{ asset('images/tradizlogo3-300x87.png') }}')"></a>
                             <p style="color: #fff;text-align: justify">{!! $general->about_text !!}</p>
                         </div>
 
@@ -261,8 +255,8 @@
                             <p>{!! $general->footer_bottom_text !!}</p>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 left_space_fix pull-right">
-                            <a href="{{ route('document') }}" class="transition3s">Document</a>
-                            <a style="padding: 0px 20px" href="{{ route('faqs') }}" class="transition3s">FAQS</a>
+
+                            <a style="padding: 0px 20px" href="{{ route('faq') }}" class="transition3s">FAQS</a>
                             <a href="{{ route('terms') }}" class="transition3s">Terms & Condition</a>
                             <a href="{{ route('privacy') }}" class="transition3s">Privacy & Security</a>
                         </div>
