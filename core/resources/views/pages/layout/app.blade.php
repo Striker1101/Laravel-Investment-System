@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Tradiz | @yield('title')</title>
+    <title>Universal Marketing | @yield('title')</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name='robots' content='max-image-preview:large' />
@@ -18,6 +18,10 @@
         href='{{ asset('css/plugins/template-kit-export-public.min.css') }}' media='all' />
     <link rel='stylesheet' id='elementor-icons-css' href='{{ asset('css/plugins/elementor-icons.min.css') }}'
         media='all' />
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="{{ asset('assets/images') }}/{{ $data['general']->favicon ?? '' }}">
+
     <link rel='stylesheet' id='elementor-frontend-css' href='{{ asset('css/plugins/frontend-lite.min.css') }}'
         media='all' />
     <link rel='stylesheet' id='swiper-css' href='{{ asset('css/plugins/swiper.min.css') }}' media='all' />
@@ -63,6 +67,22 @@
     <link rel='shortlink' href='/' />
     <link rel="alternate" type="application/json+oembed" href="{{ asset('data/embed.json') }}" />
     <link rel="alternate" type="text/xml+oembed" href="{{ asset('data/oembed.json') }}" />
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/681563816693101909a7079c/1iq9opd7n';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
 </head>
 
 <body

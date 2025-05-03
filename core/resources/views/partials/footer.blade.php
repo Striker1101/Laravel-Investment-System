@@ -649,10 +649,9 @@
                                               data-widget_type="image.default">
                                               <div class="elementor-widget-container">
                                                   <img width="442" height="128"
-                                                      src="https://templatekit.jegtheme.com/tradiz/wp-content/uploads/sites/398/2023/07/tradizlogo3.png"
+                                                      src="{{ asset('images/tradizlogo3-300x87.png') }}"
                                                       class="attachment-full size-full wp-image-786" alt=""
                                                       decoding="async" loading="lazy"
-                                                      srcset="https://templatekit.jegtheme.com/tradiz/wp-content/uploads/sites/398/2023/07/tradizlogo3.png 442w, https://templatekit.jegtheme.com/tradiz/wp-content/uploads/sites/398/2023/07/tradizlogo3-300x87.png 300w"
                                                       sizes="(max-width: 442px) 100vw, 442px" />
                                               </div>
                                           </div>

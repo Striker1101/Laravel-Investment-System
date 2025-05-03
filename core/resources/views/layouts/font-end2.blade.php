@@ -60,6 +60,21 @@
         }
     </style>
 
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/681563816693101909a7079c/1iq9opd7n';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
 
 </head>
 
@@ -131,9 +146,11 @@
         <div class="bottom_header">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12 logo_holder"
-                        style="background-image: url('{{ asset('images/tradizlogo3-300x87.png') }}')">
-                        <a href="{{ route('home') }}"></a>
+                    <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
+
+                        <a href="{{ route('home') }}">
+                            <img width="400px" src="{{ asset('images/tradizlogo3.png') }}" alt="">
+                        </a>
                     </div>
                     <div class="col-lg-8 col-md-9 col-sm-12 col-xs-12 pull-right address_container">
                         <div>
@@ -217,9 +234,11 @@
             <div class="container">
                 <div class="main_footer">
                     <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 footer_logo">
-                            <a href="{{ route('home') }}" class="logo"
-                                style="background-image: url('{{ asset('images/tradizlogo3-300x87.png') }}')"></a>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <a href="{{ route('home') }}" class="logo">
+                                <img width="400px" src="{{ asset('images/tradizlogo3-300x87.png') }}"
+                                    alt="">
+                            </a>
                             <p style="color: #fff;text-align: justify">{!! $general->about_text !!}</p>
                         </div>
 

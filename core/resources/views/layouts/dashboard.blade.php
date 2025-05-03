@@ -178,13 +178,13 @@
                         </a>
                     </li>
 
-                    <li class="{{ Request::is('news-category') ? ' opened active' : '' }}">
+                    {{-- <li class="{{ Request::is('news-category') ? ' opened active' : '' }}">
                         <a href="{{ route('news-category') }}">
                             <i class="fa fa-list"></i>
                             <span class="title">News Category</span>
                         </a>
-                    </li>
-                    <li class="has-sub">
+                    </li> --}}
+                    {{-- <li class="has-sub">
                         <a href="#">
                             <span class="title"><i class="fa fa-newspaper-o"></i> Manage News</span>
                         </a>
@@ -201,7 +201,7 @@
                             </li>
 
                         </ul>
-                    </li>
+                    </li> --}}
                     <li>
                         <a href="{{ route('latter-create') }}">
                             <span class="title"><i class="fa fa-envelope-open"></i> Send News Latter</span>
@@ -239,7 +239,7 @@
                         </ul>
                     </li>
 
-                    <li class="has-sub">
+                    {{-- <li class="has-sub">
                         <a href="#">
                             <span class="title"><i class="fa fa-handshake-o"></i> Manage Partner</span>
                         </a>
@@ -256,8 +256,8 @@
                             </li>
 
                         </ul>
-                    </li>
-                    <li class="has-sub">
+                    </li> --}}
+                    {{-- <li class="has-sub">
                         <a href="#">
                             <span class="title"><i class="fa fa-image"></i> Manage Slider</span>
                         </a>
@@ -274,7 +274,7 @@
                             </li>
 
                         </ul>
-                    </li>
+                    </li> --}}
 
 
                     <li class="has-sub">
@@ -293,7 +293,7 @@
                                     <span class="title"><i class="entypo-cog"></i> General Setting</span>
                                 </a>
                             </li>
-                            <li>
+                            {{-- <li>
                                 <a href="{{ route('manage-chose') }}">
                                     <span class="title"><i class="entypo-cog"></i> Manage Chose Us</span>
                                 </a>
@@ -307,8 +307,8 @@
                                 <a href="{{ route('manage-testimonial') }}">
                                     <span class="title"><i class="entypo-cog"></i> Manage Testimonial</span>
                                 </a>
-                            </li>
-                            <li class="has-sub">
+                            </li> --}}
+                            {{-- <li class="has-sub">
                                 <a href="#">
                                     <span class="title"><i class="entypo-cog"></i> Manage Menu</span>
                                 </a>
@@ -325,8 +325,8 @@
                                     </li>
 
                                 </ul>
-                            </li>
-                            <li class="has-sub">
+                            </li> --}}
+                            {{-- <li class="has-sub">
                                 <a href="#">
                                     <span class="title"><i class="entypo-cog"></i> Manage Slider</span>
                                 </a>
@@ -343,8 +343,8 @@
                                     </li>
 
                                 </ul>
-                            </li>
-                            <li class="has-sub">
+                            </li> --}}
+                            {{-- <li class="has-sub">
                                 <a href="#">
                                     <span class="title"><i class="entypo-cog"></i> Manage Web page</span>
                                 </a>
@@ -379,7 +379,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> --}}
 
                         </ul>
                     </li>

@@ -61,6 +61,7 @@ class HomeController extends Controller
         $data['category'] = Category::all();
         $plans = Plan::with('compound')->take(3)->get();
         /*return view('home.home',$data);*/
+
         return view('pages.index', compact('data', 'plans'));
     }
 
