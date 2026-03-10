@@ -1,55 +1,93 @@
-# Laravel-Investment-System
-Laravel Investment System <br>
-The Laravel framework version 5.4.25 <br>
+# Install PHP dependencies
 
-Its Fully Responsive & Dynamic Investment System Made with Laravel Framework. <br>
-Now Its Easy to Create your own Currency Investment Platform. <br>
-ts Just a Matter of five minutes to start your own Investment website. <br>
+composer install
 
-#Server Type: Linux<br>
-PHP Version: 5.5.9<br>
-mySQL Version: 5x<br>
+# Install Node.js dependencies
 
-<h3>User Features:</h3>
+npm install
 
-⚝ Fully Responsive Design.<br>
-⚝ Easy Signup & Signin.<br>
-⚝ High Secure User Dashboard.<br>
-⚝ ANTI-FRAUD Registration System.<br>
-⚝ Informative USER Panel.<br>
-⚝ Total Deposite History.<br>
-⚝ Total Earning History.<br>
-⚝ Total Profit History.<br>
-⚝ A to Z Activity Logs.<br>
-⚝ Automated Add Fund System.<br>
-⚝ Add Fund Via Bank.<br>
-⚝ A to Z Fund Add Report.<br>
-⚝ Manage Investment.<br>
-⚝ Investment History.<br>
-⚝ Profit History.<br>
+# Build assets for development
 
+npm run dev
 
+# Create the symbolic link for storage
 
-<h3>Admin Features:</h3>
+php artisan storage:link
 
-⚝ A to Z Dynamic Admin Panel.<br>
-⚝ 100% Secure Login.<br>
-⚝ Investment Plan Management.<br>
-⚝ WithDraw Method Management.<br>
-⚝ Activity Logs Management.<br>
-⚝ Total Withdraw History.<br>
-⚝ A to Z Deposite History.<br>
-⚝ Total Profit History.<br>
-⚝ Bank Account Management.<br>
-⚝ Unlimited Bank Account.<br>
-⚝ Total USER Management.<br>
-⚝ Block / Unblock Facility.<br>
-⚝ Payment Method Management.<br>
-⚝ NewsLetter Management.<br>
-⚝ Investment compound management.<br>
+# Publish vendor assets (optional, if you need to publish specific assets)
 
-# <h3>HOW TO INSTALL</h3>
-Step1: Upload Files.zip to your host and unzip.<br>
-Step2: Create mySQL Database and upload SQL.sql (From Database Folder).<br>
-Step3: Goto File Manager and Copy Paste Database Information at ../core/.env File.<br>
-Step4: Now Run your Website.<br>
+php artisan vendor:publish --tag=public
+
+php artisan make:migration add_id_number_to_users_table --table=users
+php artisan make:migration create_statements_table
+
+// "axios": "^0.21.1",
+// "bootstrap-sass": "^3.4.1",
+// "cross-env": "^7.0.3",
+// "jquery": "^3.6.0",
+// "laravel-mix": "^6.0.19",
+// "lodash": "^4.17.21",
+// "vue": "^2.6.14",
+// "sass": "^1.32.13"
+
+![support ](https://demo.neontheme.com/assets/images/thumb-2@2x.png)
+
+window
+open git bash as admin
+touch .ssh
+ls -al ~/.ssh
+
+mac or linux
+use
+sudo ls -al ~/.ssh
+
+generate a new ssh key
+ssh-keygen -t ed25519 -C "your-email@example.com"
+
+add to ssh agent
+eval "$(ssh-agent -s)"
+sudo ssh-add ~/.ssh/id_ed25519
+
+cat ~/.ssh/id_ed25519.pub
+
+//carry out this steps
+
+rm -rf .ssh
+
+mkdir .ssh
+
+ls -al ~/.ssh
+
+ssh-keygen -t ed25519 -C "your-email@example.com"
+
+eval "$(ssh-agent -s)"
+
+sudo ssh-add ~/.ssh/id_ed25519
+
+cat ~/.ssh/id_ed25519.pub
+
+default stock name should be from
+[https://www.tradingview.com/widget-docs/widgets/charts/advanced-chart/](Default Symbol)
+
+build managers on admin for
+testimonies
+promo
+choose fields short_text
+
+get forest news from
+https://www.sciencedaily.com/news/earth_climate/forests/
+
+https://www.investing.com/news/markets/2?utm_source=google&utm_medium=cpc&utm_campaign=21018086042&utm_content=690754185971&utm_term=dsa-1546555492214_&GL_Ad_ID=690754185971&GL_Campaign_ID=21018086042&ISP=1&npl=1&ppu=9801673&gad_source=1&gclid=Cj0KCQjwkdO0BhDxARIsANkNcrfh9mGJKMDw4as2MZqAODgLiT1-x3evjEwQbhEEJuMUX8oJcXwDFQwaAgdZEALw_wcB
+
+CREATE TABLE kyc (
+id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+user_id INT(11) UNSIGNED NOT NULL,
+name VARCHAR(255) NOT NULL,
+country VARCHAR(100) NOT NULL,
+proof VARCHAR(255),
+passport VARCHAR(255),
+details JSON,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+CONSTRAINT fk_kyc_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB;

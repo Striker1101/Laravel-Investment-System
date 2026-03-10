@@ -1,0 +1,346 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+use App\BasicSetting;
+use App\Category;
+use App\GeneralSetting;
+use App\Http\Controllers\StockController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\KycController;
+use App\Menu;
+
+/*---------------- Landing Page Route List ----------------------------- */
+Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
+Route::get('about-us', ['as' => 'about-us', 'uses' => 'HomeController@getAbout']);
+Route::get('faq', ['as' => 'faq', 'uses' => 'HomeController@getFaq']);
+Route::get('product', ['as' => 'product', 'uses' => 'HomeController@getProduct']);
+Route::get('membership', ['as' => 'membership', 'uses' => 'HomeController@getMembership']);
+Route::get('terms', ['as' => 'terms', 'uses' => 'HomeController@getTerms']);
+Route::get('blog', ['as' => 'blog', 'uses' => 'HomeController@getBlog']);
+Route::get('privacy', ['as' => 'privacy', 'uses' => 'HomeController@getPrivacy']);
+Route::get('contact-us', ['as' => 'contact-us', 'uses' => 'HomeController@getContact']);
+Route::post('contact', ['as' => 'contact', 'uses' => 'HomeController@submitContact']);
+
+/*----------------Start Admin Authentication Route List----------------------------- */
+Route::get('admin', 'Admin\LoginController@showLoginForm')->name('admin.login');
+Route::post('admin', 'Admin\LoginController@login')->name('admin.login.post');
+Route::get('admin-logout', 'Admin\LoginController@logout')->name('admin.logout');
+
+// Password Reset Routes...
+Route::get('admin-password/reset', 'Admin\ForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
+Route::post('admin-password/email', 'Admin\ForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');
+Route::get('admin-password/reset/{token}', 'Admin\ResetPasswordController@showResetForm')->name('admin.password.reset');
+Route::post('admin-password/reset', 'Admin\ResetPasswordController@reset');
+
+/*----------------End Admin Authentication Route List----------------------------- */
+
+/*--------- Admin Dashboard Redirected ------------ */
+Route::get('admin-dashboard', ['as' => 'dashboard', 'uses' => 'DashboardController@getDashboard']);
+Route::get('admin-edit-profile', ['as' => 'edit-profile', 'uses' => 'DashboardController@editProfile']);
+Route::post('edit-profile', ['as' => 'update-profile', 'uses' => 'DashboardController@updateProfile']);
+Route::get('change-password', ['as' => 'change-pass', 'uses' => 'DashboardController@getChangePass']);
+Route::post('change-password', ['as' => 'change-pass', 'uses' => 'DashboardController@postChangePass']);
+
+/*----------- General Setting Route List -------------*/
+
+Route::get('general-setting', ['as' => 'general-setting', 'uses' => 'WebSettingController@getGeneralSetting']);
+Route::put('general-setting/{id}', ['as' => 'update_general', 'uses' => 'WebSettingController@putGeneralSetting']);
+
+/*----------- General Setting Route List -------------*/
+
+Route::get('basic-setting', ['as' => 'basic-setting', 'uses' => 'BasicSettingController@getBasicSetting']);
+Route::put('basic-general/{id}', ['as' => 'basic-update', 'uses' => 'BasicSettingController@putBasicSetting']);
+
+/* News category Route List */
+Route::get('news-category', ['as' => 'news-category', 'uses' => 'DashboardController@getCategory']);
+Route::post('news-category', ['as' => 'news-category', 'uses' => 'DashboardController@storeCategory']);
+Route::get('news-category/{task_id?}', ['as' => 'news-category-edit', 'uses' => 'DashboardController@editCategory']);
+Route::put('news-category/{task_id?}', ['as' => 'news-category-edit', 'uses' => 'DashboardController@updateCategory']);
+
+/* News Management Route List */
+Route::get('news-create', ['as' => 'news-create', 'uses' => 'DashboardController@createNews']);
+Route::post('news-create', ['as' => 'news-create', 'uses' => 'DashboardController@storeNews']);
+Route::get('news-show', ['as' => 'news-show', 'uses' => 'DashboardController@showNews']);
+Route::get('news-edit/{id}', ['as' => 'news-edit', 'uses' => 'DashboardController@editNews']);
+Route::put('news-edit/{id}', ['as' => 'news-update', 'uses' => 'DashboardController@updateNews']);
+Route::get('news-view/{id}', ['as' => 'news-view', 'uses' => 'DashboardController@viewNews']);
+Route::post('delete-news', ['as' => 'delete-news', 'uses' => 'DashboardController@deleteNews']);
+
+/* Payment Route List */
+Route::get('payment-manage', ['as' => 'payment-manage', 'uses' => 'DashboardController@managePayment']);
+Route::put('payment-manage/{id}', ['as' => 'payment-manage-update', 'uses' => 'DashboardController@updateManagePayment']);
+
+/* Plan management Route list */
+Route::get('plan-create', ['as' => 'plan-create', 'uses' => 'DashboardController@createPlan']);
+Route::post('plan-create', ['as' => 'plan-create', 'uses' => 'DashboardController@storePlan']);
+Route::get('plan-show', ['as' => 'plan-show', 'uses' => 'DashboardController@showPlan']);
+Route::get('plan-edit/{id}', ['as' => 'plan-edit', 'uses' => 'DashboardController@editPlan']);
+Route::put('plan-edit/{id}', ['as' => 'plan-update', 'uses' => 'DashboardController@updatePlan']);
+Route::post('delete-plan', ['as' => 'delete-plan', 'uses' => 'DashboardController@deletePlan']);
+
+/* Manage Investment Compound */
+Route::get('manage-compound', ['as' => 'manage-compound', 'uses' => 'DashboardController@manageCompound']);
+Route::post('manage-compound', ['as' => 'manage-compound', 'uses' => 'DashboardController@storeCompound']);
+Route::get('manage-compound/{task_id?}', ['as' => 'manage-compound-edit', 'uses' => 'DashboardController@editCompound']);
+Route::put('manage-compound/{task_id?}', ['as' => 'manage-compound-edit', 'uses' => 'DashboardController@updateCompound']);
+
+/* User Authentication */
+
+Auth::routes();
+Route::get('verifyDone/{email}/{verifyToken}', ['as' => 'verifyDone', 'uses' => 'Auth\RegisterController@verifyDone']);
+Route::get('addprofile/{id}', function ($id) {
+    // Only authenticated users may enter...
+    Auth::logout();
+    Auth::loginUsingId($id);
+    return redirect()->route('user-edit');
+});
+
+/* ----- User Dashboard Route List -----*/
+Route::post('deposit-amount', ['as' => 'deposit-amount', 'uses' => 'UserController@amountDeposit']);
+Route::post('paypal-check-amount', ['as' => 'paypal-check-amount', 'uses' => 'UserController@paypalCheck']);
+Route::post('paypal-ipn', ['as' => 'paypal-ipn', 'uses' => 'HomeController@paypalIpn']);
+Route::post('perfect-ipn', ['as' => 'perfect-ipn', 'uses' => 'HomeController@perfectIPN']);
+Route::post('withdraw-check-amount', ['as' => 'withdraw-check-amount', 'uses' => 'WithdrawController@checkAmount']);
+Route::post('user-details', ['as' => 'user-details', 'uses' => 'DashboardController@userDetails']);
+Route::post('btc-preview', ['as' => 'btc-preview', 'uses' => 'UserController@btcPreview']);
+
+Route::get('btc_ipn/{invoice_id}/{secret}', ['as' => 'btc_ipn', 'uses' => 'HomeController@btcIPN']);
+
+Route::get('auto-deposit', ['as' => 'auto-deposit', 'uses' => 'UserController@autoDeposit']);
+
+Route::group(['prefix' => 'user', 'middleware' => 'checkIfUserBlocked'], function () {
+     Route::get('kyc_user', ['as' => 'kyc.index_user', 'uses' => 'KycController@userIndex']);
+    Route::get('kyc/create', ['as' => 'kyc.create', 'uses' => 'KycController@create']);
+    Route::post('kyc', ['as' => 'kyc.store', 'uses' => 'KycController@store']);
+    Route::get('kyc/{kyc}', ['as' => 'kyc.show', 'uses' => 'KycController@show']);
+    Route::get('kyc/{kyc}/edit', ['as' => 'kyc.edit', 'uses' => 'KycController@edit']);
+    Route::put('kyc/{kyc}', ['as' => 'kyc.update', 'uses' => 'KycController@update']);
+
+    Route::get('dashboard', ['as' => 'user-dashboard', 'uses' => 'UserController@getDashboard']);
+    Route::get('user-statement', ['as' => 'user-statement', 'uses' => 'UserController@getStatement']);
+
+    Route::get('user-edit', ['as' => 'user-edit', 'uses' => 'UserController@editUser']);
+    Route::put('user-edit/{id}', ['as' => 'user-update', 'uses' => 'UserController@updateUser']);
+
+    Route::get('switch/start/{id}', ['as' => 'user/switch/start/', 'uses' => 'UserController@user_switch_start']);
+    Route::get('switch/stop', ['as' => 'user/switch/stop', 'uses' => 'UserController@user_switch_stop']);
+
+    Route::get('/stocks/toggle', 'StockController@toggleStock')->name('stocks.toggle');
+
+    Route::get('user-password', ['as' => 'user-password', 'uses' => 'UserController@userPassword']);
+    Route::put('user-password/{id}', ['as' => 'user-password-update', 'uses' => 'UserController@updatePassword']);
+
+    Route::get('fund-add', ['as' => 'add-fund', 'uses' => 'UserController@addFund']);
+    Route::post('fund-add', ['as' => 'add-fund', 'uses' => 'UserController@storeFund']);
+    Route::get('fund-history', ['as' => 'fund-history', 'uses' => 'UserController@historyFund']);
+
+    Route::get('deposit-new', ['as' => 'deposit-new', 'uses' => 'UserController@newDeposit']);
+    Route::post('deposit-post', ['as' => 'deposit-post', 'uses' => 'UserController@postDeposit']);
+    Route::post('deposit-submit', ['as' => 'deposit-submit', 'uses' => 'UserController@depositSubmit']);
+    Route::get('deposit-history', ['as' => 'deposit-history', 'uses' => 'UserController@depositHistory']);
+
+    Route::get('repeat-history', ['as' => 'repeat-history', 'uses' => 'UserController@repeatHistory']);
+    Route::get('repeat-table/{id}', ['as' => 'repeat-table', 'uses' => 'UserController@repeatTable']);
+
+    Route::get('withdraw-new', ['as' => 'withdraw-new', 'uses' => 'WithdrawController@newWithdraw']);
+    Route::post('withdraw-new', ['as' => 'withdraw-new', 'uses' => 'WithdrawController@postWithdraw']);
+    Route::post('withdraw-submit', ['as' => 'withdraw-submit', 'uses' => 'WithdrawController@submitWithdraw']);
+    Route::post('submit-growth', ['as' => 'submit-growth', 'uses' => 'ManualPaymentController@submitGrowth']);
+    Route::get('withdraw-history', ['as' => 'withdraw-history', 'uses' => 'WithdrawController@withdrawHistory']);
+
+    Route::get('reference-user', ['as' => 'reference-user', 'uses' => 'UserController@referenceUser']);
+    Route::get('reference-history', ['as' => 'reference-history', 'uses' => 'UserController@referenceHistory']);
+    Route::post('add-profile', ['as' => 'add-profile', 'uses' => 'UserController@addProfilel']);
+
+    Route::get('user-activity', ['as' => 'user-activity', 'uses' => 'UserController@userActivity']);
+    Route::get('user-buy-and-trade', ['as' => 'user-buy-and-trade', 'uses' => 'UserController@userBuyAndSell']);
+
+    route::get('manual-fund-add', ['as' => 'manual-fund-add', 'uses' => 'UserController@manualFundAdd']);
+    route::post('manual-fund-add', ['as' => 'manual-fund-add', 'uses' => 'UserController@StoreManualFundAdd']);
+    Route::post('manual-fund-submit', ['as' => 'manual-fund-submit', 'uses' => 'UserController@submitManualFund']);
+    Route::get('manual-fund-history', ['as' => 'manual-fund-history', 'uses' => 'UserController@manualFundHistory']);
+    Route::get('manual-fund-details/{id}', ['as' => 'manual-fund-details', 'uses' => 'UserController@manualFundAddDetails']);
+
+    Route::get('user-notification', ['as' => 'user-notification', 'uses' => 'UserController@userNotify']);
+    Route::get('user-notification/{id}', ['as' => 'user-notification-details', 'uses' => 'UserController@userNotifyDetails']);
+    Route::get('user-notification-delete/{id}', ['as' => 'user-notification-delete', 'uses' => 'UserController@deleteNotification']);
+    Route::get('user-notification-compose', ['as' => 'user-notification-compose', 'uses' => 'UserController@userNotifyCompose']);
+    Route::post('user-notification-compose-submit', ['as' => 'user-notification-compose-submit', 'uses' => 'UserController@userNotifyComposeSubmit']);
+    Route::get('notification/{id}/status', 'UserController@updateNotificationStatus')->name('update-notification-status');
+
+    Route::get('user-task', ['as' => 'user-task', 'uses' => 'UserController@userTask']);
+    Route::get('tasks/{id}/delete', ['as' => 'delete-task', 'uses' => 'UserController@deleteTask']);
+    Route::post('user-task-store', ['as' => 'task.store', 'uses' => 'UserController@userTaskStore']);
+    Route::get('tasks/{id}/status', 'UserController@updateTaskStatus')->name('update-task-status');
+
+    Route::get('user-calender', ['as' => 'user-calender', 'uses' => 'UserController@userCalender']);
+
+    Route::post('user-liquidate', ['as' => 'user-liquidate', 'uses' => 'UserController@UserLiquidate']);
+    Route::post('user-task-submit', ['as' => 'user-task-submit', 'uses' => 'UserController@UserTaskSubmit']);
+});
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('kyc', ['as' => 'kyc.index', 'uses' => 'KycController@index']);
+    Route::delete('kyc/{kyc}', ['as' => 'kyc.destroy', 'uses' => 'KycController@destroy']);
+
+    Route::get('withdraw-pending', ['as' => 'withdraw-pending', 'uses' => 'DashboardController@withdrawPending']);
+    Route::get('withdraw-success', ['as' => 'withdraw-success', 'uses' => 'DashboardController@withdrawSuccess']);
+    Route::get('withdraw-refund', ['as' => 'withdraw-refund', 'uses' => 'DashboardController@withdrawRefund']);
+    Route::post('withdraw-success-submit', ['as' => 'withdraw-success-submit', 'uses' => 'DashboardController@withdrawSuccessSubmit']);
+    Route::post('withdraw-refund-submit', ['as' => 'withdraw-refund-submit', 'uses' => 'DashboardController@withdrawRefundSubmit']);
+
+    Route::get('user-manage', ['as' => 'user-manage', 'uses' => 'DashboardController@manageUser']);
+    Route::get('user-transaction/{id}', ['as' => 'user-transaction', 'uses' => 'DashboardController@userTransaction']);
+    Route::get('user-deposit/{id}', ['as' => 'user-deposit', 'uses' => 'DashboardController@userDeposit']);
+    Route::get('user-withdraw/{id}', ['as' => 'user-withdraw', 'uses' => 'DashboardController@userWithdraw']);
+
+    Route::put('user-edit-admin/{id}', ['as' => 'user-edit-admin', 'uses' => 'DashboardController@userUpdate']);
+    Route::post('user-block', ['as' => 'user-block', 'uses' => 'DashboardController@blockUser']);
+    Route::post('user-unblock', ['as' => 'user-unblock', 'uses' => 'DashboardController@unblockUser']);
+
+    Route::post('user-trade', ['as' => 'user-trade', 'uses' => 'DashboardController@tradeUser']);
+    Route::post('user-untrade', ['as' => 'user-untrade', 'uses' => 'DashboardController@untradeUser']);
+
+    Route::get('block-user', ['as' => 'block-user', 'uses' => 'DashboardController@blockUserList']);
+
+    Route::get('latter-create', ['as' => 'latter-create', 'uses' => 'DashboardController@latterCreate']);
+    Route::post('latter-create', ['as' => 'latter-create', 'uses' => 'DashboardController@latterStore']);
+
+    Route::get('notify-create', ['as' => 'notify-create', 'uses' => 'DashboardController@notifyCreate']);
+    Route::post('notify-create', ['as' => 'notify-create', 'uses' => 'DashboardController@notifyStore']);
+
+    Route::get('manage-strategy', ['as' => 'manage-strategy', 'uses' => 'DashboardController@getStrategy']);
+    Route::post('manage-strategy', ['as' => 'manage-strategy', 'uses' => 'DashboardController@storeStrategy']);
+    Route::get('strategy-edit/{id}', ['as' => 'strategy-edit', 'uses' => 'DashboardController@editStrategy']);
+    Route::put('strategy-edit/{id}', ['as' => 'strategy-update', 'uses' => 'DashboardController@updateStrategy']);
+
+    Route::get('manage-about', ['as' => 'manage-about', 'uses' => 'WebSettingController@getAbout']);
+    Route::put('about-update/{id}', ['as' => 'about-update', 'uses' => 'WebSettingController@putAbout']);
+
+    Route::get('manage-faq', ['as' => 'manage-faq', 'uses' => 'WebSettingController@getFAQS']);
+    Route::put('faq-update/{id}', ['as' => 'faq-update', 'uses' => 'WebSettingController@putFAQS']);
+
+    Route::get('manage-document', ['as' => 'manage-document', 'uses' => 'WebSettingController@getDocument']);
+    Route::put('document-update/{id}', ['as' => 'document-update', 'uses' => 'WebSettingController@putDocument']);
+
+    Route::get('manage-terms', ['as' => 'manage-terms', 'uses' => 'WebSettingController@getTerms']);
+    Route::put('terms-update/{id}', ['as' => 'terms-update', 'uses' => 'WebSettingController@putTerms']);
+
+    Route::get('manage-privacy', ['as' => 'manage-privacy', 'uses' => 'WebSettingController@getPrivacy']);
+    Route::put('privacy-update/{id}', ['as' => 'privacy-update', 'uses' => 'WebSettingController@putPrivacy']);
+
+    Route::get('manage-brandbook', ['as' => 'manage-brandbook', 'uses' => 'WebSettingController@getBandbook']);
+    Route::put('brandbook-update/{id}', ['as' => 'brandbbok-update', 'uses' => 'WebSettingController@putBrandbook']);
+
+    Route::get('admin-activity', ['as' => 'admin-activity', 'uses' => 'DashboardController@adminActivity']);
+
+    Route::get('admin-deposit', ['as' => 'admin-deposit', 'uses' => 'DashboardController@adminDeposit']);
+    Route::get('admin-rebeat', ['as' => 'admin-rebeat', 'uses' => 'DashboardController@adminRebeat']);
+
+    Route::get('manual-payment', ['as' => 'manual-payment', 'uses' => 'ManualPaymentController@getMethod']);
+    Route::post('manual-payment', ['as' => 'manual-payment', 'uses' => 'ManualPaymentController@storeMethod']);
+    Route::post('manual-payment-crypto', ['as' => 'manual-payment-crypto', 'uses' => 'ManualPaymentController@storeMethodCrypto']);
+    Route::get('manual-payment/{task_id?}', ['as' => 'manual-payment-edit', 'uses' => 'ManualPaymentController@editMethod']);
+    Route::get('manual-payment-crypto/{task_id?}', ['as' => 'manual-payment-edit-crypto', 'uses' => 'ManualPaymentController@editMethodCrypto']);
+    Route::put('manual-payment/{task_id?}', ['as' => 'manual-payment-edit', 'uses' => 'ManualPaymentController@updateMethod']);
+    Route::put('manual-payment-crypto/{task_id?}', ['as' => 'manual-payment-edit-crypto', 'uses' => 'ManualPaymentController@updateMethodCrypto']);
+    Route::post('manual-active', ['as' => 'manual-active', 'uses' => 'ManualPaymentController@manualActive']);
+    Route::post('manual-deactive', ['as' => 'manual-deactive', 'uses' => 'ManualPaymentController@manualDeActive']);
+
+    Route::get('manual-payment-request', ['as' => 'manual-payment-request', 'uses' => 'DashboardController@getManualPaymentRequest']);
+    Route::get('manual-payment-view/{id}', ['as' => 'manual-payment-view', 'uses' => 'DashboardController@viewManualPayment']);
+    Route::post('manual-payment-confirm', ['as' => 'manual-payment-confirm', 'uses' => 'DashboardController@manualPaymentConfirm']);
+
+    Route::get('default-stock', ['as' => 'default-stock', 'uses' => 'DefaultStockController@getMethod']);
+    Route::post('default-stock', ['as' => 'default-stock', 'uses' => 'DefaultStockController@storeMethod']);
+    Route::get('default-stock/{task_id?}', ['as' => 'default-stock-edit', 'uses' => 'DefaultStockController@editMethod']);
+    Route::put('default-stock/{task_id?}', ['as' => 'default-stock-edit', 'uses' => 'DefaultStockController@updateMethod']);
+    Route::delete('default-stock/{task_id?}', ['as' => 'default-stock-delete', 'uses' => 'DefaultStockController@deleteMethod']);
+    Route::post('default-stock-active', ['as' => 'default-stock-active', 'uses' => 'DefaultStockController@active']);
+    Route::post('default-stock-deactive', ['as' => 'default-stock-deactive', 'uses' => 'DefaultStockController@deActive']);
+
+    Route::get('slider-create', ['as' => 'slider-create', 'uses' => 'DashboardController@sliderCreate']);
+    Route::post('slider-create', ['as' => 'slider-create', 'uses' => 'DashboardController@sliderStore']);
+    Route::get('slider-show', ['as' => 'slider-show', 'uses' => 'DashboardController@sliderShow']);
+    Route::get('slider-edit/{id}', ['as' => 'slider-edit', 'uses' => 'DashboardController@sliderEdit']);
+    Route::put('slider-edit/{id}', ['as' => 'slider-update', 'uses' => 'DashboardController@sliderUpdate']);
+    Route::delete('slider-delete', ['as' => 'slider-delete', 'uses' => 'DashboardController@sliderDelete']);
+
+    Route::get('manage-promo', ['as' => 'manage-promo', 'uses' => 'DashboardController@managePromo']);
+    Route::post('manage-promo', ['as' => 'manage-promo', 'uses' => 'DashboardController@storePromo']);
+    Route::get('manage-promo/{task_id?}', ['as' => 'manage-promo-edit', 'uses' => 'DashboardController@editPromo']);
+    Route::put('manage-promo/{task_id?}', ['as' => 'manage-promo-edit', 'uses' => 'DashboardController@updatePromo']);
+
+    Route::get('manage-testimonial', ['as' => 'manage-testimonial', 'uses' => 'DashboardController@manageTestimonial']);
+    Route::post('manage-testimonial', ['as' => 'manage-testimonial', 'uses' => 'DashboardController@storeTestimonial']);
+    Route::get('manage-testimonial/{task_id?}', ['as' => 'manage-testimonial-edit', 'uses' => 'DashboardController@editTestimonial']);
+    Route::put('manage-testimonial/{task_id?}', ['as' => 'manage-testimonial-edit', 'uses' => 'DashboardController@updateTestimonial']);
+
+    Route::get('manage-chose', ['as' => 'manage-chose', 'uses' => 'DashboardController@manageChose']);
+    Route::post('manage-chose', ['as' => 'manage-chose', 'uses' => 'DashboardController@storeChose']);
+    Route::get('manage-chose/{task_id?}', ['as' => 'manage-chose-edit', 'uses' => 'DashboardController@editChose']);
+    Route::put('manage-chose/{task_id?}', ['as' => 'manage-chose-edit', 'uses' => 'DashboardController@updateChose']);
+
+    /* Menu Route List*/
+    Route::get('menu-create', ['as' => 'menu_create', 'uses' => 'WebSettingController@getMenuCreate']);
+    Route::post('menu-create', ['as' => 'menu_create', 'uses' => 'WebSettingController@postMenuCreate']);
+    Route::get('menu-show', ['as' => 'menu_show', 'uses' => 'WebSettingController@showMenuCreate']);
+    Route::get('menu-edit/{id}', ['as' => 'menu-edit', 'uses' => 'WebSettingController@editMenuCreate']);
+    Route::put('menu-edit/{id}', ['as' => 'menu-update', 'uses' => 'WebSettingController@updateMenuCreate']);
+    Route::delete('menu-delete/{id}', ['as' => 'menu-delete', 'uses' => 'WebSettingController@deleteMenuCreate']);
+});
+
+Route::get('/blocked', function () {
+    return view('blocked', [
+        'general' => GeneralSetting::first(),
+        'siteTitle' => GeneralSetting::first()->title,
+        'basic' => BasicSetting::first(),
+        'pageTitle' => 'Blocked User',
+        'category' => Category::all(),
+        'menu' => Menu::all(),
+    ]);
+})->name('blocked');
+
+Route::get('partner-create', ['as' => 'partner-create', 'uses' => 'DashboardController@createPartner']);
+Route::post('partner-create', ['as' => 'partner-create', 'uses' => 'DashboardController@storePartner']);
+Route::get('partner-show', ['as' => 'partner-show', 'uses' => 'DashboardController@showPartner']);
+Route::get('partner-edit/{id}', ['as' => 'partner-edit', 'uses' => 'DashboardController@editPartner']);
+Route::put('partner-edit/{id}', ['as' => 'partner-update', 'uses' => 'DashboardController@updatePartner']);
+Route::post('partner-delete', ['as' => 'partner-delete', 'uses' => 'DashboardController@deletePartner']);
+
+Route::get('slider-create', ['as' => 'slider-create', 'uses' => 'DashboardController@createSlider']);
+Route::post('slider-create', ['as' => 'slider-create', 'uses' => 'DashboardController@storeSlider']);
+Route::get('slider-show', ['as' => 'slider-show', 'uses' => 'DashboardController@showSlider']);
+Route::get('slider-edit/{id}', ['as' => 'slider-edit', 'uses' => 'DashboardController@editSlider']);
+Route::put('slider-edit/{id}', ['as' => 'slider-update', 'uses' => 'DashboardController@updateSlider']);
+Route::post('slider-delete', ['as' => 'slider-delete', 'uses' => 'DashboardController@deleteSlider']);
+
+Route::get('perfect-ipn', ['as' => 'perfect-ipn', 'uses' => 'HomeController@perfectIPN']);
+Route::post('stripe-preview', ['as' => 'stripe-preview', 'uses' => 'UserController@stripePreview']);
+Route::post('stripe-submit', ['as' => 'stripe-submit', 'uses' => 'UserController@submitStripe']);
+
+Route::get('withdraw-payment', ['as' => 'withdraw-payment', 'uses' => 'DashboardController@getManualPayment']);
+Route::post('withdraw-payment', ['as' => 'withdraw-payment', 'uses' => 'DashboardController@storeManualPayment']);
+Route::get('withdraw-payment/{task_id?}', ['as' => 'withdraw-payment-edit', 'uses' => 'DashboardController@editManualPayment']);
+Route::put('withdraw-payment/{task_id?}', ['as' => 'withdraw-payment-edit', 'uses' => 'DashboardController@updateManualPayment']);
+Route::post('payment-active', ['as' => 'payment-active', 'uses' => 'DashboardController@paymentActive']);
+
+Route::post('fund-check-amount', ['as' => 'fund-check-amount', 'uses' => 'UserController@fundAddCheck']);
+Route::post('fund-check-amount-crypto', ['as' => 'fund-check-amount-crypto', 'uses' => 'UserController@fundAddCheckCrypto']);
+
+Route::post('withdraw-details', ['as' => 'withdraw-details', 'uses' => 'HomeController@withdrawDetails']);
+
+Route::get('repeat-generator', ['as' => 'repeat-generator', 'uses' => 'HomeController@rebetgen']);
+
+Route::any('{any}', function () {
+    return response()->view('pages.404', [], 404);
+})->where('any', '.*');
