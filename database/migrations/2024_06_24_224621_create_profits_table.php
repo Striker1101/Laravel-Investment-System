@@ -13,8 +13,9 @@ class CreateProfitsTable extends Migration
      */
     public function up()
     {
+        if (!Schema::hasTable('profits')) {
         Schema::create('profits', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->decimal('profit', 10, 2);
             $table->date('from');
@@ -23,6 +24,8 @@ class CreateProfitsTable extends Migration
             // Foreign key constraint
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
+    }
+       
     }
 
     /**

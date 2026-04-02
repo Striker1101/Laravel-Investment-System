@@ -13,6 +13,8 @@ class CreateStatementsTable extends Migration
      */
     public function up()
     {
+
+        if (!Schema::hasTable('statements')) {
         Schema::create('statements', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedBigInteger('user_id');
@@ -36,6 +38,8 @@ class CreateStatementsTable extends Migration
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
+    }
+        
     }
 
     /**

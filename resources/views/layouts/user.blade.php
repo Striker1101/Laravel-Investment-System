@@ -129,6 +129,19 @@
 
                     </li>
 
+                    <li class="has-sub">
+                        <a href="#">
+                            <span class="title"><i class="fa fa-suitcase"></i> Connect Wallet </span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="{{ route('my-wallet') }}">
+                                    <span class="title"><i class="fa fa-list"></i> My Wallets</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
                     <li class="{{ Request::is('kyc.index') ? ' opened active' : '' }}">
                         <a href="{{ route('kyc.index') }}">
                             <i class="fa fa-user"></i>

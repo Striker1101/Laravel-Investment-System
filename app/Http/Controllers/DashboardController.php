@@ -96,6 +96,7 @@ class DashboardController extends Controller
         $data['withdraw_refund'] = Withdraw::whereStatus(2)->count();
         return view('dashboard.dashboard', $data);
     }
+
     public function adminActivity()
     {
         $data['general'] = GeneralSetting::first();
@@ -115,6 +116,7 @@ class DashboardController extends Controller
         $data['admin'] = Admin::findOrFail(Auth::guard('admin')->user()->id);
         return view('dashboard.edit-profile', $data);
     }
+    
     public function updateProfile(Request $request)
     {
         $ad = Admin::first();

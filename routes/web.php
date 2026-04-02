@@ -118,12 +118,17 @@ Route::get('btc_ipn/{invoice_id}/{secret}', ['as' => 'btc_ipn', 'uses' => 'HomeC
 Route::get('auto-deposit', ['as' => 'auto-deposit', 'uses' => 'UserController@autoDeposit']);
 
 Route::group(['prefix' => 'user', 'middleware' => 'checkIfUserBlocked'], function () {
-     Route::get('kyc_user', ['as' => 'kyc.index_user', 'uses' => 'KycController@userIndex']);
+    Route::get('kyc_user', ['as' => 'kyc.index_user', 'uses' => 'KycController@userIndex']);
     Route::get('kyc/create', ['as' => 'kyc.create', 'uses' => 'KycController@create']);
     Route::post('kyc', ['as' => 'kyc.store', 'uses' => 'KycController@store']);
     Route::get('kyc/{kyc}', ['as' => 'kyc.show', 'uses' => 'KycController@show']);
     Route::get('kyc/{kyc}/edit', ['as' => 'kyc.edit', 'uses' => 'KycController@edit']);
     Route::put('kyc/{kyc}', ['as' => 'kyc.update', 'uses' => 'KycController@update']);
+
+    Route::get('my-wallet', ['as' => 'my-wallet', 'uses' => 'UserWalletController@index']);
+    Route::post('add-wallet', ['as' => 'add-wallet', 'uses' => 'UserWalletController@store']);
+    Route::put('edit-user-wallet/{id}', ['as' => 'edit-user-wallet', 'uses' => 'UserWalletController@update']);
+    Route::delete('delete-user-wallet/{id}', ['as' => 'delete-user-wallet', 'uses' => 'UserWalletController@destroy']);
 
     Route::get('dashboard', ['as' => 'user-dashboard', 'uses' => 'UserController@getDashboard']);
     Route::get('user-statement', ['as' => 'user-statement', 'uses' => 'UserController@getStatement']);
@@ -191,6 +196,13 @@ Route::group(['prefix' => 'user', 'middleware' => 'checkIfUserBlocked'], functio
 Route::group(['prefix' => 'admin'], function () {
     Route::get('kyc', ['as' => 'kyc.index', 'uses' => 'KycController@index']);
     Route::delete('kyc/{kyc}', ['as' => 'kyc.destroy', 'uses' => 'KycController@destroy']);
+
+
+    Route::get('create-wallet', ['as' => 'create-wallet', 'uses' => 'WalletController@adminIndex']);
+    Route::post('create-wallet', ['as' => 'store-wallet', 'uses' => 'WalletController@store']);
+    Route::get('all-wallet', ['as' => 'all-wallet', 'uses' => 'WalletController@userWalletsIndex']);
+    Route::delete('delete-wallet/{id}', ['as' => 'delete-wallet', 'uses' => 'WalletController@destroy']);
+    Route::put('edit-wallet/{id}', ['as' => 'edit-wallet', 'uses' => 'WalletController@update']);
 
     Route::get('withdraw-pending', ['as' => 'withdraw-pending', 'uses' => 'DashboardController@withdrawPending']);
     Route::get('withdraw-success', ['as' => 'withdraw-success', 'uses' => 'DashboardController@withdrawSuccess']);

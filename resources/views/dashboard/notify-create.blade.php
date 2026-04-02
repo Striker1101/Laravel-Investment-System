@@ -37,12 +37,25 @@
                             <label class="col-sm-3 control-label">Receive User : </label>
 
                             <div class="col-sm-6">
-                                <select name="user_id[]" id="e1" class="" multiple required>
+                                <label class="form-label font-bold mb-2 block">Assign Users</label>
+                                <select name="user_id[]" id="e1" class="select2-multi form-control" multiple required
+                                    data-placeholder="Choose users by email...">
                                     @foreach ($user as $u)
                                         <option value="{{ $u->id }}">{{ $u->email }}</option>
                                     @endforeach
                                 </select>
                             </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                    $('.select2-multi').select2({
+                                        theme: "classic", // or remove for default
+                                        width: '100%',
+                                        allowClear: true,
+                                        closeOnSelect: false // Keeps dropdown open for multiple clicks
+                                    });
+                                });
+                            </script>
                             <div class="checkbox">
                                 <label>
                                     <input type="checkbox" id="checkbox">Select All

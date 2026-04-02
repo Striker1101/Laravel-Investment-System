@@ -9,6 +9,7 @@ use App\Notification;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -50,8 +51,7 @@ class RegisterController extends Controller
     public function __construct()
     {
         $basic = BasicSetting::first();
-        if ($basic->reCaptcha_status == 1)
-        {
+        if ($basic->reCaptcha_status == 1) {
             Config::set('captcha.secret', $basic->secret_key);
             Config::set('captcha.sitekey', $basic->site_key);
         }
@@ -78,8 +78,7 @@ class RegisterController extends Controller
 
     protected function getCurrencySymbol($country)
     {
-        switch ($country)
-        {
+        switch ($country) {
             case 'South Africa':
                 return 'ZAR';
             case 'Afghanistan':
@@ -586,14 +585,15 @@ class RegisterController extends Controller
      * @return User
      */
 
+    //format this code, my email are not working fine and i wannt to use html template for email
     protected function create(array $data)
     {
         $basic = BasicSetting::first();
         $status = $basic->verify_status == 1 ? '0' : '1';
         $image25 = 'user-default.png';
         $currency = $this->getCurrencySymbol($data['country']);
-        if ($basic->reference_id == $data['reference'])
-        {
+        $referenceUserForBonus = null;
+        if ($basic->reference_id == $data['reference']) {
             $user = User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
@@ -610,12 +610,10 @@ class RegisterController extends Controller
                 'currency' => $currency
 
             ]);
-        } else
-        {
+        } else {
             $us = User::whereReference($data['reference'])->count();
             $reference_user = User::whereReference($data['reference'])->first();
-            if ($us != 0)
-            {
+            if ($us != 0) {
                 $user = User::create([
                     'name' => $data['name'],
                     'email' => $data['email'],
@@ -652,11 +650,10 @@ class RegisterController extends Controller
                     'updated_at' => Carbon::now(),
                 ]);
 
-                //send bonus email to referal 
-                $this->sendBonusEmail($reference_user);
+                // Defer referral email until after welcome/verification sequence.
+                $referenceUserForBonus = $reference_user;
 
-            } else
-            {
+            } else {
                 return false;
             }
         }
@@ -666,12 +663,22 @@ class RegisterController extends Controller
 
         $thisUser = User::findOrFail($user->id);
         $this->sendWelcomeEmail($thisUser);
-        if ($basic->verify_status == 1)
-        {
+        if ($basic->verify_status == 1) {
+            $this->pauseBetweenEmails();
             $this->sendVerificationEmail($thisUser);
+        }
+        if ($referenceUserForBonus) {
+            $this->pauseBetweenEmails();
+            $this->sendBonusEmail($referenceUserForBonus);
         }
         return $user;
     }
+    private function pauseBetweenEmails()
+    {
+        // Mailtrap free/testing plans can reject bursts with "too many emails per second".
+        usleep(12000);
+    }
+
     public function sendVerificationEmail($thisUser)
     {
         $general = GeneralSetting::first();
@@ -694,16 +701,24 @@ class RegisterController extends Controller
             'site_footer' => $hh['s_footer']
         ])->render();
 
-        Mail::send('emails.auth.verify-email', [
-            'email' => $thisUser['email'],
-            'verifyToken' => $thisUser['verifyToken'],
-            'name' => $thisUser['name'],
-            'site_title' => $hh['s_title'],
-            'site_footer' => $hh['s_footer']
-        ], function ($m) use ($mail_val) {
-            $m->from($mail_val['g_email'], $mail_val['g_title']);
-            $m->to($mail_val['email'], $mail_val['name'])->subject($mail_val['subject']);
-        });
+        try {
+            Mail::send('emails.auth.verify-email', [
+                'email' => $thisUser['email'],
+                'verifyToken' => $thisUser['verifyToken'],
+                'name' => $thisUser['name'],
+                'site_title' => $hh['s_title'],
+                'site_footer' => $hh['s_footer']
+            ], function ($m) use ($mail_val) {
+                $m->from($mail_val['g_email'], $mail_val['g_title']);
+                $m->to($mail_val['email'], $mail_val['name'])->subject($mail_val['subject']);
+            });
+        } catch (\Exception $e) {
+            Log::error('Verification email failed during registration.', [
+                'user_id' => isset($thisUser['id']) ? $thisUser['id'] : null,
+                'email' => isset($thisUser['email']) ? $thisUser['email'] : null,
+                'error' => $e->getMessage(),
+            ]);
+        }
 
 
         // Save the notification details
@@ -732,15 +747,23 @@ class RegisterController extends Controller
             'g_title' => $general->title,
             'subject' => 'Welcome Email',
         ];
-        Mail::send('emails.auth.welcome', [
-            'email' => $thisUser['email'],
-            'site_title' => $hh['s_title'],
-            'name' => $thisUser['name'],
-            'site_footer' => $hh['s_footer']
-        ], function ($m) use ($mail_val) {
-            $m->from($mail_val['g_email'], $mail_val['g_title']);
-            $m->to($mail_val['email'], $mail_val['name'])->subject($mail_val['subject']);
-        });
+        try {
+            Mail::send('emails.auth.welcome', [
+                'email' => $thisUser['email'],
+                'site_title' => $hh['s_title'],
+                'name' => $thisUser['name'],
+                'site_footer' => $hh['s_footer']
+            ], function ($m) use ($mail_val) {
+                $m->from($mail_val['g_email'], $mail_val['g_title']);
+                $m->to($mail_val['email'], $mail_val['name'])->subject($mail_val['subject']);
+            });
+        } catch (\Exception $e) {
+            Log::error('Welcome email failed during registration.', [
+                'user_id' => isset($thisUser['id']) ? $thisUser['id'] : null,
+                'email' => isset($thisUser['email']) ? $thisUser['email'] : null,
+                'error' => $e->getMessage(),
+            ]);
+        }
 
         // Capture the email content
         $content = view('emails.auth.welcome', [
@@ -776,18 +799,26 @@ class RegisterController extends Controller
             'g_title' => $general->title,
             'subject' => 'Referral Bonus',
         ];
-        Mail::send('emails.auth.referral', [
-            'email' => $thisUser['email'],
-            'name' => $thisUser['name'],
-            'site_title' => $hh['s_title'],
-            'site_footer' => $hh['s_footer']
-        ], function ($m) use ($mail_val) {
-            $m->from($mail_val['g_email'], $mail_val['g_title']);
-            $m->to($mail_val['email'], $mail_val['name'])->subject($mail_val['subject']);
-        });
+        try {
+            Mail::send('emails.auth.referral', [
+                'email' => $thisUser['email'],
+                'name' => $thisUser['name'],
+                'site_title' => $hh['s_title'],
+                'site_footer' => $hh['s_footer']
+            ], function ($m) use ($mail_val) {
+                $m->from($mail_val['g_email'], $mail_val['g_title']);
+                $m->to($mail_val['email'], $mail_val['name'])->subject($mail_val['subject']);
+            });
+        } catch (\Exception $e) {
+            Log::error('Referral bonus email failed during registration.', [
+                'user_id' => isset($thisUser['id']) ? $thisUser['id'] : null,
+                'email' => isset($thisUser['email']) ? $thisUser['email'] : null,
+                'error' => $e->getMessage(),
+            ]);
+        }
 
         // Capture the email content
-        $content = view('emails.auth.welcome', [
+        $content = view('emails.auth.referral', [
             'email' => $thisUser['email'],
             'name' => $thisUser['name'],
             'site_title' => $hh['s_title'],
@@ -799,7 +830,7 @@ class RegisterController extends Controller
             'status' => 0, // Assuming 0 means unread
             'gene' => 'message',
             'type' => 'inbox',
-            'title' => 'Welcome',
+            'title' => 'Referral Bonus',
             'icon' => 'entypo-info', // You can set the appropriate icon
             'user_id' => $thisUser['id'],
             'tag' => 'white' // Default tag
@@ -808,14 +839,12 @@ class RegisterController extends Controller
     public function verifyDone($email, $verifyToken)
     {
         $user = User::where(['email' => $email, 'verifyToken' => $verifyToken])->first();
-        if ($user)
-        {
+        if ($user) {
             User::where(['email' => $email, 'verifyToken' => $verifyToken])->update(['status' => 1, 'verifyToken' => null]);
             Session::flash('type', 'success');
             Session::flash('message', 'Your Account Verified Successfully. Please Log In Now.');
             return redirect()->route('login');
-        } else
-        {
+        } else {
             Session::flash('type', 'danger');
             Session::flash('message', 'Opps..! Something is Wrong.');
             return redirect()->route('login');

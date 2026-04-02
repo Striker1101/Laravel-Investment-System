@@ -26,6 +26,10 @@
 
     <script src="{{ asset('assets/dashboard/js/jquery-1.11.3.min.js') }}"></script>
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="https://cdn.npmmirror.com/bin/select2/4.1.0-rc.0/dist/js/select2.min.js"></script>
     @yield('style')
 </head>
 
@@ -108,6 +112,27 @@
 
                         </ul>
                     </li>
+
+                    <li class="has-sub">
+                        <a href="#">
+                            <span class="title"><i class="fa fa-suitcase"></i> Manage Wallets </span>
+                        </a>
+                        <ul>
+                            @if (Auth::guard('admin')->check())
+                                <li>
+                                    <a href="{{ route('create-wallet') }}">
+                                        <span class="title"><i class="fa fa-plus-circle"></i> Create Wallets</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('all-wallet') }}">
+                                        <span class="title"><i class="fa fa-users"></i> User Wallets </span>
+                                    </a>
+                                </li>
+                            @endif
+                        </ul>
+                    </li>
+
                     <li class="{{ Request::is('admin-activity') ? ' opened active' : '' }}">
                         <a href="{{ route('admin-activity') }}">
                             <i class="fa fa-indent"></i>
@@ -174,13 +199,13 @@
                         </a>
                     </li>
 
-                    {{-- <li class="{{ Request::is('news-category') ? ' opened active' : '' }}">
+                    <li class="{{ Request::is('news-category') ? ' opened active' : '' }}">
                         <a href="{{ route('news-category') }}">
                             <i class="fa fa-list"></i>
                             <span class="title">News Category</span>
                         </a>
-                    </li> --}}
-                    {{-- <li class="has-sub">
+                    </li>
+                    <li class="has-sub">
                         <a href="#">
                             <span class="title"><i class="fa fa-newspaper-o"></i> Manage News</span>
                         </a>
@@ -197,7 +222,7 @@
                             </li>
 
                         </ul>
-                    </li> --}}
+                    </li>
                     <li>
                         <a href="{{ route('latter-create') }}">
                             <span class="title"><i class="fa fa-envelope-open"></i> Send News Latter</span>
@@ -235,7 +260,7 @@
                         </ul>
                     </li>
 
-                    {{-- <li class="has-sub">
+                    <li class="has-sub">
                         <a href="#">
                             <span class="title"><i class="fa fa-handshake-o"></i> Manage Partner</span>
                         </a>
@@ -252,8 +277,8 @@
                             </li>
 
                         </ul>
-                    </li> --}}
-                    {{-- <li class="has-sub">
+                    </li>
+                    <li class="has-sub">
                         <a href="#">
                             <span class="title"><i class="fa fa-image"></i> Manage Slider</span>
                         </a>
@@ -270,7 +295,7 @@
                             </li>
 
                         </ul>
-                    </li> --}}
+                    </li>
 
 
                     <li class="has-sub">
@@ -289,7 +314,7 @@
                                     <span class="title"><i class="entypo-cog"></i> General Setting</span>
                                 </a>
                             </li>
-                            {{-- <li>
+                            <li>
                                 <a href="{{ route('manage-chose') }}">
                                     <span class="title"><i class="entypo-cog"></i> Manage Chose Us</span>
                                 </a>
@@ -303,8 +328,8 @@
                                 <a href="{{ route('manage-testimonial') }}">
                                     <span class="title"><i class="entypo-cog"></i> Manage Testimonial</span>
                                 </a>
-                            </li> --}}
-                            {{-- <li class="has-sub">
+                            </li>
+                            <li class="has-sub">
                                 <a href="#">
                                     <span class="title"><i class="entypo-cog"></i> Manage Menu</span>
                                 </a>
@@ -321,8 +346,8 @@
                                     </li>
 
                                 </ul>
-                            </li> --}}
-                            {{-- <li class="has-sub">
+                            </li>
+                            <li class="has-sub">
                                 <a href="#">
                                     <span class="title"><i class="entypo-cog"></i> Manage Slider</span>
                                 </a>
@@ -339,8 +364,8 @@
                                     </li>
 
                                 </ul>
-                            </li> --}}
-                            {{-- <li class="has-sub">
+                            </li>
+                            <li class="has-sub">
                                 <a href="#">
                                     <span class="title"><i class="entypo-cog"></i> Manage Web page</span>
                                 </a>
@@ -375,7 +400,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li> --}}
+                            </li>
 
                         </ul>
                     </li>
