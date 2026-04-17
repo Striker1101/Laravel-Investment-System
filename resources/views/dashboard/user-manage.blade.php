@@ -386,7 +386,7 @@
 
             <script>
                 $(document).ready(function() {
-                    $('.editUserClass').on('click', function(event) {
+                    $(document).on('click', '.editUserClass', function(event) {
                         var btn = $(this);
                         var modal = $('#edit-modal');
                         var form = modal.find('form');
@@ -399,7 +399,6 @@
                         form.find('input[name="bonus"]').val(btn.data('bonus'));
                         form.find('input[name="reference_bonus"]').val(btn.data('reference_bonus'));
                         form.find('input[name="currency"]').val(btn.data('currency'));
-                        modal.modal('show');
                     });
                 });
             </script>
